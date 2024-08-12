@@ -14,13 +14,11 @@ import TransactionContext from '../context/TransactionContext';
 */
 
 export default function Dashboard() {
-  const { currency } = useContext(TransactionContext);
 
   return (
     <>
       <div className='bg-blue-200'>
         <p>HEADER</p>
-        {currency}
       </div>
 
       <div className=' flex flex-col px-[8%]'>
