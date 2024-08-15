@@ -1,61 +1,10 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Transaction from './Transaction';
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import { filterPastWeekTransactions, filterPastMonthTransactions, filterPastYearTransactions } from '../utility/transactionFilters.js';
+import TransactionContext from '../context/TransactionContext';
+import { useContext } from 'react';
 
 export default function TransactionList() {
-  const [transactions, setTransactions] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:4000/transaction/page/${currentPage}`)
-      .then((response) => {
-        let fetchedTransactions = response.data.result;
-
-        if (filter === 'year') {
-          fetchedTransactions = filterPastYearTransactions(fetchedTransactions);
-        }
-        else if (filter === 'month') {
-          fetchedTransactions = filterPastMonthTransactions(fetchedTransactions);
-        }
-        else if (filter === 'week') {
-          fetchedTransactions = filterPastWeekTransactions(fetchedTransactions);
-        }
-        setTransactions(fetchedTransactions);
-      })
-      .catch((error) => {
-        console.error('Not logged in');
-        window.location.href = '/login';
-      });
-  }, [currentPage], [filter]);
-
-  //function to filter transactions
-  const filterYear = () => {
-    if (filter === 'year') {
-      setFilter('');
-    } else {
-      setFilter('year');
-    }
-  };
-
-  const filterMonth = () => {
-    if (filter === 'month') {
-      setFilter('');
-    } else {
-      setFilter('month');
-    }
-  };
-
-  const filterWeek = () => {
-    if (filter === 'week') {
-      setFilter('');
-    } else {
-      setFilter('week');
-    }
-  };
+  const { transactions, filter, currentPage, setCurrentPage, filterYear, filterMonth, filterWeek, } = useContext(TransactionContext);
 
 
   return (
@@ -68,7 +17,7 @@ export default function TransactionList() {
           <button className={filter === 'month' ? 'bg-primary-dark text-white text-xl font-bold rounded-full py-0 px-3 w-[130px]' : 'bg-primary text-white text-xl font-bold rounded-full py-0 px-3 w-[130px]'} onClick={filterMonth}>Last month</button>
           <button className={filter === 'year' ? 'bg-primary-dark text-white text-xl font-bold rounded-full py-0 px-3 w-[130px]' : 'bg-primary text-white text-xl font-bold rounded-full py-0 px-3 w-[130px]'} onClick={filterYear}>Last year</button>
         </div>
-        <div className=' flex justify-between flex-col items-center min-h-[400px]'>
+        <div className=' flex justify-between flex-col items-center min-h-[450px]'>
 
           <div className='w-[90%] mt-[40px]'>
             <ul>
@@ -82,7 +31,7 @@ export default function TransactionList() {
             <button className={currentPage === 1 ? 'text-gray-400' : ''} onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
               <IoIosArrowBack size={35} />
             </button>
-            <h2 className='text-subheading w-4'>{currentPage}</h2>
+            <h2 className='text-sub-heading w-4'>{currentPage}</h2>
             <button onClick={() => setCurrentPage(currentPage + 1)}>
               <IoIosArrowForward size={35} />
             </button>

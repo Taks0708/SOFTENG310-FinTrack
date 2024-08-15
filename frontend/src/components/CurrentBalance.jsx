@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState, useContext } from "react";
+import TransactionContext from "../context/TransactionContext";
 
 export default function CurrentBalance() {
-    const [balance, setBalance] = useState(0);  
+    const { currency, convertCurrency, balance } = useContext(TransactionContext);
+    const [convertedAmount, setConvertedAmount] = useState(0);
 
+    // useEffect check if each transaction is negative and then converts the currency
     useEffect(() => {
-        axios.get("http://localhost:4000/user/balance")
-            .then(response => {
-                setBalance(response.data.result.balance);
-            }).catch(error => {
-                // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
-                window.location.href = "/login";
-            });
-        }, [balance]);
+        const convert = async () => {
+            const convertedAmount = await convertCurrency(currency, 'NZD', balance); // using context to convert amount
+            setConvertedAmount(convertedAmount);
+        }
+        convert();
+    }, [currency]);
 
     return (
         <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-extrabold">Current Balance: ${balance}</h2>
+            <h2 className="text-sub-heading font-extrabold">Current Balance: ${convertedAmount}</h2>
         </div>
     );
 

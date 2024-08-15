@@ -118,7 +118,7 @@ const getBalance = async (userID) => {
 const getGoal = async (userID) => {
     try {
         const query  = {
-            text: 'SELECT goal FROM users WHERE id = $1' ,
+            text: 'SELECT saving_goal FROM users WHERE id = $1' ,
             values : [userID]
         }
         try {
@@ -163,7 +163,7 @@ const setBalance = async (userID, newBalance) => {
 const setGoal= async (userID, goal) => {
     try {
         const query = {
-            text: 'UPDATE users SET goal = $1 WHERE id = $2',
+            text: 'UPDATE users SET saving_goal = $1 WHERE id = $2',
             values: [goal, userID],
         };
         const result = await pool.query(query);
