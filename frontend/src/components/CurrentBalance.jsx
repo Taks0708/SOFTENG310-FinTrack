@@ -5,6 +5,7 @@ export default function CurrentBalance() {
   const { currency, convertCurrency, balance } = useContext(TransactionContext);
   const [convertedAmount, setConvertedAmount] = useState(0);
 
+
   // useEffect check if each transaction is negative and then converts the currency
   useEffect(() => {
     const convert = async () => {
