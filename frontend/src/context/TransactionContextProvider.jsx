@@ -100,6 +100,15 @@ export function TransactionContextProvider({ children }) {
     }
   };
 
+  //function for handling the selection of transactions for deletion
+  const handleSelect = (transactionId, isSelected) => {
+    setSelectedTransactions((prev) =>
+      isSelected
+        ? [...prev, transactionId]
+        : prev.filter((id) => id !== transactionId)
+    );
+  };
+
   // all values and functions that can be accessed when consuming this context provider
   const contextValue = {
     currency, // the currency to convert to i.e NZD, USD, EUR
@@ -117,6 +126,7 @@ export function TransactionContextProvider({ children }) {
     setCurrentPage,
     setCurrency,
     convertCurrency, // returns a promise that resolves to the converted amount
+    handleSelect, // function to handle the selection of transactions
   };
 
   return (

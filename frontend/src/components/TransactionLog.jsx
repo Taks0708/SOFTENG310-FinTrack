@@ -7,21 +7,12 @@ export default function TransactionList() {
   const {
     transactions,
     filter,
-    setSelectedTransactions,
     currentPage,
     setCurrentPage,
     filterYear,
     filterMonth,
     filterWeek,
   } = useContext(TransactionContext);
-
-  const handleSelect = (transactionId, isSelected) => {
-    setSelectedTransactions((prev) =>
-      isSelected
-        ? [...prev, transactionId]
-        : prev.filter((id) => id !== transactionId)
-    );
-  };
 
   return (
     <div className="flex flex-col items-center">
@@ -63,11 +54,7 @@ export default function TransactionList() {
           <div className="w-[90%] mt-[40px]">
             <ul>
               {transactions.map((transaction) => (
-                <Transaction
-                  key={transaction.id}
-                  transaction={transaction}
-                  handleSelect={handleSelect}
-                />
+                <Transaction key={transaction.id} transaction={transaction} />
               ))}
             </ul>
           </div>

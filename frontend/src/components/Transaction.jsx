@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import TransactionContext from "../context/TransactionContext";
 
-const Transaction = ({ transaction, handleSelect }) => {
+const Transaction = ({ transaction }) => {
   const [isAmountNegative, setIsAmountNegative] = useState(false);
   const [convertedAmount, setConvertedAmount] = useState(transaction.amount);
-  const { currency, convertCurrency } = useContext(TransactionContext);
+  const { currency, convertCurrency, handleSelect } =
+    useContext(TransactionContext);
 
   // useEffect to check if each transaction is negative and then convert the currency
   useEffect(() => {
