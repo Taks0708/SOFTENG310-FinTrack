@@ -48,10 +48,11 @@ export default function SavingsTracker() {
       return;
     }
 
-    if (goal === 0) {
+    if (goal === 0 || balance <= 0) {
       setProgress(0);
       return;
     }
+
     const update = (balance / goal) * 100;
     setProgress(update);
     console.log("Progress: ", update);
@@ -86,7 +87,7 @@ export default function SavingsTracker() {
       <div className="w-full h-11 bg-white outline-primary outline outline-3 rounded-full">
         <div
           className="h-11 rounded-full bg-primary"
-          style={{ width: `${progress}` }}
+          style={{ width: `${progress}%` }}
         ></div>
       </div>
       {progress >= 0 && (
@@ -95,6 +96,7 @@ export default function SavingsTracker() {
           onClick={() => {
             setShowSetGoal(true);
             console.log("goal:" + goal);
+            console.log("progress:" + progress);
           }}
         >
           Update Savings Goal
