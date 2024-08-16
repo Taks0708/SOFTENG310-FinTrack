@@ -12,7 +12,7 @@ import TransactionContext from "../context/TransactionContext";
 const CurrencyDropdown = () => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCurrency, setSelectedCurrency] = useState('Select Currency');
+    const [selectedCurrency, setSelectedCurrency] = useState('NZD');
     const { setCurrency } = useContext(TransactionContext);
 
     const handleOpen = () => {
