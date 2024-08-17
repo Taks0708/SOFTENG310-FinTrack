@@ -22,17 +22,19 @@ export function TransactionContextProvider({ children }) {
       .get("http://localhost:4000/user/balance")
       .then((response) => {
         setBalance(response.data.result.balance);
+        setUiUpdateRequest(false);
       })
       .catch((error) => {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
         window.location.href = "/login";
+        console.error("Not logged in ", error);
       });
-  }, [currency, balance, transactions]);
+  }, [currency, balance, transactions, uiUpdateRequest]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/transaction/page/${currentPage}`)
+      .get(`http://localhost:4000/transaction`)
       .then((response) => {
         let allTransactions = response.data.result;
 
@@ -43,15 +45,33 @@ export function TransactionContextProvider({ children }) {
         } else if (filter === "week") {
           allTransactions = filterPastWeekTransactions(allTransactions);
         }
-        setTransactions(allTransactions);
+        setTransactions(returnTransactionsPerPage(allTransactions, currentPage, 10));
         setUiUpdateRequest(false);
       })
       .catch((error) => {
-        console.error("Not logged in ", error);
         window.location.href = "/login";
+        console.error("Not logged in ", error);
       });
   }, [currentPage, filter, balance, uiUpdateRequest]);
 
+  // function to return the transactions for a given page. Return empty array if a page has no transactions
+  const returnTransactionsPerPage = (transactions, currentPage, pageSize) => {
+    const transactionsPerPage = [];
+
+    let i = 0;
+    while (i < transactions.length) {
+      transactionsPerPage.push(transactions.slice(i, i + pageSize));
+      i += pageSize;
+    }
+
+    if (currentPage > transactionsPerPage.length) {
+      return [];
+    }
+
+    return transactionsPerPage[currentPage - 1];
+  };
+
+  // function to request a UI update (refetch of transactions and balance)
   const requestUiUpdate = () => {
     setUiUpdateRequest(true);
   };
