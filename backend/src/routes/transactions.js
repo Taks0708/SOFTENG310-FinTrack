@@ -35,6 +35,14 @@ router.delete('/:transactionID', isAuthenticated, transactionController.deleteTr
  */
 router.get('/page/:pageNumber', isAuthenticated, transactionController.transactions);
 
+/**
+ * Route that gets the transactions of a user ordered by the date they were created. 
+ * It returns all the transactions.
+ * Expects:
+ *  - Auth token in headers.
+ * Returns:
+ *  - The transactions of the user in JSON form stored in an array.
+ */
 router.get('/', isAuthenticated, transactionController.allTransactions);
 
 module.exports = router;

@@ -114,14 +114,20 @@ const deleteTransaction = async (userID, transactionID) => {
         throw error;
     }
 };
+
+/**
+ * returns the all of the users transactions in decending order of created at (newest to oldest)
+ * @param {int} userID 
+ * @returns 
+ */
+
 const getAllTransactions = async(userID) => {
-
-
     try {
         const query = {
             text: `
                 SELECT * FROM transactions 
                 WHERE user_id = $1 
+                ORDER BY created_at DESC 
             `,
             values: [userID]
         };

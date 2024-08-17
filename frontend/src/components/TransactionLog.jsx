@@ -14,20 +14,31 @@ export default function TransactionList() {
     filterMonth,
     filterWeek,
   } = useContext(TransactionContext);
-  const [maxPage, setMaxPage] = useState(10);
+  const [maxPage, setMaxPage] = useState(100);
   const [isPageJustLoaded, setIsPageJustLoaded] = useState(true);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   // at page load, transactions is empty, so set maxPage to currentPage (1). So using isPageJustLoaded to avoid this behavior at page load
   // only set the max page after the transactions have been loaded
   useEffect(() => {
-    if (!isPageJustLoaded) {
-      if (transactions.length === 0) {
+    if (!isPageJustLoaded && !isFiltering) {
+      if (transactions.length == 0) {
         setMaxPage(currentPage);
       }
     } else {
       setIsPageJustLoaded(false);
+      setIsFiltering(false);
     }
-  }, [transactions]);
+  }, [transactions,]);
+
+  useEffect(() => {
+    if (filter.length > 0) {
+      setIsFiltering(true);
+    } else {
+      setIsFiltering(false);
+      setMaxPage(100);
+    }
+  }, [filter]);
 
   return (
     <div className="flex flex-col items-center">
@@ -40,7 +51,10 @@ export default function TransactionList() {
                 ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
                 : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
             }
-            onClick={filterWeek}
+            onClick={() => {
+              setCurrentPage(1)
+              filterWeek();
+            }}
           >
             Last week
           </button>
@@ -50,7 +64,10 @@ export default function TransactionList() {
                 ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
                 : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
             }
-            onClick={filterMonth}
+            onClick={() => {
+              setCurrentPage(1);
+              filterMonth();
+            }}
           >
             Last month
           </button>
@@ -60,7 +77,10 @@ export default function TransactionList() {
                 ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
                 : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
             }
-            onClick={filterYear}
+            onClick={() => {
+              setCurrentPage(1);
+              filterYear();
+            }}
           >
             Last year
           </button>
