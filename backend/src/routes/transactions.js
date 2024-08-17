@@ -35,4 +35,6 @@ router.delete('/:transactionID', isAuthenticated, transactionController.deleteTr
  */
 router.get('/page/:pageNumber', isAuthenticated, transactionController.transactions);
 
+router.get('/', isAuthenticated, transactionController.allTransactions);
+
 module.exports = router;

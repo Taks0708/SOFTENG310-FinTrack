@@ -1,5 +1,5 @@
 
-const {getUserTransactionsByPage , makeTransaction, deleteTransaction} = require('../services/transactionService')
+const {getUserTransactionsByPage , makeTransaction, deleteTransaction,getAllTransactions} = require('../services/transactionService')
 const jwt = require('jsonwebtoken');
 
 exports.transaction = async (req, res) => { 
@@ -31,6 +31,16 @@ exports.deleteTransaction = async(req , res) =>{
     const userID = req.user.id;
     try{
        const result =  await deleteTransaction(userID , transactionID);
+       res.status(200).send({sucess : true , result : result})
+    }catch{
+        console.error('Error when getting transactions' , error);
+        res.status(500).send({ success: false, error: error.message });
+    }
+}
+exports.allTransactions = async(req , res) =>{
+    const userID = req.user.id;
+    try{
+       const result =  await getAllTransactions(userID );
        res.status(200).send({sucess : true , result : result})
     }catch{
         console.error('Error when getting transactions' , error);

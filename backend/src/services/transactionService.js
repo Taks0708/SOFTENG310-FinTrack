@@ -114,7 +114,29 @@ const deleteTransaction = async (userID, transactionID) => {
         throw error;
     }
 };
+const getAllTransactions = async(userID) => {
+
+
+    try {
+        const query = {
+            text: `
+                SELECT * FROM transactions 
+                WHERE user_id = $1 
+            `,
+            values: [userID]
+        };
+        try {
+            const result = await pool.query(query);
+            return result.rows;
+        } catch{
+            console.error("error when getting transactions" , error);
+        }
+    }catch {
+        console.error("error in function start" , error);
+    }
+}
 module.exports  = {
+    getAllTransactions,
     makeTransaction,
     getUserTransactionsByPage,
     deleteTransaction
