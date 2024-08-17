@@ -60,10 +60,12 @@ export default function AddTransactionButton() {
         Add Transaction
       </button>
       {showForm && (
-        <TransactionForm
-          onSubmit={handleFormSubmit}
-          onCancel={() => setShowForm(false)}
-        />
+        <div className="absolute">
+          <TransactionForm
+            onSubmit={handleFormSubmit}
+            onCancel={() => setShowForm(false)}
+          />
+        </div>
       )}
     </>
   );
