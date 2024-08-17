@@ -14,6 +14,7 @@ export function TransactionContextProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
+  const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
 
   // fetch the balance from the server
   useEffect(() => {
@@ -26,7 +27,7 @@ export function TransactionContextProvider({ children }) {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
         window.location.href = "/login";
       });
-  }, [currency, balance]);
+  }, [currency, balance, transactions]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
@@ -43,12 +44,17 @@ export function TransactionContextProvider({ children }) {
           allTransactions = filterPastWeekTransactions(allTransactions);
         }
         setTransactions(allTransactions);
+        setUiUpdateRequest(false);
       })
       .catch((error) => {
         console.error("Not logged in ", error);
         window.location.href = "/login";
       });
-  }, [currentPage, filter]);
+  }, [currentPage, filter, balance, uiUpdateRequest]);
+
+  const requestUiUpdate = () => {
+    setUiUpdateRequest(true);
+  };
 
   //functions to filter transactions
   const filterYear = () => {
@@ -127,6 +133,7 @@ export function TransactionContextProvider({ children }) {
     setCurrency,
     convertCurrency, // returns a promise that resolves to the converted amount
     handleSelect, // function to handle the selection of transactions
+    requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
   };
 
   return (

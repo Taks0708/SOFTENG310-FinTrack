@@ -2,7 +2,7 @@ import { useContext } from "react";
 import TransactionContext from "../context/TransactionContext";
 import axios from "axios";
 export default function DeleteTransactionButton() {
-  const { selectedTransactions, setSelectedTransactions } =
+  const { selectedTransactions, setSelectedTransactions, requestUiUpdate } =
     useContext(TransactionContext);
   const handleDeleteSelected = async () => {
     console.log("Transactions to delete:", selectedTransactions);
@@ -24,6 +24,7 @@ export default function DeleteTransactionButton() {
       await Promise.all(
         selectedTransactions.map((transactionId) =>
           axiosInstance.delete(`/transaction/${transactionId}`)
+            .then(requestUiUpdate())
         )
       );
       console.log("Transactions deleted successfully.");
