@@ -19,7 +19,7 @@ exports.transactions = async(req , res) =>{
     try{
        const result =  await transactionService.getUserTransactionsByPage(userID , pageNumber);
        res.status(200).send({sucess : true , result : result})
-    }catch{
+    }catch (error) {
         console.error('Error when getting transactions' , error);
         res.status(500).send({ success: false, error: error.message });
     }
@@ -31,7 +31,7 @@ exports.deleteTransaction = async(req , res) =>{
     try{
        const result =  await transactionService.deleteTransaction(userID , transactionID);
        res.status(200).send({sucess : true , result : result})
-    }catch{
+    }catch (error){
         console.error('Error when getting transactions' , error);
         res.status(500).send({ success: false, error: error.message });
     }
