@@ -1,22 +1,23 @@
-
-const { checkEmailExists, checkPasswordCorrect, createUser , getUserID, getBalance, setBalance, setGoal, getGoal} = require('../services/userService');
+// const { checkEmailExists, checkPasswordCorrect, createUser , getUserID, userService.getBalance, setBalance, setGoal, getGoal} = require('../services/userService');
+const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const emailExists = await checkEmailExists(email);
+        const emailExists = await userService.checkEmailExists(email);
         if (!emailExists) {
+           
             return res.send({ success: false, error: 'Email does not exist' });
         }
 
-        const passwordCorrect = await checkPasswordCorrect(email, password);
+        const passwordCorrect = await userService.checkPasswordCorrect(email, password);
         if (!passwordCorrect) {
             return res.send({ success: false, error: 'Incorrect password' });
         }
 
-        const userId = await getUserID(email);
+        const userId = await userService.getUserID(email);
         const token = jwt.sign({
             id: userId,
             email: email
@@ -34,16 +35,16 @@ exports.login = async (req, res) => {
 
     try {
         console.log('Checking if email exists');
-        const emailExists = await checkEmailExists(email);
+        const emailExists = await userService.checkEmailExists(email);
         if (emailExists) {
             return res.send({ success: false, error: 'Email already in use' });
         }
 
         console.log('Creating user');
-        await createUser(email, password);
+        await userService.createUser(email, password);
 
         console.log('Getting user ID');
-        const userId = await getUserID(email);
+        const userId = await userService.getUserID(email);
         
         console.log('Creating JWT token');
         const token = jwt.sign({
@@ -60,8 +61,10 @@ exports.login = async (req, res) => {
   
   exports.balance = async (req, res) => {
     const userID = req.user.id;
+    console.log(userID);
     try {
-        const result = await getBalance(userID);
+        const result = await userService.getBalance(userID);
+        console.log(result);
         res.send({ result: result });
     } catch (error) {
         console.error('Error getting balance:', error);
@@ -72,7 +75,7 @@ exports.login = async (req, res) => {
 exports.goal = async (req, res) => {
     const userID = req.user.id;
     try {
-        const result = await getGoal(userID);
+        const result = await userService.getGoal(userID);
         res.send({ result: result });
     } catch (error) {
         console.error('Error getting balance:', error);
@@ -83,7 +86,7 @@ exports.setBalance = async(req , res) => {
     const {balance} = req.body;
     const userID = req.user.id;
     try{
-        const result = await setBalance(userID, balance) 
+        const result = await userService.setBalance(userID, balance) 
         res.send({result : result});
    }catch(error) {
         console.error('error when trying to set balance: ' , error);
@@ -94,7 +97,7 @@ exports.setGoal = async(req , res) => {
     const {goal} = req.body;
      const userID = req.user.id;
     try{
-        const result = await setGoal(userID, goal) 
+        const result = await userService.setGoal(userID, goal) 
     res.send({result : result});
    }catch(error) {
     console.error('error when trying to set goal ' , error);

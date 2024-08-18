@@ -36,10 +36,10 @@ export default function TransactionForm({ onSubmit, onCancel }) {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded-lg w-96 relative">
+        <div className="bg-white p-6 rounded-2xl w-96 relative">
           <button
             onClick={onCancel}
-            className="text-2xl absolute top-0 right-2 text-gray-600 hover:text-primary-red"
+            className="text-2xl absolute top-0 right-2 text-gray-500 hover:text-primary"
           >
             &times;
           </button>
@@ -56,22 +56,14 @@ export default function TransactionForm({ onSubmit, onCancel }) {
                 type="button"
                 id="transactionType"
                 onClick={() => setTransactionType("income")}
-                className={`w-full px-4 py-2 font-bold rounded ${
-                  transactionType === "income"
-                    ? "bg-primary-green text-white"
-                    : "bg-gray-200 text-black"
-                }`}
+                className={`w-full px-4 py-2 font-bold rounded ${transactionType === "income" ? "bg-primary-green text-white" : "bg-gray-200 text-black hover:bg-gray-300 active:bg-gray-400"}`}
               >
                 Income
               </button>
               <button
                 type="button"
                 onClick={() => setTransactionType("expense")}
-                className={`w-full px-4 py-2 font-bold rounded ${
-                  transactionType === "expense"
-                    ? "bg-primary-red text-white"
-                    : "bg-gray-200 text-black"
-                }`}
+                className={`w-full px-4 py-2 font-bold rounded ${transactionType === "expense" ? "bg-primary-red text-white" : "bg-gray-200 text-black hover:bg-gray-300 active:bg-gray-400"}`}
               >
                 Expense
               </button>
@@ -121,13 +113,13 @@ export default function TransactionForm({ onSubmit, onCancel }) {
           <div className="flex justify-center mt-4 gap-4">
             <button
               onClick={handleSubmit}
-              className=" bg-primary-highlight hover:bg-primary text-white font-bold py-2 px-4 rounded w-full"
+              className=" bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-full w-full active:bg-primary-darker"
             >
               Apply
             </button>
             <button
               onClick={onCancel}
-              className="bg-gray-600  hover:bg-primary-red text-white font-bold py-2 px-4 rounded mr-2 w-full"
+              className="bg-gray-400 hover:bg-primary-red active:bg-primary-red-darker text-white font-bold py-2 px-4 rounded-full mr-2 w-full"
             >
               Cancel
             </button>

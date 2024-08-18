@@ -1,7 +1,5 @@
-const { system } = require('nodemon/lib/config');
 const pool = require('../config/db');
 const { hashPassword, comparePasswords } = require('./securePassword');
-const { use } = require('../routes/users');
 
 /**
  * Takes in user email and returns the id of the user, the reason for this is purely for future proofing incase it is needed 
@@ -40,6 +38,7 @@ const checkEmailExists = async (email) => {
     const result = await pool.query(query);
     return result.rows.length > 0;
 }
+
 const checkPasswordCorrect = async (email, password) => {
     const query = {
         text: 'SELECT password FROM users WHERE email = $1',
