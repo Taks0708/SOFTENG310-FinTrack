@@ -20,7 +20,7 @@ export default function FinancialMetrics() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-[90%] max-w-lg">
             <h2 className="text-xl font-semibold mb-4">Financial Metrics</h2>
-            <p>Your financial metrics content goes here.</p>
+            <p>TODO Financial metric implementation</p>
             <button 
               onClick={handleClick}
               className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
