@@ -3,14 +3,17 @@ Financial Tracker for SOFTENG 310 Project in the University of Auckland by Team 
 
 The project is a web app that uses React.js and Tailwind for the frontend, and Express.js for the backend. The database used is PostgreSQL.
 
-To run the web app locally, make sure to run the frontend and backend in separate terminals.
+To run the web app locally, make sure to run the frontend and backend in separate terminals. If you come across errors with logging in, the backend probably isn't running.
+
+You can contact UPI `yois920` with an email or message Discord username `Taks7`. Please only contact us if you are absolutely stuck with the set up after the project is handed off.
 
 # General Setup
 To start off, you will need the node package manager (npm) to be installed in order to download the dependencies required for the frontend and backend. npm is installed alongside node.js
 
 You can download node.js at: https://nodejs.org/en/download/prebuilt-installer
 
-You can check if npm is installed by typing the following into a terminal
+You can check if npm is installed by typing the following into a terminal:
+
 `npm -v`
 
 You might have to close and reopen your IDE for it to recognise that npm has been installed
@@ -22,14 +25,17 @@ You will need to install the dependencies for the frontend and the backend seper
 # Frontend
 Make sure you're currently in the `.../SOFTENG310-FinTrack` directory (you may need to create a new terminal).
 Change your current directory to the frontend using:
+
 `cd frontend`
 
-Then, type in the following to download all the frontend dependencies (you may have to repeat this if new dependencies are added):
+Then, type in the following to download all the frontend dependencies (you have to repeat this if new dependencies are added):
+
 `npm install`
 
 It might take a bit of time for everything to be downloaded, but once its over, you can start running the frontend!
 
-The following section goes into great detail about the various commands, but to get started, just type the following into the terminal to run the frontend:
+The following section goes into great detail about the various commands, but to get started, just type the following into the terminal to run the frontend (make sure you've already entered the frontend directory):
+
 `npm start`
 
 ## Getting Started with Create React App
@@ -104,16 +110,42 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 # Backend
-Make sure you're currently in the `.../SOFTENG310-FinTrack` directory (you may need to create a new terminal).
+Make sure you're currently in the `.../SOFTENG310-FinTrack` directory by entering into the terminal (make sure this is a different terminal than the frontend one):
+
 `cd backend`
 
-Then, type in the following to download all the frontend dependencies (you may have to repeat this if new dependencies are added):
+Then, type in the following to download all the backend dependencies (you have to repeat this if new dependencies are added):
+
 `npm install`
 
 It might take a bit of time for everything to be downloaded, but once its over, you can start running the backend!
 
-The following section goes into great detail about the various commands, but to get started, just type the following into the terminal to run the backend:
+To get started, just type the following into the terminal to run the backend (make sure you've already entered the backend directory):
+
 `npm start`
 
-## Express
-To learn more about Express, check out the [express documentation](https://expressjs.com/en/4x/api.html)
+## Express and Axios
+To learn more about Express, check out the [Express documentation](https://expressjs.com/en/4x/api.html).
+
+We send requests to the backend using Axios. To learn more about how to use Axios, chec out the [Axios documentation](https://axios-http.com/docs/intro)
+
+To learn more about the endpoints that are available or how to add new endpoints, check out [the wiki](https://github.com/Taks0708/SOFTENG310-FinTrack/wiki/Endpoints)
+
+## Database
+We are using a free PostgreSQL database hosted by Aiven to store user and transaction data. In order to access the database, a .env file is required. The .env file should include fields called:
+
+- PG_USER
+- PG_HOST
+- PG_DATABASE
+- PG_PASSWORD
+- PG_PORT
+- CA_CERT_PATH:../certs/ca.crt
+- CIPHER
+
+Please contact us in order to get this .env file, as it isn't pushed to GitHub. You may need to create your own PostgreSQL database on Aiven for personal security reasons though. 
+
+Just follow the instructions on [this page](https://aiven.io/mysql) to do so. Once you have the database created, just fill in the .env file fields shown above with your database's info. The CIPHER field can be any string you want as it is used to encrypt tokens.
+
+Once you have the .env file, simply place it in the backend folder. The database should automatically start working once this is done (regardless of whose database you're using)
+
+If there are errors, ensure that the fields are properly filled out. Also note that the CA_CERT_PATH is prefilled out, so make sure to put your certificate from Aizen in `backend/src/certs/ca.crt`.
