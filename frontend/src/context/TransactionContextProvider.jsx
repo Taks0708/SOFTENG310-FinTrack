@@ -126,6 +126,38 @@ export function TransactionContextProvider({ children }) {
     }
   };
 
+  // calculates metrics for the user
+  const calculateMetrics = (transactions) => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+  
+    let monthlySpending = 0;
+    let monthlyIncome = 0;
+  
+    transactions.forEach(transaction => {
+      const transactionDate = new Date(transaction.date);
+      const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+      if (isCurrentMonth) {
+        if (transaction.amount < 0) {
+          monthlySpending += Math.abs(transaction.amount); // Spending is negative
+        } else {
+          monthlyIncome += transaction.amount; // Income is positive
+        }
+      }
+    });
+  
+    const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
+    const percentageSaved = 100 - percentageSpent;
+  
+    return {
+      monthlySpending,
+      monthlyIncome,
+      percentageSpent,
+      percentageSaved,
+    };
+  };
+
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
     setSelectedTransactions((prev) =>
@@ -154,6 +186,7 @@ export function TransactionContextProvider({ children }) {
     convertCurrency, // returns a promise that resolves to the converted amount
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
+    monthlyMetrics: calculateMetrics(transactions) // 
   };
 
   return (
