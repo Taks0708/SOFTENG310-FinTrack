@@ -9,6 +9,7 @@ import SavingsTracker from "../components/SavingsTracker";
 import Banner from "../components/Banner";
 
 import FintrackLogo from "../assets/images/FintrackLogo.png";
+import FinancialMetrics from "../components/FinancialMetrics";
 
 /*
  * When adding your new component:
@@ -21,7 +22,6 @@ import FintrackLogo from "../assets/images/FintrackLogo.png";
 export default function Dashboard() {
   return (
     <>
-
       <div className='flex items-center'>
         <Banner />
       </div>
@@ -40,6 +40,7 @@ export default function Dashboard() {
           <div className="flex flex-col w-[20%] items-center gap-[3%] mt-[121px] pl-12">
             <AddTransactionButton />
             <DeleteTransactionButton />
+            <FinancialMetrics />
             <CurrencyDropdown />
           </div>
         </div>
@@ -48,9 +49,7 @@ export default function Dashboard() {
           <SavingsTracker />
         </div>
 
-        <div className="bg-green-300 flex flex-row justify-center">
-          <p>INCOME STATS</p>
-        </div>
+        
       </div>
     </>
   );
