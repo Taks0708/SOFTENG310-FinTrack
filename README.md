@@ -3,7 +3,7 @@ Financial Tracker for SOFTENG 310 Project in the University of Auckland by Team 
 
 The project is a web app that uses React.js and Tailwind for the frontend, and Express.js for the backend. The database used is PostgreSQL.
 
-To run the web app locally, make sure to run the frontend and backend in separate terminals.
+To run the web app locally, make sure to run the frontend and backend in separate terminals. If you come across errors with logging in, the backend probably isn't running.
 
 # General Setup
 To start off, you will need the node package manager (npm) to be installed in order to download the dependencies required for the frontend and backend. npm is installed alongside node.js
@@ -116,4 +116,20 @@ The following section goes into great detail about the various commands, but to 
 `npm start`
 
 ## Express
-To learn more about Express, check out the [express documentation](https://expressjs.com/en/4x/api.html)
+To learn more about Express, check out the [express documentation](https://expressjs.com/en/4x/api.html).
+
+To learn more about the endpoints that are available, check out the wiki!
+
+## Database
+We are using an SQL database to store user and transaction data. In order to access the database, a .env file is required. The .env file should include fields called:
+
+- PG_USER
+- PG_HOST
+- PG_DATABASE
+- PG_PASSWORD
+- PG_PORT
+- CA_CERT_PATH
+
+Please contact us in order to get this .env file, as it isn't pushed to GitHub. 
+
+Once you have the .env file, simply place it in the backend folder.
