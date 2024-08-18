@@ -26,7 +26,7 @@ export function TransactionContextProvider({ children }) {
       })
       .catch((error) => {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
-        // window.location.href = "/login";
+        window.location.href = "/login";
         console.error("Not logged in ", error);
       });
   }, [currency, balance, transactions, uiUpdateRequest]);
@@ -49,7 +49,7 @@ export function TransactionContextProvider({ children }) {
         setUiUpdateRequest(false);
       })
       .catch((error) => {
-        // window.location.href = "/login";
+        window.location.href = "/login";
         console.error("Not logged in ", error);
       });
   }, [currentPage, filter, balance, uiUpdateRequest]);
