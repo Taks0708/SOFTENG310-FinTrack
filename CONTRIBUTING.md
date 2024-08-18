@@ -1,5 +1,5 @@
 # What do I need to know to help?
-If you are looking to help to with a code contribution our project uses React.js, Tailwind, and Express.js. If you don't feel ready to make a code contribution yet, no problem! Just have a look through the code to get a feel for it!
+If you are looking to help to with a code contribution our project uses React.js, Tailwind, and Express.js. If you don't feel ready to make a code contribution yet, no problem! Just have a look through the code to get a feel for it! We 
 
 If you are interested in making a code contribution and would like to learn more about the technologies that we use, check out the list below.
 
@@ -9,10 +9,12 @@ If you are interested in making a code contribution and would like to learn more
 - [Express Documentation](https://expressjs.com/en/4x/api.html)
 - [Tailwind Documentation](https://tailwindcss.com/docs/installation)
 
+There are also a couple other dependencies that we use, such as [Axios](https://axios-http.com/docs/intro). We recommend you check out the package.json files in the frontend and backend folders to see these dependencies. Feel free to search for more information about these dependencies online!
+
 # How do I make a contribution?
 Never made a contribution before? Wondering how contributions work in the in our project? Here's a quick rundown!
 
-- Find an issue that you are interested in addressing or a feature that you would like to add.
+- Find an issue that you are interested in addressing or a feature that you would like to add (we recommend looking for those labelled `good first issue`).
 - Fork the repository associated with the issue to your local GitHub organization. This means that you will have a copy of the repository under your-GitHub-username/repository-name.
 - Clone the repository to your local machine using git clone https://github.com/github-username/repository-name.git.
 - Create a new branch for your fix using git checkout -b branch-name-here.
@@ -30,4 +32,8 @@ Never made a contribution before? Wondering how contributions work in the in our
 # What does the Code of Conduct mean for me?
 Our [Code of Conduct](CODE_OF_CONDUCT.md) means that you are responsible for treating everyone on the project with respect and courtesy regardless of their identity. If you are the victim of any inappropriate behavior or comments as described in our Code of Conduct, we are here for you and will do the best to ensure that the abuser is handled appropriately, per our code.
 
-This contributor guideline is a modified template from (https://opensource.com/life/16/3/contributor-guidelines-template-and-tips)
+
+# Attribution
+
+This contributor guideline is adapted from the [opensource.com](https://opensource.com/life/16/3/contributor-guidelines-template-and-tips)
+
