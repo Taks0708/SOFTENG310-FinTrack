@@ -22,40 +22,42 @@ module.exports = {
         'massive': [
           '80px',
           {
-            lineHeight: '120%',
-            letterSpacing: '0%',
             fontWeight: '700',
           },
         ],
         'heading': [
           '48px',
           {
-            lineHeight: '120%',
-            letterSpacing: '0%',
             fontWeight: '700',
           },
         ],
-        'subheading': [
+        'sub-heading': [
           '32px',
           {
-            lineHeight: '120%',
-            letterSpacing: '0%',
             fontWeight: '600',
           },
         ],
         'body': [
           '24px',
           {
-            lineHeight: '120%',
-            letterSpacing: '0%',
+            fontWeight: '500',
+          },
+        ],
+        'body-small': [
+          '18px',
+          {
             fontWeight: '500',
           },
         ],
         'button': [
           '24px',
           {
-            lineHeight: '120%',
-            letterSpacing: '0%',
+            fontWeight: '700',
+          },
+        ],
+        'button-small': [
+          '18px',
+          {
             fontWeight: '700',
           },
         ],

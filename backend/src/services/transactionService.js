@@ -114,7 +114,35 @@ const deleteTransaction = async (userID, transactionID) => {
         throw error;
     }
 };
+
+/**
+ * returns the all of the users transactions in decending order of created at (newest to oldest)
+ * @param {int} userID 
+ * @returns 
+ */
+
+const getAllTransactions = async(userID) => {
+    try {
+        const query = {
+            text: `
+                SELECT * FROM transactions 
+                WHERE user_id = $1 
+                ORDER BY created_at DESC 
+            `,
+            values: [userID]
+        };
+        try {
+            const result = await pool.query(query);
+            return result.rows;
+        } catch{
+            console.error("error when getting transactions" , error);
+        }
+    }catch {
+        console.error("error in function start" , error);
+    }
+}
 module.exports  = {
+    getAllTransactions,
     makeTransaction,
     getUserTransactionsByPage,
     deleteTransaction
