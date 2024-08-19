@@ -70,8 +70,8 @@ export default function FinancialMetrics() {
           <div className="bg-white p-5 rounded-lg shadow-lg w-[90%] max-w-lg">
             <h2 className="text-xl font-semibold mb-4">Financial Metrics</h2>
             <p><strong>Current Balance:</strong> {convertedBalance} {currency}</p>
-            <p><strong>Spending per Month:</strong> {monthlyMetrics.monthlySpending} {currency}</p>
-            <p><strong>Income per Month:</strong> {monthlyMetrics.monthlyIncome} {currency}</p>
+            <p><strong>Spending this Month:</strong> {monthlyMetrics.monthlySpending} {currency}</p>
+            <p><strong>Income this Month:</strong> {monthlyMetrics.monthlyIncome} {currency}</p>
             <p><strong>% Income Spent:</strong> {monthlyMetrics.percentageSpent.toFixed(2)}%</p>
             <p><strong>% Income Saved:</strong> {monthlyMetrics.percentageSaved.toFixed(2)}%</p>
             <button 
