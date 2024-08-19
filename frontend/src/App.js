@@ -2,6 +2,7 @@ import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import NotFound from './pages/NotFound';
 import axios from 'axios';
 import { TransactionContextProvider } from './context/TransactionContextProvider.jsx';
 
@@ -28,6 +29,7 @@ function App() {
           <Dashboard />
           </TransactionContextProvider> // context provider gives access to the context in the dashboard
           } />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
