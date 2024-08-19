@@ -131,7 +131,7 @@ We send requests to the backend using Axios. To learn more about how to use Axio
 
 To learn more about the endpoints that are available or how to add new endpoints, check out [the wiki](https://github.com/Taks0708/SOFTENG310-FinTrack/wiki/Endpoints)
 
-## Database
+## Database and .env File
 We are using a free PostgreSQL database hosted by Aiven to store user and transaction data. In order to access the database, a .env file is required. The .env file should include fields called:
 
 - PG_USER
@@ -146,6 +146,20 @@ Please contact us in order to get this .env file, as it isn't pushed to GitHub. 
 
 Just follow the instructions on [this page](https://aiven.io/mysql) to do so. Once you have the database created, just fill in the .env file fields shown above with your database's info. The CIPHER field can be any string you want as it is used to encrypt tokens.
 
-Once you have the .env file, simply place it in the backend folder. The database should automatically start working once this is done (regardless of whose database you're using)
+Once you have the .env file, simply place it in the **backend** folder. The database should automatically start working once this is done (regardless of whose database you're using)
 
-If there are errors, ensure that the fields are properly filled out. Also note that the CA_CERT_PATH is prefilled out, so make sure to put your certificate from Aizen in `backend/src/certs/ca.crt`.
+If there are errors, ensure that the fields are properly filled out. Also note that the CA_CERT_PATH is prefilled out, so make sure to put your certificate from Aizen in the file: `backend/src/certs/ca.crt`.
+
+## Testing
+
+The backend has some unit tests for the controller classes to ensure that the functions registered to each endpoint works. In order to run these tests, go to the **backend directory** and enter:
+
+`npm start`
+
+The coverage of these tests can be seen by entering the following when in the backend directory:
+
+`npm run coverage`
+
+Do note that this will generate some folders in the backend directory. These folders have already been added to the .gitignore, and shouldn't be pushed to the main repository.
+
+If the tests fail, make sure that all backend dependencies have been installed. If, for some reason, they aren't being installed by an `npm install`, enter `npm install --save-dev mocha chai sinon nyc` .
