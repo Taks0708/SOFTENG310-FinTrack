@@ -10,6 +10,7 @@ import axios from "axios";
 export function TransactionContextProvider({ children }) {
   const [currency, setCurrency] = useState("NZD"); // default currency is NZD
   const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
@@ -36,16 +37,18 @@ export function TransactionContextProvider({ children }) {
     axios
       .get(`http://localhost:4000/transaction`)
       .then((response) => {
-        let allTransactions = response.data.result;
+        setAllTransactions(response.data.result);
+        let currTransactions = response.data.result;
+        
 
         if (filter === "year") {
-          allTransactions = filterPastYearTransactions(allTransactions);
+          currTransactions = filterPastYearTransactions(currTransactions);
         } else if (filter === "month") {
-          allTransactions = filterPastMonthTransactions(allTransactions);
+          currTransactions = filterPastMonthTransactions(currTransactions);
         } else if (filter === "week") {
-          allTransactions = filterPastWeekTransactions(allTransactions);
+          currTransactions = filterPastWeekTransactions(currTransactions);
         }
-        setTransactions(returnTransactionsPerPage(allTransactions, currentPage, 10));
+        setTransactions(returnTransactionsPerPage(currTransactions, currentPage, 10));
         setUiUpdateRequest(false);
       })
       .catch((error) => {
@@ -125,38 +128,7 @@ export function TransactionContextProvider({ children }) {
       return amount;
     }
   };
-
-  // calculates metrics for the user
-  const calculateMetrics = (transactions) => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
   
-    let monthlySpending = 0;
-    let monthlyIncome = 0;
-  
-    transactions.forEach(transaction => {
-      const transactionDate = new Date(transaction.date);
-      const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
-      if (isCurrentMonth) {
-        if (transaction.amount < 0) {
-          monthlySpending += Math.abs(transaction.amount); // Spending is negative
-        } else {
-          monthlyIncome += transaction.amount; // Income is positive
-        }
-      }
-    });
-  
-    const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
-    const percentageSaved = 100 - percentageSpent;
-  
-    return {
-      monthlySpending,
-      monthlyIncome,
-      percentageSpent,
-      percentageSaved,
-    };
-  };
 
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
@@ -170,7 +142,8 @@ export function TransactionContextProvider({ children }) {
   // all values and functions that can be accessed when consuming this context provider
   const contextValue = {
     currency, // the currency to convert to i.e NZD, USD, EUR
-    transactions, // the transactions to display
+    transactions, // the transactions to display (after filtering)
+    allTransactions, // all transactions of the user
     selectedTransactions, // the transactions selected by the user for deletion
     filter, // the filter type to apply to the transactions i.e year, month, week
     currentPage,
@@ -186,7 +159,6 @@ export function TransactionContextProvider({ children }) {
     convertCurrency, // returns a promise that resolves to the converted amount
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
-    monthlyMetrics: calculateMetrics(transactions) // 
   };
 
   return (
