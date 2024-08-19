@@ -3,12 +3,48 @@ import TransactionContext from '../context/TransactionContext';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
-  const { balance, currency, convertCurrency, transactions, monthlyMetrics } = useContext(TransactionContext);
+  const { balance, currency, convertCurrency, allTransactions} = useContext(TransactionContext);
   const [convertedBalance, setConvertedBalance] = useState(0);
+  const [monthlyMetrics, setMonthlyMetrics] = useState({});
+
+  // Takes in a list of transactions and calculates the monthly spending, income, and percentages. This should always be
+  // the full list of transactions, not just the ones currently displayed.
+  const calculateMetrics = (transactions) => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+  
+    let monthlySpending = 0;
+    let monthlyIncome = 0;
+  
+    transactions.forEach(transaction => {
+      const transactionDate = new Date(transaction.created_at);
+      const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
+
+      if (isCurrentMonth) {
+        if (transaction.amount < 0) {
+          monthlySpending += Math.abs(transaction.amount); // Spending is negative
+        } else {
+          monthlyIncome += parseFloat(transaction.amount); // Income is positive
+        }
+      }
+    });
+  
+    const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
+    const percentageSaved = 100 - percentageSpent;
+  
+    setMonthlyMetrics({
+      monthlySpending,
+      monthlyIncome,
+      percentageSpent,
+      percentageSaved
+    });
+  };
 
   // Function to toggle the visibility of the modal
   const handleClick = () => {
     setShowMetrics(!showMetrics);
+    calculateMetrics(allTransactions);
   };
 
   // Calculate and set the converted balance when currency or balance changes
