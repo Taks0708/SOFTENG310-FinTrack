@@ -37,17 +37,18 @@ export function TransactionContextProvider({ children }) {
     axios
       .get(`http://localhost:4000/transaction`)
       .then((response) => {
-        let currAllTransactions = response.data.result;
         setAllTransactions(response.data.result);
+        let currTransactions = response.data.result;
+        
 
         if (filter === "year") {
-          allTransactions = filterPastYearTransactions(currAllTransactions);
+          currTransactions = filterPastYearTransactions(currTransactions);
         } else if (filter === "month") {
-          allTransactions = filterPastMonthTransactions(currAllTransactions);
+          currTransactions = filterPastMonthTransactions(currTransactions);
         } else if (filter === "week") {
-          allTransactions = filterPastWeekTransactions(currAllTransactions);
+          currTransactions = filterPastWeekTransactions(currTransactions);
         }
-        setTransactions(returnTransactionsPerPage(currAllTransactions, currentPage, 10));
+        setTransactions(returnTransactionsPerPage(currTransactions, currentPage, 10));
         setUiUpdateRequest(false);
       })
       .catch((error) => {
