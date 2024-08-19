@@ -32,8 +32,10 @@ Never made a contribution before? Wondering how contributions work in the in our
 # What does the Code of Conduct mean for me?
 Our [Code of Conduct](CODE_OF_CONDUCT.md) means that you are responsible for treating everyone on the project with respect and courtesy regardless of their identity. If you are the victim of any inappropriate behavior or comments as described in our Code of Conduct, we are here for you and will do the best to ensure that the abuser is handled appropriately, per our code.
 
+# Our Vision
+Our vision for this project is for it to be an easy-to-use financial tracker that can help students with becoming more financially responsible. Right now, it is quite simple and barebones, and while we don't want to make things overly complicated, adding more features that can aid users is a big goal for this project. Namely, we would like to create a larger incentive for saving money, as well as make it even easier to use. If you do contribute, thank you very much!
+
 
 # Attribution
-
 This contributor guideline is adapted from the [opensource.com](https://opensource.com/life/16/3/contributor-guidelines-template-and-tips)
 
