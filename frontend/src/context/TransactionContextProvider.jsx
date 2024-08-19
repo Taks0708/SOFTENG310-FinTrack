@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Context provider for transactions. Allows for the sharing of transaction data between components
 export function TransactionContextProvider({ children }) {
   const [currency, setCurrency] = useState("NZD"); // default currency is NZD
   const [transactions, setTransactions] = useState([]);
@@ -37,7 +38,10 @@ export function TransactionContextProvider({ children }) {
     axios
       .get(`http://localhost:4000/transaction`)
       .then((response) => {
+        // Store all transactions in a state variable before any filtering is done. This can be accessed by other components if needed
         setAllTransactions(response.data.result);
+
+        // These are the transactions that will be displayed on the page. They are filtered based on the filter state variable
         let currTransactions = response.data.result;
         
 
