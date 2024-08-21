@@ -27,11 +27,13 @@ const getUserTransactionsByPage = async(userID , pageNumber) => {
         try {
             const result = await pool.query(query);
             return result.rows;
-        } catch{
+        } catch (error) {
             console.error("error when getting transactions" , error);
+            throw error;
         }
-    }catch {
+    }catch (error) {
         console.error("error in function start" , error);
+        throw error;
     }
 }
 
@@ -62,9 +64,11 @@ const makeTransaction = async ( userID , amount , title , description) => {
             console.log(`succesfuly made transaction user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
         } catch(error){
             console.error('Error updating balance:', error);
+            throw error;
         }
     } catch(error){
         console.error("problem with decrease balance function",error);
+        throw error;
     }
 }
 
@@ -132,11 +136,13 @@ const getAllTransactions = async(userID) => {
         try {
             const result = await pool.query(query);
             return result.rows;
-        } catch{
+        } catch(error) {
             console.error("error when getting transactions" , error);
+            throw error;
         }
-    }catch {
+    }catch(error) {
         console.error("error in function start" , error);
+        throw error;
     }
 }
 module.exports  = {
