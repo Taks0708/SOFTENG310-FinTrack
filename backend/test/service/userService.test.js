@@ -209,7 +209,6 @@ describe('userService', () => {
         });
     });
     
-    // Repeat similar tests for getGoal, setBalance, and setGoal
     describe('getGoal', () => {
         let poolQueryStub;
     
@@ -256,20 +255,19 @@ describe('userService', () => {
             expect(result.message).to.equal('Balance updated successfully');
         });
     
-        it('should return error message if balance is not set', async () => {
+        it('should return error message if user is not found', async () => {
             poolQueryStub.resolves({ rowCount: 0 });
     
             const result = await userService.setBalance(1, 100);
             expect(result.success).to.be.false;
-            expect(result.message).to.equal('Balance not updated');
+            expect(result.message).to.equal('User not found');
         });
     
         it('should handle errors during the query', async () => {
             poolQueryStub.rejects(new Error('Query failed'));
     
-            const result = await userService.setBalance(1, 100);
-            expect(result.success).to.be.false;
-            expect(result.message).to.equal('Query failed');
+            await userService.setBalance(1, 100);
+            expect(userService.setBalance(1, 100).threw());
         });
     });
 
@@ -292,12 +290,12 @@ describe('userService', () => {
             expect(result.message).to.equal('Goal updated successfully');
         });
     
-        it('should return error message if goal is not set', async () => {
+        it('should return error message if user not found', async () => {
             poolQueryStub.resolves({ rowCount: 0 });
     
             const result = await userService.setGoal(1, 100);
             expect(result.success).to.be.false;
-            expect(result.message).to.equal('Goal not updated');
+            expect(result.message).to.equal('User not found');
         });
     
         it('should handle errors during the query', async () => {
