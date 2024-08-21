@@ -1,4 +1,3 @@
-// const { checkEmailExists, checkPasswordCorrect, createUser , getUserID, userService.getBalance, setBalance, setGoal, getGoal} = require('../services/userService');
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); // Load environment variables from .env file

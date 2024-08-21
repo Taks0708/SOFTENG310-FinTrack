@@ -1,5 +1,3 @@
-
-const { system } = require('nodemon/lib/config');
 const pool = require('../config/db');
 
 /**
