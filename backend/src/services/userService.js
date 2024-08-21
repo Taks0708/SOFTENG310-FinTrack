@@ -96,7 +96,6 @@ const createUser = async (email, password) => {
  * @returns  {int} result 
  */
 const getBalance = async (userID) => {
-    try {
         const query  = {
             text: 'SELECT balance FROM users WHERE id = $1' ,
             values : [userID]
@@ -107,9 +106,6 @@ const getBalance = async (userID) => {
         } catch (error) {
             console.error ("problem when fetching balance" , error);
         }
-    }catch (error) {
-        console.error("problem before query", error);
-    }
 }
 /**
  * gets the savings goal from the database of the specified user
@@ -118,7 +114,6 @@ const getBalance = async (userID) => {
  * @returns {int} result
  */
 const getGoal = async (userID) => {
-    try {
         const query  = {
             text: 'SELECT saving_goal FROM users WHERE id = $1' ,
             values : [userID]
@@ -129,9 +124,6 @@ const getGoal = async (userID) => {
         } catch (error){
             console.error ("problem when fetching balance" , error);
         }
-    }catch{
-        console.error("problem before query", error);
-    }
 }
 /**
  * sets the balance from the database of the specified user , for when the users wants to change how much they have incase they made a mistake

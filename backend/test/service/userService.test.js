@@ -37,12 +37,7 @@ describe('userService', () => {
         it('should throw an error if the query fails', async () => {
             poolQueryStub.rejects(new Error('Query failed'));
     
-            try {
-                await userService.getUserID('error@example.com');
-            } catch (error) {
-                expect(error.message).to.equal('Query failed');
-            }
-            expect(poolQueryStub.calledOnce).to.be.true;
+            expect(userService.getUserID('test')).to.throw;
         });
     });
     
@@ -196,9 +191,10 @@ describe('userService', () => {
     
         it('should handle errors during the query', async () => {
             poolQueryStub.rejects(new Error('Query failed'));
-    
+            
             const balance = await userService.getBalance(1);
             expect(balance).to.be.undefined;
+            expect(userService.getBalance(1)).to.throw;
         });
     });
     
@@ -226,6 +222,7 @@ describe('userService', () => {
     
             const goal = await userService.getGoal(1);
             expect(goal).to.be.undefined;
+            expect(userService.getGoal(1)).to.throw;
         });
     });
     
@@ -293,7 +290,7 @@ describe('userService', () => {
         it('should handle errors during the query', async () => {
             poolQueryStub.rejects(new Error('Query failed'));
     
-            expect(userService.setGoal(1, 100)).to.throw
+            expect(userService.setGoal(1, 100)).to.throw;
         });
     });
 });

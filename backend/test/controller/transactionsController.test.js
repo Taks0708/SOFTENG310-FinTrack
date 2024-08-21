@@ -91,4 +91,26 @@ describe('transactionsController', () => {
                 expect(res.status.calledWith(500)).to.be.true;
             });
         });
+
+        describe ('allTransactions', () => {
+            it('should return success on successful get all transactions', async () => {
+                req.user.id = 1;
+                sinon.stub(transactionService, 'getAllTransactions').resolves();
+            
+                await transactionController.allTransactions(req, res);
+            
+                expect(res.status.calledWith(200)).to.be.true;
+        
+                });
+                
+                it('should return error if an error occurs during get all transactions', async () => {
+                    req.user.id = 1;
+                    sinon.stub(transactionService, 'getAllTransactions').rejects(new Error('An error occurred'));
+                
+                    await transactionController.allTransactions(req, res);
+                
+                    expect(res.status.calledWith(500)).to.be.true;
+                    expect(res.send.calledWith({ success: false, error: 'An error occurred' })).to.be.true;
+                });
+        });
     });
