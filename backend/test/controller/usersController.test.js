@@ -1,4 +1,3 @@
-// test/controllers/userController.test.js
 const { expect } = require('chai');
 const sinon = require('sinon');
 const jwt = require('jsonwebtoken');
