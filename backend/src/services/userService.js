@@ -1,5 +1,5 @@
 const pool = require('../config/db');
-const { hashPassword, comparePasswords } = require('./securePassword');
+const securePassword = require('./securePassword');
 
 /**
  * Takes in user email and returns the id of the user, the reason for this is purely for future proofing incase it is needed 
@@ -35,8 +35,12 @@ const checkEmailExists = async (email) => {
         text: 'SELECT * FROM users WHERE email = $1',
         values: [email],
     };
-    const result = await pool.query(query);
+    try { const result = await pool.query(query);
     return result.rows.length > 0;
+    } catch (error) {
+        console.error('An error occurred while checking email:', error);
+        return false;
+    }
 }
 
 const checkPasswordCorrect = async (email, password) => {
@@ -44,15 +48,14 @@ const checkPasswordCorrect = async (email, password) => {
         text: 'SELECT password FROM users WHERE email = $1',
         values: [email],
     };
-    try{const result = await pool.query(query);
-    if (result.rows.length === 0) {
-        return false;
-    }
-    const hashedPassword = result.rows[0].password;
-    const passwordsMatch =  await comparePasswords(password, hashedPassword);
-    return passwordsMatch;
-}
-    catch(error){
+    try {const result = await pool.query(query);
+            if (result.rows.length === 0) {
+                return false;
+            }
+            const hashedPassword = result.rows[0].password;
+            const passwordsMatch =  await securePassword.comparePasswords(password, hashedPassword);
+        return passwordsMatch;
+    } catch (error) {
 
         console.error('An error occurred while checking password:', error);
         return false; 
@@ -67,7 +70,7 @@ const checkPasswordCorrect = async (email, password) => {
  */
 const createUser = async (email, password) => {
     try {
-        password = await hashPassword(password); 
+        password = await securePassword.hashPassword(password); 
         const query = {
             text: 'INSERT INTO users (email, password) VALUES ($1, $2)',
             values: [email, password],
@@ -101,10 +104,10 @@ const getBalance = async (userID) => {
         try {
             const result = await pool.query(query);
             return result.rows[0];
-        } catch (error){
+        } catch (error) {
             console.error ("problem when fetching balance" , error);
         }
-    }catch{
+    }catch (error) {
         console.error("problem before query", error);
     }
 }
@@ -150,7 +153,6 @@ const setBalance = async (userID, newBalance) => {
         }
     } catch (error) {
         console.error('An error occurred while updating balance:', error);
-        throw error;
     }
 };
 /**
@@ -173,7 +175,6 @@ const setGoal= async (userID, goal) => {
         }
     } catch (error) {
         console.error('An error occurred while updating balance:', error);
-        throw error;
     }
 };
 
