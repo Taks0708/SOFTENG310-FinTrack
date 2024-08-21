@@ -7,9 +7,11 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Context provider for transactions. Allows for the sharing of transaction data between components
 export function TransactionContextProvider({ children }) {
   const [currency, setCurrency] = useState("NZD"); // default currency is NZD
   const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
@@ -36,16 +38,21 @@ export function TransactionContextProvider({ children }) {
     axios
       .get(`http://localhost:4000/transaction`)
       .then((response) => {
-        let allTransactions = response.data.result;
+        // Store all transactions in a state variable before any filtering is done. This can be accessed by other components if needed
+        setAllTransactions(response.data.result);
+
+        // These are the transactions that will be displayed on the page. They are filtered based on the filter state variable
+        let currTransactions = response.data.result;
+        
 
         if (filter === "year") {
-          allTransactions = filterPastYearTransactions(allTransactions);
+          currTransactions = filterPastYearTransactions(currTransactions);
         } else if (filter === "month") {
-          allTransactions = filterPastMonthTransactions(allTransactions);
+          currTransactions = filterPastMonthTransactions(currTransactions);
         } else if (filter === "week") {
-          allTransactions = filterPastWeekTransactions(allTransactions);
+          currTransactions = filterPastWeekTransactions(currTransactions);
         }
-        setTransactions(returnTransactionsPerPage(allTransactions, currentPage, 10));
+        setTransactions(returnTransactionsPerPage(currTransactions, currentPage, 10));
         setUiUpdateRequest(false);
       })
       .catch((error) => {
@@ -125,6 +132,7 @@ export function TransactionContextProvider({ children }) {
       return amount;
     }
   };
+  
 
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
@@ -138,7 +146,8 @@ export function TransactionContextProvider({ children }) {
   // all values and functions that can be accessed when consuming this context provider
   const contextValue = {
     currency, // the currency to convert to i.e NZD, USD, EUR
-    transactions, // the transactions to display
+    transactions, // the transactions to display (after filtering)
+    allTransactions, // all transactions of the user
     selectedTransactions, // the transactions selected by the user for deletion
     filter, // the filter type to apply to the transactions i.e year, month, week
     currentPage,

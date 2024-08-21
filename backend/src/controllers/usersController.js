@@ -1,5 +1,6 @@
 const userService = require('../services/userService');
 const jwt = require('jsonwebtoken');
+require('dotenv').config(); // Load environment variables from .env file
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
@@ -20,7 +21,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({
             id: userId,
             email: email
-        }, "my key", { expiresIn: '1d' });
+        }, process.env.CIPHER, { expiresIn: '1d' });
 
         res.send({ success: true, token: token });
     } catch (error) {
@@ -49,7 +50,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign({
             id: userId,
             email: email
-        }, "my key", { expiresIn: '1d' });
+        }, process.env.CIPHER, { expiresIn: '1d' });
 
         res.send({ success: true, token: token });
     } catch (error) {
