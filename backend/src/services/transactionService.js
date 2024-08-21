@@ -140,7 +140,7 @@ const getAllTransactions = async(userID) => {
             console.error("error when getting transactions" , error);
             throw error;
         }
-    }catch(error) {
+    }catch {
         console.error("error in function start" , error);
         throw error;
     }
