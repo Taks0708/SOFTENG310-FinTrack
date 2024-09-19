@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 export default function TransactionForm({ onSubmit, onCancel }) {
   const labelStyle = "text-2xl";
   const inputStyle = "mt-2 border p-2 w-full";
+  const enableApplyStyle = "hover:bg-primary-dark active:bg-primary-darker";
+  const enableCancelStyle = "hover:bg-primary-red active:bg-primary-red-darker";
+  const disableStyle = "opacity-50";
+
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
   const [transactionType, setTransactionType] = useState("income");
+  const [disableClick, setDisableClick] = useState(false);
+  const disableClickSync = useRef(false);
 
   // Handle sudden change in transaction type
   useEffect(() => {
@@ -25,7 +31,11 @@ export default function TransactionForm({ onSubmit, onCancel }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (disableClickSync.current || disableClick) return;
+
+    setDisableClick(true)
+    disableClickSync.current = true
     onSubmit({
       title,
       amount,
@@ -33,6 +43,7 @@ export default function TransactionForm({ onSubmit, onCancel }) {
       transactionType,
     });
   };
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -113,13 +124,15 @@ export default function TransactionForm({ onSubmit, onCancel }) {
           <div className="flex justify-center mt-4 gap-4">
             <button
               onClick={handleSubmit}
-              className=" bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-full w-full active:bg-primary-darker"
+              className={`${disableClick ? disableStyle : enableApplyStyle} bg-primary text-white font-bold py-2 px-4 rounded-full w-full`}
+              disabled={disableClick}
             >
               Apply
             </button>
             <button
               onClick={onCancel}
-              className="bg-gray-400 hover:bg-primary-red active:bg-primary-red-darker text-white font-bold py-2 px-4 rounded-full mr-2 w-full"
+              className={`${disableClick ? disableStyle : enableCancelStyle} bg-gray-400 text-white font-bold py-2 px-4 rounded-full mr-2 w-full`}
+              disabled={disableClick}
             >
               Cancel
             </button>
