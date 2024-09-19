@@ -16,11 +16,18 @@ export default function SetGoal({
 
   const handleInputChange = (e) => {
     //removes and save all non number chars in newGoal
-    let sanitizedValue = e.target.value.replace(/[^0-9.]/g, "");
-    //removes all dots after the first one
-    sanitizedValue = sanitizedValue.replace(/(?<=\..*)\./g, "");
+    let value = e.target.value.replace(/[^0-9.]/g, "");
     
-    setNewGoal(sanitizedValue);
+    //removes all dots after the first one
+    let valueSplit = value.split(".");
+    if(valueSplit.length > 1){
+      value = valueSplit[0] +"."
+      for(let i= 1; i<valueSplit.length; i++){
+        value += valueSplit[i]
+      }
+    }
+
+    setNewGoal(value);
   };
 
   useEffect(() => {
