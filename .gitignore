@@ -27,3 +27,4 @@ yarn-error.log*
 
 #misc folders
 .idea/
+.vscode/launch.json
