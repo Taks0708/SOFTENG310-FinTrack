@@ -18,8 +18,8 @@ export default function SetGoal({
     //removes and save all non number chars in newGoal
     let sanitizedValue = e.target.value.replace(/[^0-9.]/g, "");
     //removes all dots after the first one
-    sanitizedValue = sanitizedValue.replace(/\.(?=.*\.)/g, "")
-    //saves 
+    sanitizedValue = sanitizedValue.replace(/(?<=\..*)\./g, "");
+    
     setNewGoal(sanitizedValue);
   };
 
