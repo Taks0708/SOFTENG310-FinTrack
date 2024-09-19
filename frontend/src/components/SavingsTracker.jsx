@@ -80,7 +80,7 @@ export default function SavingsTracker() {
         goal: updatedGoal,
       })
       .then((response) => {
-        setGoal(newGoal);
+        setGoal(updatedGoal);
         setShowSetGoal(false);
       })
       .catch((error) => {
