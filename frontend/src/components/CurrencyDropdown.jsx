@@ -6,7 +6,6 @@ import TransactionContext from "../context/TransactionContext";
  * When adding new currencies to the dropdown:
  * Remember to edit the border radius of the last item in the dropdown to match
  * Do this by adding "hover:rounded-bl-3xl hover:rounded-br-3xl" in the label class
- *
 */
 
 const CurrencyDropdown = () => {
