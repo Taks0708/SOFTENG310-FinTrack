@@ -54,17 +54,17 @@ export default function SavingsTracker() {
 
   //Dynamic progress bar whenver the balance or goal changes
   useEffect(() => {
-    if (balance > goal) {
+    if (Number(balance) > Number(goal)) {
       setProgress(100);
       return;
     }
 
-    if (goal === 0 || balance <= 0) {
+    if (Number(goal) === 0 || Number(balance) <= 0) {
       setProgress(0);
       return;
     }
 
-    const update = (balance / goal) * 100;
+    const update = (Number(balance) / Number(goal)) * 100;
     setProgress(update);
     console.log("Progress: ", update);
   }, [balance, goal]);

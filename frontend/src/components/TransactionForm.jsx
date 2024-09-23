@@ -5,12 +5,15 @@ export default function TransactionForm({ onSubmit, onCancel }) {
   const labelStyle = "text-2xl";
   const inputStyle = "mt-2 border p-2 w-full";
   const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [transactionType, setTransactionType] = useState("income");
 
   // Handle sudden change in transaction type
   useEffect(() => {
+    if(amount === ""){
+      return
+    }
     if (transactionType === "expense") {
       setAmount(-Math.abs(amount));
     } else {
@@ -26,9 +29,16 @@ export default function TransactionForm({ onSubmit, onCancel }) {
   };
 
   const handleSubmit = () => {
+    //if amount is left empty update it to 0 and submit it.
+    let updatedAmount = amount;
+    if(amount === ''){
+      updatedAmount = 0;
+      setAmount(0);
+    }
+
     onSubmit({
       title,
-      amount,
+      amount: updatedAmount,
       description,
       transactionType,
     });
@@ -91,8 +101,13 @@ export default function TransactionForm({ onSubmit, onCancel }) {
             <input
               type="number"
               id="amount"
+
+              
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              
+              onChange={(e) => {setAmount(e.target.value)}
+              }
+
               onKeyDown={handleKeyDown}
               className={inputStyle}
             ></input>
