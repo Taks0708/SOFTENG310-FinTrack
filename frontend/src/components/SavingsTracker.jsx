@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SetGoal from "./SetGoal";
 import TransactionContext from "../context/TransactionContext";
+import { getConvertedBalance, getConvertedGoal } from "../utility/CurrencyUtil";
 
 export default function SavingsTracker() {
   const { currency, convertCurrency, balance, setBalance } = useContext(TransactionContext);
@@ -20,37 +21,10 @@ export default function SavingsTracker() {
   });
 
   // Fetch the user's current balance and convert to specified currency when the component mounts
-  useEffect(() => {
-    axiosInstance
-      .get("/user/balance")
-      .then((response) => {
-        const convert = async () => {
-          const convertedAmount = await convertCurrency(currency, "NZD", response.data.result.balance); // using context to convert amount
-          setDisplayBalance(convertedAmount);
-        };
-        convert();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [balance, currency]);
+  useEffect(() => { getConvertedBalance(setDisplayBalance); }, [balance, currency]);
 
   // Fetch the user's current savings goal and convert to specified currency when the component mounts
-  useEffect(() => {
-
-    axiosInstance
-    .get("/user/goal")
-    .then((response) => {
-      const convert = async () => {
-        const convertedAmount = await convertCurrency(currency, "NZD", response.data.result.saving_goal); // using context to convert amount
-        setDisplayGoal(convertedAmount);
-      };
-      convert();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, [goal, currency]);
+  useEffect(() => { getConvertedGoal(setDisplayGoal); }, [goal, currency]);
 
   //Dynamic progress bar whenver the balance or goal changes
   useEffect(() => {

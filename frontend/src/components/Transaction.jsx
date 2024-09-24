@@ -11,7 +11,7 @@ const Transaction = ({ transaction }) => {
   useEffect(() => {
     const convert = async () => {
       const converted = await convertCurrency(
-        currency,
+        currency, 
         "NZD",
         transaction.amount
       ); // using context to convert amount
