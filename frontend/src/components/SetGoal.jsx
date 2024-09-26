@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import "../App.css";
 
 export default function SetGoal({
@@ -7,13 +8,33 @@ export default function SetGoal({
   updateGoal,
   closeModal,
 }) {
+
+
   const handleSliderChange = (e) => {
     setNewGoal(e.target.value);
   };
 
   const handleInputChange = (e) => {
-    setNewGoal(e.target.value);
+    //removes and save all non number chars in newGoal
+    let value = e.target.value.replace(/[^0-9.]/g, "");
+    
+    //removes all dots after the first one
+    let valueSplit = value.split(".");
+    if(valueSplit.length > 1){
+      value = valueSplit[0] +"."
+      for(let i= 1; i<valueSplit.length; i++){
+        value += valueSplit[i]
+      }
+    }
+
+    setNewGoal(value);
   };
+
+  useEffect(() => {
+    if(newGoal < 0){
+      setNewGoal(0)
+    }
+  }, [newGoal]);
 
   return (
     <>
@@ -37,17 +58,17 @@ export default function SetGoal({
             className="w-full"
           ></input>
           <input
-            type="number"
-            min="0"
-            max="1000000"
+            type="text"
             value={newGoal}
-            onChange={handleInputChange}
+            onInput={handleInputChange}
             className="mt-2 border p-2 text-center w-full"
           ></input>
           <div className="flex justify-center mt-4 gap-4">
             <button
               className=" bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-full w-full active:bg-primary-darker"
-              onClick={updateGoal}
+              onClick={
+                updateGoal
+              }
             >
               Apply
             </button>
