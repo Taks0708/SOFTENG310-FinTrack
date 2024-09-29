@@ -3,10 +3,12 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import TransactionContext from "../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
+import { all } from "axios";
 
 export default function TransactionList() {
   const {
     transactions,
+    allTransactions,
     filter,
     currentPage,
     setCurrentPage,
@@ -21,8 +23,9 @@ export default function TransactionList() {
   // at page load, transactions is empty, so set maxPage to currentPage (1). So using isPageJustLoaded to avoid this behavior at page load
   // only set the max page after the transactions have been loaded
   useEffect(() => {
+    setMaxPage(Math.ceil(allTransactions.length / 10));
     if (!isPageJustLoaded && !isFiltering) {
-      if (transactions.length == 0) {
+      if (transactions.length < 10) {
         setMaxPage(currentPage);
       }
     } else {
@@ -36,10 +39,8 @@ export default function TransactionList() {
       setIsFiltering(true);
     } else {
       setIsFiltering(false);
-      setMaxPage(100);
     }
   }, [filter]);
-
 
 
   return (

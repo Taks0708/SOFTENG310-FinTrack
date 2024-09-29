@@ -43,7 +43,7 @@ export function TransactionContextProvider({ children }) {
 
         // These are the transactions that will be displayed on the page. They are filtered based on the filter state variable
         let currTransactions = response.data.result;
-        
+
 
         if (filter === "year") {
           currTransactions = filterPastYearTransactions(currTransactions);
@@ -132,7 +132,7 @@ export function TransactionContextProvider({ children }) {
       return amount;
     }
   };
-  
+
 
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
