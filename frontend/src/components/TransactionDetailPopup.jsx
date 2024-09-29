@@ -1,13 +1,14 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import axios from "axios";
+import TransactionContext from "../context/TransactionContext";
 
 export default function TransactionDetailPopup({transaction, setShowDetails}){
   const [isEdit,setIsEdit]  = useState(false);
   const [title, setTitle] = useState(transaction.title);
   const [amount, setAmount] = useState(transaction.amount);
   const [description, setDescription] = useState(transaction.description);
-  
+  const {requestUiUpdate } = useContext(TransactionContext);
   //handles creating correct amount input
   const handleAmountInput = (e) => {
     //removes and save all non number chars in newGoal
@@ -69,6 +70,7 @@ export default function TransactionDetailPopup({transaction, setShowDetails}){
       console.error("Error occurred:", error);
     } finally {
       console.log("Im at finally");
+      requestUiUpdate();
       setShowDetails(false);
     }
     
