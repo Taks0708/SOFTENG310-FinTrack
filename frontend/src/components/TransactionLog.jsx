@@ -3,7 +3,6 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 import TransactionContext from "../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
-import { all } from "axios";
 
 export default function TransactionList() {
   const {
@@ -32,7 +31,7 @@ export default function TransactionList() {
       setIsPageJustLoaded(false);
       setIsFiltering(false);
     }
-  }, [transactions,]);
+  }, [transactions, allTransactions, currentPage, isPageJustLoaded, isFiltering]);
 
   useEffect(() => {
     if (filter.length > 0) {
