@@ -18,6 +18,18 @@ router.post('/', isAuthenticated, transactionController.transaction);
  * Route that deletes a transaction from the database.
  * Expects:
  *  - Auth token in headers.
+ *  - transactionID in the params representing the transaction to be edited.
+ *  - [title, amount, description], representing parameters for the transaction to be edited.
+ * Returns:
+ *  - Returns success: boolean.
+ */
+
+router.put('/:transactionID', isAuthenticated,transactionController.editTransaction)
+
+/**
+ * Route that deletes a transaction from the database.
+ * Expects:
+ *  - Auth token in headers.
  *  - transactionID in the params representing the transaction to be deleted.
  * Returns:
  *  - Returns success: boolean.

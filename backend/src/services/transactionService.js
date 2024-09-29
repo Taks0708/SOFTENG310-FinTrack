@@ -37,6 +37,28 @@ const getUserTransactionsByPage = async(userID , pageNumber) => {
     }
 }
 
+const getTransaction = async(id , userID) =>{
+    try{
+        const query = {
+            text: 'SELECT * FROM transactions WHERE id = $1 AND user_id = $2',
+            values: [id,userID]
+        };
+
+        try{
+            const result = await pool.query(query);
+            return result.rows;
+        }catch (error) {
+            console.error("error when getting a transaction" , error);
+            throw error;
+        }
+
+    }catch (error){
+        console.error("error in function start", error);
+        throw error;
+    }
+}
+
+
 /**
  * creates a transaction , we add it to the database , the reason that we update the balance is because transactions should
  * directly corrolate with the users balance so we update that as needed based on the amount. We add the amount given so that 
@@ -71,6 +93,44 @@ const makeTransaction = async ( userID , amount , title , description) => {
         throw error;
     }
 }
+
+
+/**
+ * editted a transaction , the reason that we update the balance is because transactions should
+ * directly corrolate with the users balance so we update that as needed based on the amount. We add the amount given so that 
+ * if the value is a negative we will subtract by adding
+ * @param {int} userID 
+ * @param {int} transactionID 
+ * @param {DoubleRange} amount 
+ * @param {String} title 
+ * @param {String} description 
+ */
+const editTransaction = async (transactionID,userID,title,amount,description,oldAmount) =>{
+    try {
+        const addTransactionQuery = {
+            text: 'UPDATE transactions SET amount = $3, title = $4, description = $5 WHERE id = $1 AND user_id = $2 ',
+            values : [transactionID, userID, amount , title , description ]
+        }
+        const changeBalanceQuery = {
+            text :  'UPDATE users SET balance = balance - $1 + $2 WHERE id = $3',
+            values: [oldAmount, amount , userID]
+        }
+        try {           
+            await pool.query(addTransactionQuery);
+            await pool.query(changeBalanceQuery);
+            console.log(`succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
+        } catch(error){
+            console.error('Error updating balance:', error);
+            throw error;
+        }
+    } catch(error){
+        //console.error("Error editing transaction",error);
+        console.error("\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+transactionID+userID+title+description,error);
+        throw error;
+    }
+}
+
+
 
 /**
  * Deletes a transaction from the users transactions , when doing this we firstly get the transaction amount so that we can also 
@@ -147,7 +207,9 @@ const getAllTransactions = async(userID) => {
 }
 module.exports  = {
     getAllTransactions,
+    getTransaction,
     makeTransaction,
     getUserTransactionsByPage,
-    deleteTransaction
+    deleteTransaction,
+    editTransaction
 }

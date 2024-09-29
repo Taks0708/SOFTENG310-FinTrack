@@ -17,6 +17,28 @@ exports.transaction = async (req, res) => {
     }
 }
 
+
+/**
+ * route that edits a current transaction and calls the editUser function to perform an SQL query
+ */
+exports.editTransaction = async(req, res) => {
+    const {transactionID} = req.params;
+    const userID = req.user.id;
+    const {title,amount,description} = req.body;
+    try{
+        console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+transactionID+userID+title+amount+description);
+        const oldVals =  await transactionService.getTransaction(transactionID,userID);
+        
+        await transactionService.editTransaction(transactionID,userID,title,amount,description,oldVals[0].amount);
+        res.status(200).send({sucess : true})
+     }catch (error) {
+         console.error('Error when editting transaction' , error);
+         res.status(500).send({ success: false, error: error.message });
+     }
+
+
+}
+
 /**
  * route that gets the transactions of a user by page (in blocks of 10) and calls the getUserTransactionsByPage function to perform an SQL query
  * a page number is required to get the transactions
