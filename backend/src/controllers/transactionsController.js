@@ -9,8 +9,14 @@ exports.transaction = async (req, res) => {
     const {amount,title,description} = req.body;
     const userID = req.user.id;
     try {
-        await transactionService.makeTransaction(userID , amount , title , description );
-        res.send({ success: true });
+        if (Math.abs(amount) === 0) {
+            res.status(400).send({ success: false, error: "Transaction amount cannot be zero" });
+        } else if (title === "") {
+            res.status(400).send({ success: false, error: "Transaction is missing a title" });
+        } else {
+            await transactionService.makeTransaction(userID , amount , title , description );
+            res.send({ success: true });
+        }
     } catch (error) {
         console.error('Error making transactions', error);
         res.status(500).send({ success: false, error: error.message });
