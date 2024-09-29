@@ -40,6 +40,8 @@ export default function TransactionList() {
     }
   }, [filter]);
 
+
+
   return (
     <div className="flex flex-col items-center">
       <div className=" w-[100%]">
@@ -123,6 +125,7 @@ export default function TransactionList() {
               <IoIosArrowBack size={35} />
             </button>
             <h2 className="text-sub-heading">{currentPage}</h2>
+            <h3 className="text-sub-heading">&#47;{maxPage}</h3>
             <button
               className={
                 currentPage === maxPage

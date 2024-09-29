@@ -29,15 +29,19 @@ const Transaction = ({ transaction }) => {
     <div className="flex flex-row justify-start text-body pl-[8x]">
       <input type="checkbox" onChange={handleCheckboxChange} />
       <div
-        className={` w-full flex flex-row justify-between text-body pl-[8px] ${
-          isAmountNegative ? "text-red-500" : "text-green-500"
-        }`}
+        className={`group w-full flex flex-row justify-between text-body pl-[8px] ${isAmountNegative ? "text-red-500" : "text-green-500"
+          } hover:bg-gray-500 hover:shadow-lg`}
       >
         <p>
           {isAmountNegative ? convertedAmount : `+${convertedAmount}`}:{" "}
-          {transaction.description}
+          {transaction.title}
+
         </p>
-        <p className="self-end">{transaction.created_at.substring(0, 10)}</p>
+
+        <p className="self-end">
+          <span className="hidden group-hover:inline right-0 text-gray-50">
+            View Description
+          </span>{transaction.created_at.substring(0, 10)}</p>
       </div>
     </div>
   );
