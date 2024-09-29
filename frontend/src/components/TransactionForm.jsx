@@ -17,15 +17,24 @@ export default function TransactionForm({ onSubmit, onCancel }) {
 
   // Handle sudden change in transaction type
   useEffect(() => {
-    if(amount === ""){
-      return
+
+    // Disable submit button if title or amount is empty/invalid
+    if(title === "" || amount === "" || Math.abs(amount) === 0 ){
+      setDisableClick(true);
+      disableClickSync.current = true;
+      return;
+    } else {
+      setDisableClick(false);
+      disableClickSync.current = false;
     }
+
+    // Ensure amount is positive for incomes and negative for expenses
     if (transactionType === "expense") {
       setAmount(-Math.abs(amount));
     } else {
       setAmount(Math.abs(amount));
     }
-  }, [transactionType, amount]);
+  }, [transactionType, title, amount]);
 
   // Prevent form submission on enter key press
   const handleKeyDown = (event) => {
