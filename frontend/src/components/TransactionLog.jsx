@@ -4,6 +4,8 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import TransactionContext from "../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
 
+import { LoadingSpinner } from "./LoadingSpinner"
+
 export default function TransactionList() {
   const {
     transactions,
@@ -17,6 +19,7 @@ export default function TransactionList() {
   const [maxPage, setMaxPage] = useState(100);
   const [isPageJustLoaded, setIsPageJustLoaded] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // at page load, transactions is empty, so set maxPage to currentPage (1). So using isPageJustLoaded to avoid this behavior at page load
   // only set the max page after the transactions have been loaded
@@ -39,6 +42,21 @@ export default function TransactionList() {
       setMaxPage(100);
     }
   }, [filter]);
+
+  useEffect(() => {
+    const fetchTransactions = () => {
+      setLoading(true);
+  
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    };
+  
+    fetchTransactions();
+  }, [currentPage, filter]);
+  
+  
+
 
   return (
     <div className="flex flex-col items-center">
@@ -87,7 +105,9 @@ export default function TransactionList() {
         </div>
         <div className=" flex justify-between flex-col items-center min-h-[450px] outline outline-4 outline-primary rounded-3xl mt-4 pb-3">
           <div className="w-[90%] mt-[30px]">
-            {transactions.length !== 0 ? (
+            {loading ? (
+              <LoadingSpinner />
+            ) : transactions.length !== 0 ? (
               <ul>
                 {transactions.map((transaction) => (
                   <Transaction
