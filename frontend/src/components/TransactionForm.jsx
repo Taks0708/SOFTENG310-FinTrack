@@ -1,22 +1,75 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 export default function TransactionForm({ onSubmit, onCancel }) {
   const labelStyle = "text-2xl";
   const inputStyle = "mt-2 border p-2 w-full";
+  const enableApplyStyle = "hover:bg-primary-dark active:bg-primary-darker";
+  const enableCancelStyle = "hover:bg-primary-red active:bg-primary-red-darker";
+  const disableStyle = "opacity-50";
+
   const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [transactionType, setTransactionType] = useState("income");
+  const [disableClick, setDisableClick] = useState(false);
+  const disableClickSync = useRef(false);
 
   // Handle sudden change in transaction type
   useEffect(() => {
+
+    // Disable submit button if title or amount is empty/invalid
+    if(title === "" || amount === "" || Math.abs(amount) === 0 ){
+      setDisableClick(true);
+      disableClickSync.current = true;
+      return;
+    } else {
+      setDisableClick(false);
+      disableClickSync.current = false;
+    }
+
+    // Ensure amount is positive for incomes and negative for expenses
     if (transactionType === "expense") {
       setAmount(-Math.abs(amount));
     } else {
       setAmount(Math.abs(amount));
     }
-  }, [transactionType, amount]);
+  }, [transactionType, title, amount]);
+
+  const handleAmountChange = (e) => {
+    let value = e.target.value;
+
+    if (value === "") {
+      setAmount("");
+      return;
+    }
+
+    // Split into integer and decimal parts
+    const [integerPart, decimalPart] = value.split(".");
+    
+    // the below comment is required for the BigInt working
+    /* global BigInt */
+    try {
+      // Check if the integer part exceeds the allowed digits (14 digits)
+      const integerBigInt = BigInt(integerPart);
+      if (integerBigInt > BigInt("99999999999999") || integerBigInt < BigInt("-99999999999999")) {
+        alert("Amount must be between -99,999,999,999,999.99 and +99,999,999,999,999.99.");
+        return;
+      }
+
+      // Handle decimal part (ensure it is not more than 2 decimal places)
+      if (decimalPart && decimalPart.length > 2) {
+        alert("Amount cannot have more than 2 decimal places.");
+        return;
+      }
+
+      // If valid, set the amount
+      setAmount(value);
+    } catch (error) {
+      alert("Please enter a valid number.");
+    }
+  };
+
 
   // Prevent form submission on enter key press
   const handleKeyDown = (event) => {
@@ -25,14 +78,27 @@ export default function TransactionForm({ onSubmit, onCancel }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (disableClickSync.current || disableClick) return;
+
+    setDisableClick(true)
+    disableClickSync.current = true
+    
+    //if amount is left empty update it to 0 and submit it.
+    let updatedAmount = amount;
+    if(amount === ''){
+      updatedAmount = 0;
+      setAmount(0);
+    }
+
     onSubmit({
       title,
-      amount,
+      amount: updatedAmount,
       description,
       transactionType,
     });
   };
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -92,7 +158,7 @@ export default function TransactionForm({ onSubmit, onCancel }) {
               type="number"
               id="amount"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={handleAmountChange}
               onKeyDown={handleKeyDown}
               className={inputStyle}
             ></input>
@@ -113,13 +179,15 @@ export default function TransactionForm({ onSubmit, onCancel }) {
           <div className="flex justify-center mt-4 gap-4">
             <button
               onClick={handleSubmit}
-              className=" bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-full w-full active:bg-primary-darker"
+              className={`${disableClick ? disableStyle : enableApplyStyle} bg-primary text-white font-bold py-2 px-4 rounded-full w-full`}
+              disabled={disableClick}
             >
               Apply
             </button>
             <button
               onClick={onCancel}
-              className="bg-gray-400 hover:bg-primary-red active:bg-primary-red-darker text-white font-bold py-2 px-4 rounded-full mr-2 w-full"
+              className={`${disableClick ? disableStyle : enableCancelStyle} bg-gray-400 text-white font-bold py-2 px-4 rounded-full mr-2 w-full`}
+              disabled={disableClick}
             >
               Cancel
             </button>

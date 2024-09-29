@@ -55,6 +55,18 @@ describe('securePassword', () => {
                 expect(error.message).to.equal('Error hashing password');
             }
         });
+
+        // Test if hashed password != plain password
+        it('should return a hashed password as a different string', async () => {
+            const plainPassword = 'MyPassword123';
+            const hashedPassword = await securePassword.hashPassword(plainPassword);
+        
+            // The hashed password should be a string
+            expect(typeof(hashedPassword)).to.be.a('string')
+        
+            // The hashed password should not match the plain text password
+            expect(hashedPassword).to.not.equal(plainPassword);
+        });
     });
 
     // Test suite for the comparePasswords function
@@ -113,6 +125,29 @@ describe('securePassword', () => {
                 // Expect the error message to be 'Error comparing passwords'
                 expect(error.message).to.equal('Error comparing passwords');
             }
+        });
+
+        // Test if comparing the same passwords gives true
+        it('should return true for matching passwords', async () => {
+            const plainPassword = 'MyPassword123';
+            const hashedPassword = await securePassword.hashPassword(plainPassword);
+        
+            const result = await securePassword.comparePasswords(plainPassword, hashedPassword);
+        
+            // Assert that the passwords match
+            expect(result).to.be.true;
+          });
+        
+        // Test if comparing a different passwords gives false
+        it('should return false for non-matching passwords', async () => {
+            const plainPassword = 'MyPassword123';
+            const wrongPassword = 'WrongPassword123';
+            const hashedPassword = await securePassword.hashPassword(plainPassword);
+        
+            const result = await securePassword.comparePasswords(wrongPassword, hashedPassword);
+        
+            // Assert that the passwords don't match
+            expect(result).to.be.false;
         });
     });
 });

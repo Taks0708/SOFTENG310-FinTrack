@@ -40,13 +40,14 @@ export default function AddTransactionButton() {
       // Update the balance after the transaction is created
 
       // PATCH request to update the balance
-      await axiosInstance.patch("/user/balance", { balance: balance + amount });
-
+      const updateBalance = Number(balance) + Number(amount); // use Number() for strings
+      await axiosInstance.patch("/user/balance", { balance: updateBalance });
       console.log("Balance updated successfully.");
       setBalance(balance + amount); // Update the balance state in the context
     } catch (error) {
       console.error("Error occurred:", error);
     } finally {
+      console.log("Im at finally");
       setShowForm(false);
     }
   };
