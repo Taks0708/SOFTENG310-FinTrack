@@ -4,22 +4,22 @@ import TransactionContext from "../context/TransactionContext";
 const Transaction = ({ transaction }) => {
   const [isAmountNegative, setIsAmountNegative] = useState(false);
   const [convertedAmount, setConvertedAmount] = useState(transaction.amount);
-  const { currency, convertCurrency, handleSelect } =
+  const { currency, handleSelect } =
     useContext(TransactionContext);
 
   // useEffect to check if each transaction is negative and then convert the currency
-  useEffect(() => {
-    const convert = async () => {
-      const converted = await convertCurrency(
-        currency, 
-        "NZD",
-        transaction.amount
-      ); // using context to convert amount
-      setConvertedAmount(converted);
-      setIsAmountNegative(converted < 0);
-    };
-    convert();
-  }, [currency, transaction.amount, convertCurrency]);
+  // useEffect(() => {
+  //   const convert = async () => {
+  //     const converted = await convertCurrency(
+  //       currency, 
+  //       "NZD",
+  //       transaction.amount
+  //     ); // using context to convert amount
+  //     setConvertedAmount(converted);
+  //     setIsAmountNegative(converted < 0);
+  //   };
+  //   convert();
+  // }, [currency, transaction.amount, convertCurrency]);
 
   const handleCheckboxChange = (e) => {
     handleSelect(transaction.id, e.target.checked);

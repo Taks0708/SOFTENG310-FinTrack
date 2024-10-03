@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SetGoal from "./SetGoal";
 import TransactionContext from "../context/TransactionContext";
-import { getConvertedBalance, getConvertedGoal } from "../utility/CurrencyUtil";
+import { refreshDisplayBalance, refreshDisplayGoal } from "../utility/CurrencyUtil";
 
 export default function SavingsTracker() {
   const { currency, convertCurrency, balance, setBalance } = useContext(TransactionContext);
@@ -21,10 +21,10 @@ export default function SavingsTracker() {
   });
 
   // Fetch the user's current balance and convert to specified currency when the component mounts
-  useEffect(() => { getConvertedBalance(setDisplayBalance); }, [balance, currency]);
+  useEffect(() => { refreshDisplayBalance(setDisplayBalance, currency); }, [balance, currency]);
 
   // Fetch the user's current savings goal and convert to specified currency when the component mounts
-  useEffect(() => { getConvertedGoal(setDisplayGoal); }, [goal, currency]);
+  useEffect(() => { refreshDisplayGoal(setDisplayGoal, currency); }, [goal, currency]);
 
   //Dynamic progress bar whenver the balance or goal changes
   useEffect(() => {

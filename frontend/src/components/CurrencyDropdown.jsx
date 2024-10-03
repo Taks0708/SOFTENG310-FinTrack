@@ -56,9 +56,15 @@ const CurrencyDropdown = () => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="EUR" className='peer hidden' onClick={handleSelect} />
-                            <label htmlFor="EUR" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
-                                EUR
+                            <input type="radio" id="GBP" className='peer hidden' onClick={handleSelect} />
+                            <label htmlFor="GBP" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
+                                GBP
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="HKD" className='peer hidden' onClick={handleSelect} />
+                            <label htmlFor="HKD" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
+                                HKD
                             </label>
                         </div>
                     </form>

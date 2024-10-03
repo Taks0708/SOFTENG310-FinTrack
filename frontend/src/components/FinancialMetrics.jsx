@@ -3,7 +3,7 @@ import TransactionContext from '../context/TransactionContext';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
-  const { balance, currency, convertCurrency, allTransactions} = useContext(TransactionContext);
+  const { balance, currency, allTransactions} = useContext(TransactionContext);
   const [convertedBalance, setConvertedBalance] = useState(0);
   const [monthlyMetrics, setMonthlyMetrics] = useState({});
 
@@ -48,13 +48,13 @@ export default function FinancialMetrics() {
   };
 
   // Calculate and set the converted balance when currency or balance changes
-  React.useEffect(() => {
-    const updateConvertedBalance = async () => {
-      const converted = await convertCurrency(currency, 'NZD', balance); // Convert balance to current currency
-      setConvertedBalance(converted);
-    };
-    updateConvertedBalance();
-  }, [currency, balance, convertCurrency]);
+  // React.useEffect(() => {
+  //   const updateConvertedBalance = async () => {
+  //     const converted = await convertCurrency(currency, 'NZD', balance); // Convert balance to current currency
+  //     setConvertedBalance(converted);
+  //   };
+  //   updateConvertedBalance();
+  // }, [currency, balance, convertCurrency]);
 
   return (
     <div className="text-center">
