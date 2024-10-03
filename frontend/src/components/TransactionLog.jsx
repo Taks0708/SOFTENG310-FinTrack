@@ -120,15 +120,7 @@ export default function TransactionList() {
                 ))}
               </ul>
             ) : (
-              <div className="flex flex-col items-center gap-6">
-                <h1 className="text-body">No More Transactions To Load...</h1>
-                <button
-                  className="text-button-small text-white bg-primary rounded-full px-5 py-1 hover:bg-primary-dark active:bg-primary-darker"
-                  onClick={() => setCurrentPage(1)}
-                >
-                  Go back
-                </button>
-              </div>
+              <LoadingSpinner />
             )}
           </div>
 
