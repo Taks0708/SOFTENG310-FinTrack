@@ -107,33 +107,7 @@ export function TransactionContextProvider({ children }) {
       setFilter("week");
     }
   };
-
-  /**
-   * converts the currency of each transaction using the Frankfurter API
-   * the conversion rates refresh at ~2am NZST every business day
-   *
-   * @param to // the currency to convert to
-   * @param from // the currency to convert from (default value for this application is NZD)
-   * @param amount // the amount of the transaction
-   * @returns the converted amount in the desired currency at 3 decimal point
-   */
-  const convertCurrency = async (to, from, amount) => {
-    if (!(to === from)) {
-      try {
-        const response = await fetch(
-          `https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`
-        );
-        const data = await response.json();
-        return parseFloat(data.rates[to]).toFixed(3);
-      } catch (error) {
-        console.error("Error calculating conversion", error);
-      }
-    } else {
-      return amount;
-    }
-  };
-
-
+  
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
     setSelectedTransactions((prev) =>
@@ -160,7 +134,6 @@ export function TransactionContextProvider({ children }) {
     filterWeek, // filters the transactions, access the transactions with the transactions variable
     setCurrentPage,
     setCurrency,
-    convertCurrency, // returns a promise that resolves to the converted amount
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
   };
