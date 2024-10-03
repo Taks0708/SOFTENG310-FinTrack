@@ -37,7 +37,7 @@ export default function TransactionList() {
       setIsPageJustLoaded(false);
       setIsFiltering(false);
     }
-    
+
   }, [transactions, allTransactions, currentPage, isPageJustLoaded, isFiltering]);
 
   useEffect(() => {
