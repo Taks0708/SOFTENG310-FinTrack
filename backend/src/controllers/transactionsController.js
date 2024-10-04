@@ -32,9 +32,10 @@ exports.editTransaction = async(req, res) => {
     const userID = req.user.id;
     const {title,amount,description} = req.body;
     try{
-        const oldVals =  await transactionService.getTransaction(transactionID,userID);
         
-        await transactionService.editTransaction(transactionID,userID,title,amount,description,oldVals[0].amount);
+        const result = await transactionService.editTransaction(transactionID,userID,title,amount,description);
+
+        
         res.status(200).send({sucess : true})
      }catch (error) {
          console.error('Error when editting transaction' , error);

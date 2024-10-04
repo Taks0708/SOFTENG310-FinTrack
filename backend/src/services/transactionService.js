@@ -110,10 +110,13 @@ const makeTransaction = async ( userID , amount , title , description) => {
  * @param {DoubleRange} amount 
  * @param {String} title 
  * @param {String} description 
+ * 
  */
-const editTransaction = async (transactionID,userID,title,amount,description,oldAmount) =>{
+const editTransaction = async (transactionID,userID,title,amount,description) =>{
     try {
-        const addTransactionQuery = {
+        let oldAmount = null;
+
+        const editTransactionQuery = {
             text: 'UPDATE transactions SET amount = $3, title = $4, description = $5 WHERE id = $1 AND user_id = $2 ',
             values : [transactionID, userID, amount , title , description ]
         }
@@ -121,17 +124,37 @@ const editTransaction = async (transactionID,userID,title,amount,description,old
             text :  'UPDATE users SET balance = balance - $1 + $2 WHERE id = $3',
             values: [oldAmount, amount , userID]
         }
-        try {           
-            await pool.query(addTransactionQuery);
-            await pool.query(changeBalanceQuery);
-            console.log(`succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
-        } catch(error){
-            console.error('Error updating balance:', error);
+        
+        
+
+        //gets the origional values of the transaction
+        try{
+            const oldVals =  await getTransaction(transactionID,userID);
+                
+            //checks we are not returning null.
+            if(oldVals.length == 0){
+                return { success: false, message: 'Transaction not found or does not belong to user' };
+            }
+            
+            oldAmount = oldVals[0].amount
+
+        }catch(error){
+            console.error('Error getting the transaction to be editted', error);
             throw error;
-        }
+        } 
+
+                 
+        await pool.query(editTransactionQuery);
+        await pool.query(changeBalanceQuery);
+
+        console.log(`Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
+        
+        return({success: true, message: `Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`});
+        
+
+        
     } catch(error){
-        //console.error("Error editing transaction",error);
-        console.error("\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+transactionID+userID+title+description,error);
+        console.error('Error editting the transaction', error);
         throw error;
     }
 }
