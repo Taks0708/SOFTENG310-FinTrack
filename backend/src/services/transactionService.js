@@ -36,7 +36,13 @@ const getUserTransactionsByPage = async(userID , pageNumber) => {
         throw error;
     }
 }
-
+/**
+ * returns a single transaction based on transaction id and userID
+ * this is done so that you can easily get a single transaction.
+ * @param {int} userID 
+ * @param {int} transactionID 
+ * @returns query result table
+ */
 const getTransaction = async(id , userID) =>{
     try{
         const query = {

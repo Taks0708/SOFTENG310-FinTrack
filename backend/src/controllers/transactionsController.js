@@ -32,7 +32,6 @@ exports.editTransaction = async(req, res) => {
     const userID = req.user.id;
     const {title,amount,description} = req.body;
     try{
-        console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+transactionID+userID+title+amount+description);
         const oldVals =  await transactionService.getTransaction(transactionID,userID);
         
         await transactionService.editTransaction(transactionID,userID,title,amount,description,oldVals[0].amount);
