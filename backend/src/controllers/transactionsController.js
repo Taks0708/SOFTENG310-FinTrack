@@ -34,9 +34,12 @@ exports.editTransaction = async(req, res) => {
     try{
         
         const result = await transactionService.editTransaction(transactionID,userID,title,amount,description);
-
-        
-        res.status(200).send({sucess : true})
+        if(result.success === false){
+            res.status(401).send({sucess : false, error: "Could not find the transaction"})
+            
+        }else{
+            res.status(200).send({sucess : true})
+        }
      }catch (error) {
          console.error('Error when editting transaction' , error);
          res.status(500).send({ success: false, error: error.message });

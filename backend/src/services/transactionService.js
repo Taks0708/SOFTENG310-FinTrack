@@ -125,34 +125,27 @@ const editTransaction = async (transactionID,userID,title,amount,description) =>
             values: [oldAmount, amount , userID]
         }
         
-        
-
         //gets the origional values of the transaction
         try{
             const oldVals =  await getTransaction(transactionID,userID);
-                
+  
             //checks we are not returning null.
             if(oldVals.length == 0){
                 return { success: false, message: 'Transaction not found or does not belong to user' };
             }
-            
             oldAmount = oldVals[0].amount
-
         }catch(error){
             console.error('Error getting the transaction to be editted', error);
             throw error;
         } 
-
-                 
+     
         await pool.query(editTransactionQuery);
         await pool.query(changeBalanceQuery);
 
         console.log(`Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
         
         return({success: true, message: `Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`});
-        
 
-        
     } catch(error){
         console.error('Error editting the transaction', error);
         throw error;
