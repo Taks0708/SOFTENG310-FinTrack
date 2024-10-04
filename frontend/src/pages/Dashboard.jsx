@@ -12,6 +12,8 @@ import DeleteTransactionButton from "../components/transactions/DeleteTransactio
 import FintrackLogo from "../assets/images/FintrackLogo.png";
 import FinancialMetrics from "../components/metrics/FinancialMetrics";
 
+import '../assets/css/Dashboard.css';
+
 /*
  * When adding your new component:
  * remove the p tags and replace them with your respective react components, and remove the bg-[colour] property in its wrapped <div>
@@ -23,7 +25,12 @@ import FinancialMetrics from "../components/metrics/FinancialMetrics";
 export default function Dashboard() {
   return (
     <>
-      <div className='flex items-center'>
+      <div class="topBar">FINTRACK</div>
+      <div class="scrollableContent"></div>
+      <div class="sideBar"></div>
+      
+
+      {/* <div className='flex items-center'>
         <Banner />
       </div>
 
@@ -54,7 +61,7 @@ export default function Dashboard() {
         </div>
 
         
-      </div>
+      </div> */}
     </>
   );
 }

@@ -1,0 +1,26 @@
+:root {
+  --color1: black;
+  --color2: white;
+  --topBarHeight: 50px;
+}
+
+.topBar {
+  background-color: var(--color1);
+  width: 100%;
+  height: var(--topBarHeight);
+  color: red;
+}
+
+.sideBar {
+  background-color: var(--color1);
+  width: 25%;
+  height: calc(100vh - var(--topBarHeight));
+  float: left;
+}
+
+.scrollableContent {
+  background-color: var(--color2);
+  width: 75%;
+  height: calc(100vh - var(--topBarHeight));
+  float: left;
+}
