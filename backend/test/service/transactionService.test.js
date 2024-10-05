@@ -279,4 +279,46 @@ describe('transactionService', () => {
             }
         });
     });
+
+        // Test suite for the getTransaction function
+        describe('getTransaction', () => {
+            // Test case for a successful query
+            it('should return a single Transaction', async () => {
+                // Mock the query result
+                const mockTransactions = [
+                    { id: 1, amount: 100, title: 'Transaction 1' },
+                ];
+    
+                // Stub the pool query function to resolve with the mock transactions
+                poolQueryStub.resolves({ rows: mockTransactions});
+    
+                const userID = 1;
+                const id = 1;
+    
+                // Call the getAllTransactions function and await the result
+                const result = await transactionService.getTransaction(id,userID);
+    
+                expect(result).to.be.an('array'); // Expect the result to be an array of transactions
+                expect(result).to.deep.equal(mockTransactions); // Expect the result to match the mock transactions
+                expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+            });
+
+            // Test case for an error during the query
+            it('should handle errors and throw the error', async () => {
+                // Stub the pool query function to reject with an error
+                poolQueryStub.rejects(new Error('error when getting a transaction'));
+    
+                const userID = 1;
+                const id = 1;
+    
+                try {
+                    // Call the getTransaction function, expect an error to be thrown
+                    await transactionService.getTransaction(id,userID);
+                    throw new Error('Test failed: Expected error was not thrown');
+                } catch (error) {
+                    expect(error.message).to.equal('error when getting a transaction'); // Expect the error message to be 'error when getting transaction'
+                    expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+                }
+            });
+        });
 });

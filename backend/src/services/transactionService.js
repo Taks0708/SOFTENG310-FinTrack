@@ -50,16 +50,11 @@ const getTransaction = async(id , userID) =>{
             values: [id,userID]
         };
 
-        try{
-            const result = await pool.query(query);
-            return result.rows;
-        }catch (error) {
-            console.error("error when getting a transaction" , error);
-            throw error;
-        }
-
+        const result = await pool.query(query);
+        return result.rows;
+        
     }catch (error){
-        console.error("error in function start", error);
+        console.error("error when getting a transaction" , error);
         throw error;
     }
 }
