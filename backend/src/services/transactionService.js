@@ -115,16 +115,6 @@ const makeTransaction = async ( userID , amount , title , description) => {
 const editTransaction = async (transactionID,userID,title,amount,description) =>{
     try {
         let oldAmount = null;
-
-        const editTransactionQuery = {
-            text: 'UPDATE transactions SET amount = $3, title = $4, description = $5 WHERE id = $1 AND user_id = $2 ',
-            values : [transactionID, userID, amount , title , description ]
-        }
-        const changeBalanceQuery = {
-            text :  'UPDATE users SET balance = balance - $1 + $2 WHERE id = $3',
-            values: [oldAmount, amount , userID]
-        }
-        
         //gets the origional values of the transaction
         try{
             const oldVals =  await getTransaction(transactionID,userID);
@@ -134,15 +124,29 @@ const editTransaction = async (transactionID,userID,title,amount,description) =>
                 return { success: false, message: 'Transaction not found or does not belong to user' };
             }
             oldAmount = oldVals[0].amount
+            
+            if(oldAmount == null){
+                return { success: false, message: 'Transaction not found or does not belong to user' };
+            }
         }catch(error){
             console.error('Error getting the transaction to be editted', error);
             throw error;
         } 
      
+        const changeBalanceQuery = {
+            text :  'UPDATE users SET balance = balance - $1 + $2 WHERE id = $3',
+            values: [oldAmount, amount , userID]
+        }
+        
+        const editTransactionQuery = {
+            text: 'UPDATE transactions SET amount = $3, title = $4, description = $5 WHERE id = $1 AND user_id = $2 ',
+            values : [transactionID, userID, amount , title , description ]
+        }
+
         await pool.query(editTransactionQuery);
         await pool.query(changeBalanceQuery);
 
-        console.log(`Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`)
+        console.log(`Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}, oldAmount: ${oldAmount}`)
         
         return({success: true, message: `Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`});
 
