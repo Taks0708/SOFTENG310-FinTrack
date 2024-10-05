@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import TransactionContext from "../context/TransactionContext";
-import TransactionDetailsPopup from "../components/TransactionDetailPopup";
+import TransactionContext from "../../context/TransactionContext";
+import TransactionDetailsPopup from "./TransactionDetailPopup";
 import PropTypes from "prop-types";
 
 const Transaction = ({ transaction }) => {

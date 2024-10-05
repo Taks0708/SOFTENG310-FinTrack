@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import TransactionContext from '../context/TransactionContext';
+import TransactionContext from '../../context/TransactionContext';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
