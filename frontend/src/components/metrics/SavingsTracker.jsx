@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SetGoal from "./SetGoal";
-import TransactionContext from "../context/TransactionContext";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function SavingsTracker() {
   const { balance, setBalance } = useContext(TransactionContext);
@@ -10,7 +10,7 @@ export default function SavingsTracker() {
   const [showSetGoal, setShowSetGoal] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  //Variables for axios instance
+  // Variables for axios instance
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: "http://localhost:4000",
@@ -41,7 +41,7 @@ export default function SavingsTracker() {
       });
   }, []);
 
-  //Dynamic progress bar whenver the balance or goal changes
+  // Dynamic progress bar whenver the balance or goal changes
   useEffect(() => {
     if (Number(balance) > Number(goal)) {
       setProgress(100);

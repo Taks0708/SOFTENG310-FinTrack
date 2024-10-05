@@ -1,6 +1,6 @@
 import { FaSortDown } from "react-icons/fa";
 import { useState, useContext } from "react";
-import TransactionContext from "../context/TransactionContext";
+import TransactionContext from "../../context/TransactionContext";
 
 /*
  * When adding new currencies to the dropdown:

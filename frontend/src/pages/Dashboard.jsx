@@ -1,15 +1,16 @@
 
 import { useContext } from "react";
-import CurrentBalance from "../components/CurrentBalance";
-import TransactionLog from "../components/TransactionLog";
-import AddTransactionButton from "../components/AddTransactionButton";
-import DeleteTransactionButton from "../components/DeleteTransactionButton";
-import CurrencyDropdown from "../components/CurrencyDropdown";
-import SavingsTracker from "../components/SavingsTracker";
 import Banner from "../components/Banner";
+import BalanceGraph from "../components/metrics/BalanceGraph"
+import CurrentBalance from "../components/metrics/CurrentBalance";
+import CurrencyDropdown from "../components/metrics/CurrencyDropdown";
+import SavingsTracker from "../components/metrics/SavingsTracker";
+import TransactionLog from "../components/transactions/TransactionLog";
+import AddTransactionButton from "../components/transactions/AddTransactionButton";
+import DeleteTransactionButton from "../components/transactions/DeleteTransactionButton";
 
 import FintrackLogo from "../assets/images/FintrackLogo.png";
-import FinancialMetrics from "../components/FinancialMetrics";
+import FinancialMetrics from "../components/metrics/FinancialMetrics";
 
 /*
  * When adding your new component:
@@ -30,10 +31,13 @@ export default function Dashboard() {
         <div className='flex flex-row pt-[2%]'>
 
           <div className=' flex flex-col w-[80%]'>
-            <div className=' flex flex-col items-start mb-[2%]'>
 
+            <BalanceGraph />
+
+            <div className=' flex flex-col items-start mb-[2%]'>
               <CurrentBalance />
             </div>
+
             <TransactionLog />
           </div>
 

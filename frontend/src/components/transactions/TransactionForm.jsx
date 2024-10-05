@@ -36,6 +36,41 @@ export default function TransactionForm({ onSubmit, onCancel }) {
     }
   }, [transactionType, title, amount]);
 
+  const handleAmountChange = (e) => {
+    let value = e.target.value;
+
+    if (value === "") {
+      setAmount("");
+      return;
+    }
+
+    // Split into integer and decimal parts
+    const [integerPart, decimalPart] = value.split(".");
+    
+    // the below comment is required for the BigInt working
+    /* global BigInt */
+    try {
+      // Check if the integer part exceeds the allowed digits (14 digits)
+      const integerBigInt = BigInt(integerPart);
+      if (integerBigInt > BigInt("99999999999999") || integerBigInt < BigInt("-99999999999999")) {
+        alert("Amount must be between -99,999,999,999,999.99 and +99,999,999,999,999.99.");
+        return;
+      }
+
+      // Handle decimal part (ensure it is not more than 2 decimal places)
+      if (decimalPart && decimalPart.length > 2) {
+        alert("Amount cannot have more than 2 decimal places.");
+        return;
+      }
+
+      // If valid, set the amount
+      setAmount(value);
+    } catch (error) {
+      alert("Please enter a valid number.");
+    }
+  };
+
+
   // Prevent form submission on enter key press
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -122,13 +157,8 @@ export default function TransactionForm({ onSubmit, onCancel }) {
             <input
               type="number"
               id="amount"
-
-              
               value={amount}
-              
-              onChange={(e) => {setAmount(e.target.value)}
-              }
-
+              onChange={handleAmountChange}
               onKeyDown={handleKeyDown}
               className={inputStyle}
             ></input>

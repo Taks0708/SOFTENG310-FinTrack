@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import TransactionContext from "../context/TransactionContext";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function CurrentBalance() {
   const { currency, convertCurrency, balance } = useContext(TransactionContext);
