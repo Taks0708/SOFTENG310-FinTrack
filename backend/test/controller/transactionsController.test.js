@@ -199,7 +199,7 @@ describe('transactionsController', () => {
     
             });
             
-            // Test the deleteTransaction function when an error occurs
+            // Test the editTransaction function when an error occurs
             it('should return error if an error occurs during edit transaction', async () => {
                 // Set up the req object
                 req.params = { transactionID: 1 };

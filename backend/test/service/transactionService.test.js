@@ -188,7 +188,7 @@ describe('transactionService', () => {
     // Test suite for the Edit transaction function
     describe('editTransaction', () => {
         
-        // Test case for a successful transaction deletion
+        // Test case for a successful transaction editting
         it('should successfully edit a transaction and the transaction atributes', async () => {
             poolQueryStub.onFirstCall().resolves({ rows: [{ amount: 100 }] });  
             
@@ -220,7 +220,7 @@ describe('transactionService', () => {
             expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
         });
 
-        // Test case for an error during the transaction deletion
+        // Test case for an error during the transaction editting 
         it('should handle errors and throw the error', async () => {
             // Stub the pool query function to reject with an error
             poolQueryStub.rejects(new Error('Error updating balance or editting the transaction')); 
@@ -295,7 +295,7 @@ describe('transactionService', () => {
                 const userID = 1;
                 const id = 1;
     
-                // Call the getAllTransactions function and await the result
+                // Call the getTransaction function and await the result
                 const result = await transactionService.getTransaction(id,userID);
     
                 expect(result).to.be.an('array'); // Expect the result to be an array of transactions

@@ -10,7 +10,8 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
   const [amount, setAmount] = useState(transaction.amount);
   const [description, setDescription] = useState(transaction.description);
   const { requestUiUpdate } = useContext(TransactionContext);
-  //handles creating garbage removal from the amount input
+  
+  //handles garbage removal from the amount input
   const handleAmountInput = (e) => {
     //removes and save all non number chars in newGoal
     let value = e.target.value.replace(/[^0-9.-]/g, "");
@@ -34,7 +35,7 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
     }
   };
 
-  //updates the variable that descides if the transaction can be saved
+  //updates the variable that decides if the transaction can be saved
   const enableSaving = () => {
     if (isEdit === true && isSavable === false) {
       setSavable(true);
@@ -49,7 +50,6 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
   //switches enviroment to the 'edit' state, allows input feilds to be updated and switches the buttons on screen
   const handleEdit = () => {
     setIsEdit(true);
-
   }
 
   const handleSave = async () => {
