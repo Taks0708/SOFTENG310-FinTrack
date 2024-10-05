@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import axios from "axios";
-import TransactionContext from "../context/TransactionContext";
+import TransactionContext from "../../context/TransactionContext";
 
 export default function TransactionDetailPopup({ transaction, setShowDetails }) {
   const [isEdit, setIsEdit] = useState(false);
