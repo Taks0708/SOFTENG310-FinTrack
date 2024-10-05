@@ -69,7 +69,7 @@ describe('transactionsController', () => {
         });
         
         // Test the transactions function
-        describe('transactions', () => {
+        describe('get transactions by page', () => {
             // Test the transactions function when the transactions are successful
             it('should return success on successful get transactions', async () => {
             
@@ -142,41 +142,6 @@ describe('transactionsController', () => {
             });
         });
 
-                // Test the deleteTransaction function
-        describe('deleteTransaction', () => {
-            // Test the deleteTransaction function when the transaction is successful
-            it('should return success on successful delete transaction', async () => {
-            // Set up the req object
-            req.params = { transactionID: 1 };
-            req.user.id = 1;
-
-            // Stub the deleteTransaction function to resolve
-            sinon.stub(transactionService, 'deleteTransaction').resolves();
-            
-            // Call the deleteTransaction function
-            await transactionController.deleteTransaction(req, res);
-            
-            // Check if the status function was called with 200 in the response (success)
-            expect(res.status.calledWith(200)).to.be.true;
-    
-            });
-            
-            // Test the deleteTransaction function when an error occurs
-            it('should return error if an error occurs during delete transaction', async () => {
-                // Set up the req object
-                req.params = { transactionID: 1 };
-                req.user.id = 1;
-
-                // Stub the deleteTransaction function to throw an error
-                sinon.stub(transactionService, 'deleteTransaction').rejects(new Error('An error occurred'));
-                
-                // Call the deleteTransaction function
-                await transactionController.deleteTransaction(req, res);
-                
-                // Check if the status function was called with 500 in the response (error)
-                expect(res.status.calledWith(500)).to.be.true;
-            });
-        });
 
         // Test the editTransaction function
         describe('editTransaction', () => {

@@ -212,9 +212,12 @@ describe('transactionService', () => {
             
             const userID = 1;
             const transactionID = 1;
-            
+            const title = "hi";
+            const amount = 100.00;
+            const description = "this is a description";
+
             // Call the editTransaction function and await the result
-            const result = await transactionService.deleteTransaction(userID, transactionID);
+            const result = await transactionService.editTransaction(userID, transactionID,title,amount,description);
             
             expect(result).to.deep.equal({ success: false, message: 'Transaction not found or does not belong to user' }); // Expect the result to be unsuccessful with an error message
             expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
@@ -227,10 +230,12 @@ describe('transactionService', () => {
 
             const userID = 1;
             const transactionID = 1;
-
+            const title = "hi";
+            const amount = 100.00;
+            const description = "this is a description";
             try {
                 // Call the  edit transaction function, expect an error to be thrown
-                await transactionService.editTransaction(userID, transactionID);
+                await transactionService.editTransaction(userID, transactionID,title,amount,description);
                 throw new Error('Test failed: Expected error was not thrown');
             } catch (error) {
                 expect(error.message).to.equal('Error updating balance or editting the transaction'); // Expect the error message to be 'error deleting transaction'
