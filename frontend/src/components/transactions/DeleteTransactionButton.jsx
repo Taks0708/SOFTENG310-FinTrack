@@ -1,10 +1,9 @@
 import { useContext, useState, useRef } from "react";
 import TransactionContext from "../../context/TransactionContext";
 import axios from "axios";
-export default function DeleteTransactionButton() {
+import '../../assets/css/defaultButton.css';
 
-  const enabledStyle = "bg-primary-red text-white text-button px-3 py-3 min-w-[280px] rounded-full hover:bg-primary-red-dark active:bg-primary-red-darker"
-  const disabledStyle = "bg-primary-red opacity-50 text-white text-button px-3 py-3 min-w-[280px] rounded-full"
+export default function DeleteTransactionButton() {
 
   const { selectedTransactions, setSelectedTransactions, requestUiUpdate } =
     useContext(TransactionContext);
@@ -50,7 +49,7 @@ export default function DeleteTransactionButton() {
   };
   return (
     <button
-      className={disableClick ? disabledStyle : enabledStyle}
+      class="defaultButton"
       onClick={handleDeleteSelected}
       disabled={disableClick}
     >

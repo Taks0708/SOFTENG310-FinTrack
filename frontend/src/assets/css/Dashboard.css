@@ -1,0 +1,43 @@
+@import url("variables.css");
+
+body {
+  background: linear-gradient(90deg, rgba(42,4,126,1) 0%, rgba(77,4,126,1) 100%);
+  overflow: hidden;
+  font-family: "Roboto Mono", monospace;
+}
+
+.topBar {
+  width: 100%;
+  height: var(--topBarHeight);
+}
+
+.topBar .logoContainer {
+  height: calc(var(--topBarHeight) - 2 * var(--subSectionPadding));
+  width: var(--sideBarWidth);
+  margin-left: var(--subSectionPadding);
+  margin-top: var(--subSectionPadding);
+  float: left;
+}
+
+.topBar .logoContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sideBar {
+  width: var(--sideBarWidth);
+  height: calc(100vh - var(--topBarHeight));
+  float: right;
+}
+
+.scrollableContent {
+  background-color: var(--color2);
+  box-shadow: inset 0px 10px 20px 0px rgba(0,0,0,0.5);
+  border-radius: var(--standardRadius);
+  width: calc(100vw - var(--sideBarWidth));
+  height: calc(100vh - var(--topBarHeight));
+  float: left;
+  padding: calc( 2 * var(--subSectionPadding));
+  overflow: scroll;
+}

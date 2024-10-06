@@ -5,6 +5,7 @@ import {
   filterPastYearTransactions,
 } from "../utility/transactionFilters.js";
 import { useEffect, useState } from "react";
+import { refreshDisplayGoal } from "../utility/CurrencyUtil";
 import axios from "axios";
 
 // Context provider for transactions. Allows for the sharing of transaction data between components
@@ -16,6 +17,7 @@ export function TransactionContextProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
+  const [goal, setGoal] = useState(0);
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
 
   // fetch the balance from the server
@@ -32,6 +34,9 @@ export function TransactionContextProvider({ children }) {
         console.error("Not logged in ", error);
       });
   }, [currency, balance, transactions, uiUpdateRequest]);
+
+  // Fetch the user's current savings goal and convert to specified currency when the component mounts
+  useEffect(() => { refreshDisplayGoal(setGoal, currency); }, [goal, currency]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
@@ -126,7 +131,9 @@ export function TransactionContextProvider({ children }) {
     filter, // the filter type to apply to the transactions i.e year, month, week
     currentPage,
     balance, // the balance of the user
+    goal,
     setBalance,
+    setGoal,
     setSelectedTransactions,
     setFilter,
     filterYear, // filters the transactions, access the transactions with the transactions variable

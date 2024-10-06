@@ -1,0 +1,11 @@
+@import url("variables.css");
+
+.defaultButton {
+  background-color: var(--color2);
+  width: calc(var(--sideBarWidth) - 2 * var(--subSectionPadding));
+  height: var(--itemHeight);
+  border-radius: var(--standardRadius);
+  margin-left: var(--subSectionPadding);
+  margin-right: var(--subSectionPadding);
+  margin-bottom: var(--subSectionPadding);
+}
