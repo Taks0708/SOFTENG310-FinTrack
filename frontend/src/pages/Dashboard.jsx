@@ -26,7 +26,9 @@ export default function Dashboard() {
   return (
     <>
       <div class="topBar">
-        <img src={FintrackLogo} alt="logo"></img>
+        <div class="logoContainer">
+          <img src={FintrackLogo} alt="logo"></img>
+        </div>
         <SavingsTracker />
       </div>
       <div class="scrollableContent">

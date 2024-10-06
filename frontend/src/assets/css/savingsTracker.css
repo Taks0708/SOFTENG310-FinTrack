@@ -2,8 +2,8 @@
 
 .trackerContainer {
   position: absolute;
-  width: 50vw;
-  left: 25vw;
+  width: calc(100vw - 2 * var(--sideBarWidth) - 2 * var(--subSectionPadding));
+  right: var(--sideBarWidth);
   height: calc(var(--topBarHeight) - 2 * var(--subSectionPadding));
   margin-top: var(--subSectionPadding);
   margin-left: var(--subSectionPadding);
@@ -26,13 +26,14 @@
 
 .trackerText {
   text-align: center;
-  color: white;
+  color: var(--color2);
+  z-index: 2;
 }
 
 .progressBarContainer {
   box-sizing: border-box;
   border-width: 2px;
-  border-color: red;
+  border-color: var(--color1);
   border-radius: var(--standardRadius);
   overflow: hidden;
 }
@@ -42,5 +43,6 @@
   height: 100%;
   left: 0;
   top: 0;
-  background-color: red;
+  background-color: var(--color1);
+  z-index: 1;
 }
