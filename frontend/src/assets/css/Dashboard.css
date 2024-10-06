@@ -1,26 +1,33 @@
-:root {
-  --color1: black;
-  --color2: white;
-  --topBarHeight: 50px;
+body {
+  background-color: var(--color1);
+  overflow: hidden;
 }
 
 .topBar {
-  background-color: var(--color1);
   width: 100%;
   height: var(--topBarHeight);
-  color: red;
+}
+
+.topBar img {
+  height: calc(var(--topBarHeight) - 2 * var(--subSectionPadding));
+  float: left;
+  margin-left: var(--subSectionPadding);
+  margin-top: var(--subSectionPadding);
 }
 
 .sideBar {
-  background-color: var(--color1);
-  width: 25%;
+  width: var(--sideBarWidth);
   height: calc(100vh - var(--topBarHeight));
-  float: left;
+  float: right;
 }
 
 .scrollableContent {
   background-color: var(--color2);
-  width: 75%;
+  box-shadow: inset 0px 10px 20px 0px rgba(0,0,0,0.5);
+  border-radius: var(--standardRadius);
+  width: calc(100vw - var(--sideBarWidth));
   height: calc(100vh - var(--topBarHeight));
   float: left;
+  padding: calc( 2 * var(--subSectionPadding));
+  overflow: scroll;
 }

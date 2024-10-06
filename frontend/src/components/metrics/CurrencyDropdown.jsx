@@ -1,6 +1,8 @@
 import { FaSortDown } from "react-icons/fa";
 import { useState, useContext } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import '../../assets/css/defaultButton.css';
+import '../../assets/css/variables.css';
 
 /*
  * When adding new currencies to the dropdown:
@@ -27,8 +29,8 @@ const CurrencyDropdown = () => {
     };
 
     return (
-        <div className="mt-10 text-white">
-            <button className={`bg-primary px-3 py-3 min-w-[280px] text-button-small hover:bg-primary-dark active:bg-primary-darker ${!isOpen ? 'rounded-3xl' : 'rounded-tl-3xl rounded-tr-3xl'}`} onClick={handleOpen}>
+        <div className="mt-10 text-black">
+            <button class="defaultButton" onClick={handleOpen}>
                 <div className="flex flex-row gap-2 justify-center">
                     {selectedCurrency}
                     {isOpen ? <FaSortDown /> : <FaSortDown className='origin-[90%][50%] -rotate-90 translate-y-[2px] -translate-x-[2px]' />}

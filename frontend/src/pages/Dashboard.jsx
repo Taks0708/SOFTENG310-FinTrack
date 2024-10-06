@@ -12,7 +12,8 @@ import DeleteTransactionButton from "../components/transactions/DeleteTransactio
 import FintrackLogo from "../assets/images/FintrackLogo.png";
 import FinancialMetrics from "../components/metrics/FinancialMetrics";
 
-import '../assets/css/Dashboard.css';
+import '../assets/css/dashboard.css';
+import '../assets/css/variables.css';
 
 /*
  * When adding your new component:
@@ -25,9 +26,21 @@ import '../assets/css/Dashboard.css';
 export default function Dashboard() {
   return (
     <>
-      <div class="topBar">FINTRACK</div>
-      <div class="scrollableContent"></div>
-      <div class="sideBar"></div>
+      <div class="topBar">
+        <img src={FintrackLogo} alt="logo"></img>
+        <SavingsTracker />
+      </div>
+      <div class="scrollableContent">
+        <BalanceGraph />
+
+        <TransactionLog />
+      </div>
+      <div class="sideBar">
+        <AddTransactionButton />
+        <DeleteTransactionButton />
+        <FinancialMetrics />
+        <CurrencyDropdown />
+      </div>
       
 
       {/* <div className='flex items-center'>
