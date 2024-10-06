@@ -4,6 +4,7 @@ import SetGoal from "./SetGoal";
 import TransactionContext from "../../context/TransactionContext";
 import { refreshDisplayBalance } from "../../utility/CurrencyUtil";
 import '../../assets/css/savingsTracker.css';
+import GoalBar from '../GoalBar';
 
 export default function SavingsTracker() {
   const { currency, balance, goal } = useContext(TransactionContext);
@@ -38,20 +39,39 @@ export default function SavingsTracker() {
   }, [balance, goal]);
   
   return (
-    <div class="trackerContainer">
-      <div class="trackerTextContainer">
-        <p class="trackerText">
-          Savings Progress:
-          <br />
-          ${displayBalance}/${goal}
-        </p>
+    <div className="flex flex-col items-center gap-2 mb-2 mt-2 w-[40%]">
+      <h2 className="text-sub-heading font-bold m-0"> Current Savings Goal:</h2>
+      <p className="text-body my-0 mb-3">
+        ${balance}/${goal}
+      </p>
+
+      <GoalBar 
+        progress={progress}
+        balance={balance} 
+        goal={goal}
+        subgoals={[0, 0.25*goal, 0.5*goal ,0.75*goal, goal]}/>
+
+      {progress >= 0 && (
+        <div className={balance>=goal ? "mt-20" : "mt-4"}>
+        <button
+          className="bg-primary hover:bg-primary-dark text-white text-button font-bold py-2 px-7 rounded-full"
+          onClick={() => {
+            setShowSetGoal(true);
+          }}
+        >
+          Update Savings Goal
+        </button>
       </div>
-      <div class="progressBarContainer">
-        <div
-          class="progressBar"
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
+      )}
+
+      {showSetGoal && (
+        <SetGoal
+          newGoal={newGoal}
+          setNewGoal={setNewGoal}
+          updateGoal={updateGoal}
+          closeModal={() => setShowSetGoal(false)}
+        />
+      )}
     </div>
   );
 }

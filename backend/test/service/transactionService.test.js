@@ -185,6 +185,66 @@ describe('transactionService', () => {
         });
     });
 
+    // Test suite for the Edit transaction function
+    describe('editTransaction', () => {
+        
+        // Test case for a successful transaction editting
+        it('should successfully edit a transaction and the transaction atributes', async () => {
+            poolQueryStub.onFirstCall().resolves({ rows: [{ amount: 100 }] });  
+            
+            const userID = 1;
+            const transactionID = 1;
+            const title = "hi";
+            const amount = 100.00;
+            const description = "this is a description";
+            
+            // Call the editTransaction function and await the result
+            const result = await transactionService.editTransaction(userID, transactionID,title,amount,description);
+
+            expect(result).to.deep.equal({ success: true, message: `Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`}); // Expect the result to be successful with a success message
+            expect(poolQueryStub.calledThrice).to.be.true; // Expect the pool query function to be called three times
+        }); 
+
+        // Test case for an error when the transaction does not exist
+        it('should handle errors when transaction does not exist', async () => {
+            // Stub the pool query function to resolve with an empty array
+            poolQueryStub.resolves({ rows: [] });
+            
+            const userID = 1;
+            const transactionID = 1;
+            const title = "hi";
+            const amount = 100.00;
+            const description = "this is a description";
+
+            // Call the editTransaction function and await the result
+            const result = await transactionService.editTransaction(userID, transactionID,title,amount,description);
+            
+            expect(result).to.deep.equal({ success: false, message: 'Transaction not found or does not belong to user' }); // Expect the result to be unsuccessful with an error message
+            expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+        });
+
+        // Test case for an error during the transaction editting 
+        it('should handle errors and throw the error', async () => {
+            // Stub the pool query function to reject with an error
+            poolQueryStub.rejects(new Error('Error updating balance or editting the transaction')); 
+
+            const userID = 1;
+            const transactionID = 1;
+            const title = "hi";
+            const amount = 100.00;
+            const description = "this is a description";
+            try {
+                // Call the  edit transaction function, expect an error to be thrown
+                await transactionService.editTransaction(userID, transactionID,title,amount,description);
+                throw new Error('Test failed: Expected error was not thrown');
+            } catch (error) {
+                expect(error.message).to.equal('Error updating balance or editting the transaction'); // Expect the error message to be 'error deleting transaction'
+                expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+            }
+        });
+    });
+
+
     // Test suite for the getAllTransactions function
     describe('getAllTransactions', () => {
         // Test case for a successful query
@@ -224,4 +284,46 @@ describe('transactionService', () => {
             }
         });
     });
+
+        // Test suite for the getTransaction function
+        describe('getTransaction', () => {
+            // Test case for a successful query
+            it('should return a single Transaction', async () => {
+                // Mock the query result
+                const mockTransactions = [
+                    { id: 1, amount: 100, title: 'Transaction 1' },
+                ];
+    
+                // Stub the pool query function to resolve with the mock transactions
+                poolQueryStub.resolves({ rows: mockTransactions});
+    
+                const userID = 1;
+                const id = 1;
+    
+                // Call the getTransaction function and await the result
+                const result = await transactionService.getTransaction(id,userID);
+    
+                expect(result).to.be.an('array'); // Expect the result to be an array of transactions
+                expect(result).to.deep.equal(mockTransactions); // Expect the result to match the mock transactions
+                expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+            });
+
+            // Test case for an error during the query
+            it('should handle errors and throw the error', async () => {
+                // Stub the pool query function to reject with an error
+                poolQueryStub.rejects(new Error('error when getting a transaction'));
+    
+                const userID = 1;
+                const id = 1;
+    
+                try {
+                    // Call the getTransaction function, expect an error to be thrown
+                    await transactionService.getTransaction(id,userID);
+                    throw new Error('Test failed: Expected error was not thrown');
+                } catch (error) {
+                    expect(error.message).to.equal('error when getting a transaction'); // Expect the error message to be 'error when getting transaction'
+                    expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
+                }
+            });
+        });
 });
