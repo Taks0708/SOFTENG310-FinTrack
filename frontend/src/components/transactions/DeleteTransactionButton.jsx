@@ -1,7 +1,7 @@
 import { useContext, useState, useRef } from "react";
 import TransactionContext from "../../context/TransactionContext";
 import axios from "axios";
-import '../../assets/css/defaultButton.css';
+import '../../assets/css/default.css';
 
 export default function DeleteTransactionButton() {
 

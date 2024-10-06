@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../assets/css/default.css'
 
 function GoalBar({ progress, balance, goal, subgoals }) {
   const hasReachedGoal = Number(balance) >= Number(goal);
@@ -7,33 +8,28 @@ function GoalBar({ progress, balance, goal, subgoals }) {
   const subgoalPositions = filteredSubgoals.map(subgoal => (Number(subgoal) / Number(goal)) * 100);
 
   return (
-    <div className="w-full bg-gray-200 rounded-lg h-6 relative">
+    <div className="goalBarBackground">
       {/* Progress Bar */}
-      <div className="bg-gray-200 rounded-lg h-6 relative">
+      <div className="goalBarContainer">
         <div
-          className="bg-gradient-to-r from-blue-400 bg-primary h-full rounded-lg"
+          className="goalBar"
           style={{ width: `${progress}%` }}
         ></div>
       </div>
 
       {/* Grey Lines for Subgoals */}
-      <div className="absolute w-full h-full top-0 left-0 flex">
+      <div className="goalDivisionContainer">
         {subgoalPositions.map((position, index) => (
           <div
             key={index}
-            className="absolute border-l border-gray-400"
-            style={{
-              left: `${position}%`,
-              height: '24px', // Make it the same height as the progress bar
-              width: '2px',  // Width of the line
-              top: '0',      // Align to the top of the progress bar
-            }}
+            class="goalDivider"
+            style={{left: `${position}%`}}
           ></div>
         ))}
       </div>
 
       {/* Labels for Subgoals */}
-      <div className="absolute w-full flex justify-between -top-6">
+      <div class="subGoalContainer">
         {subgoals.map((subgoal, index) => (
           <div key={index} className="text-center w-0 relative">
             <span

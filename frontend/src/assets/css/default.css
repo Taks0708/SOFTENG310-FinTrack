@@ -1,0 +1,50 @@
+@import url("variables.css");
+
+/* ---- ---- Default Button ---- ---- */
+
+.defaultButton {
+  background-color: var(--color2);
+  width: calc(var(--sideBarWidth) - 2 * var(--subSectionPadding));
+  height: var(--itemHeight);
+  border-radius: var(--standardRadius);
+  margin-left: var(--subSectionPadding);
+  margin-right: var(--subSectionPadding);
+  margin-bottom: var(--subSectionPadding);
+}
+
+/* ---- ---- Goal Bar ---- ---- */
+
+.goalBarBackground, .goalBarContainer, .goalDivider, .subGoalContainer {
+  height: calc((var(--topBarHeight) - 3 * var(--subSectionPadding)) * 0.5);
+}
+
+.goalBarBackground, .goalBarContainer {
+  /* Origonal styling => w-full bg-gray-200 rounded-lg h-6 relative */
+  width: 100%;
+  background: rgb(173, 173, 173);
+  border-radius: var(--standardRadius);
+  position: relative;
+}
+
+.goalBar {
+  /* Origonal styling => bg-gradient-to-r from-blue-400 bg-primary h-full rounded-lg */
+  background: linear-gradient(90deg, rgb(8, 58, 112), rgb(56, 127, 203));
+  height: 100%;
+  border-radius: var(--standardRadius);
+}
+
+.goalDivider {
+/* Origonal styling => absolute border-l border-gray-400 */
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  top: 0;
+}
+
+.subGoalContainer {
+/* Origonal styling => absolute w-full flex justify-between -top-6 */
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  top: calc((var(--topBarHeight) - var(--subSectionPadding)) * 0.5);
+}

@@ -10,6 +10,16 @@
   float: left;
 }
 
+/* .trackerContainer {
+  position: absolute;
+  width: calc(100vw - 2 * var(--sideBarWidth) - 2 * var(--subSectionPadding));
+  right: var(--sideBarWidth);
+  height: calc(var(--topBarHeight) - 2 * var(--subSectionPadding));
+  margin-top: var(--subSectionPadding);
+  margin-left: var(--subSectionPadding);
+  float: left;
+}
+
 .trackerTextContainer, .progressBarContainer {
   position: absolute;
   left: 0;
@@ -45,4 +55,4 @@
   top: 0;
   background-color: var(--color1);
   z-index: 1;
-}
+} */
