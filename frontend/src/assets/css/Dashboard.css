@@ -3,6 +3,7 @@
 body {
   background: linear-gradient(90deg, rgba(42,4,126,1) 0%, rgba(77,4,126,1) 100%);
   overflow: hidden;
+  font-family: "Roboto Mono", monospace;
 }
 
 .topBar {
