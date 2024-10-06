@@ -38,20 +38,14 @@ export async function convertCurrency(to, from, amount) {
       resolve(amount);
 
     } else {
-      try {
-
-        fetch(`https://${host}/latest?
-          amount=${amount}&
-          from=${from}&
-          to=${to}`)
-          .then(resp => resp.json())
-          .then(data => {
-            console.log(data.rates);
-            resolve((amount * (data.rates[to] / data.rates[from])).toFixed(2));});
-
-      } catch (error) {
-        console.error("Error calculating conversion: ", error);
-      }
+      fetch(`https://${host}/latest?
+      amount=${amount}&
+      from=${from}&
+      to=${to}`)
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data.rates);
+        resolve((amount * (data.rates[to] / data.rates[from])).toFixed(2));});
     }
   });
 }
