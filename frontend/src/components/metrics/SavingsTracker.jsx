@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import SetGoal from "./SetGoal";
 import TransactionContext from "../../context/TransactionContext";
+import GoalBar from '../GoalBar';
 
 export default function SavingsTracker() {
   const { balance, setBalance } = useContext(TransactionContext);
@@ -93,24 +94,26 @@ export default function SavingsTracker() {
       <p className="text-body my-0 mb-3">
         ${balance}/${goal}
       </p>
-      <div className="w-full h-11 bg-white outline-primary outline outline-3 rounded-full">
-        <div
-          className="h-11 rounded-full bg-primary"
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
+
+      <GoalBar 
+        progress={progress}
+        balance={balance} 
+        goal={goal}
+        subgoals={[0, 0.25*goal, 0.5*goal ,0.75*goal, goal]}/>
+
       {progress >= 0 && (
+        <div className={balance>=goal ? "mt-20" : "mt-4"}>
         <button
-          className="bg-primary hover:bg-primary-dark text-white text-button font-bold py-2 px-7 rounded-full my-4"
+          className="bg-primary hover:bg-primary-dark text-white text-button font-bold py-2 px-7 rounded-full"
           onClick={() => {
             setShowSetGoal(true);
-            console.log("goal:" + goal);
-            console.log("progress:" + progress);
           }}
         >
           Update Savings Goal
         </button>
+      </div>
       )}
+
       {showSetGoal && (
         <SetGoal
           newGoal={newGoal}
