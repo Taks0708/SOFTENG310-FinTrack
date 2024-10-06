@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import TransactionForm from "./TransactionForm";
 import TransactionContext from "../../context/TransactionContext";
+import '../../assets/css/defaultButton.css';
 
 export default function AddTransactionButton() {
   const [showForm, setShowForm] = useState(false);
@@ -54,10 +55,7 @@ export default function AddTransactionButton() {
 
   return (
     <>
-      <button
-        className="bg-primary-purple text-white text-button px-3 py-3 min-w-[280px] rounded-full hover:bg-primary-purple-dark active:bg-primary-pruple-darker"
-        onClick={() => setShowForm(true)}
-      >
+      <button onClick={() => setShowForm(true)} class="defaultButton">
         Add Transaction
       </button>
       {showForm && (
