@@ -3,7 +3,6 @@ import axios from "axios";
 import TransactionForm from "./TransactionForm";
 import TransactionContext from "../../context/TransactionContext";
 import '../../assets/css/defaultButton.css';
-import '../../assets/css/variables.css';
 
 export default function AddTransactionButton() {
   const [showForm, setShowForm] = useState(false);

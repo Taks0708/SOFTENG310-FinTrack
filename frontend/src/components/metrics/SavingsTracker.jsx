@@ -3,6 +3,7 @@ import axios from "axios";
 import SetGoal from "./SetGoal";
 import TransactionContext from "../../context/TransactionContext";
 import { refreshDisplayBalance } from "../../utility/CurrencyUtil";
+import '../../assets/css/savingsTracker.css';
 
 export default function SavingsTracker() {
   const { currency, balance, goal } = useContext(TransactionContext);
@@ -37,13 +38,17 @@ export default function SavingsTracker() {
   }, [balance, goal]);
   
   return (
-    <div className="flex flex-col items-center gap-2 mb-2 mt-2 w-[40%]">
-      <p className="text-body my-0 mb-3">
-        ${displayBalance}/${goal}
-      </p>
-      <div className="w-full h-11 bg-white outline-primary outline outline-3 rounded-full">
+    <div class="trackerContainer">
+      <div class="trackerTextContainer">
+        <p class="trackerText">
+          Savings Progress:
+          <br />
+          ${displayBalance}/${goal}
+        </p>
+      </div>
+      <div class="progressBarContainer">
         <div
-          className="h-11 rounded-full bg-primary"
+          class="progressBar"
           style={{ width: `${progress}%` }}
         ></div>
       </div>

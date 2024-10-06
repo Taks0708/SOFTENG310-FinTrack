@@ -13,7 +13,6 @@ import FintrackLogo from "../assets/images/FintrackLogo.png";
 import FinancialMetrics from "../components/metrics/FinancialMetrics";
 
 import '../assets/css/dashboard.css';
-import '../assets/css/variables.css';
 
 /*
  * When adding your new component:
@@ -32,7 +31,6 @@ export default function Dashboard() {
       </div>
       <div class="scrollableContent">
         <BalanceGraph />
-
         <TransactionLog />
       </div>
       <div class="sideBar">
