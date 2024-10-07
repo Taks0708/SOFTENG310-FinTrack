@@ -1,36 +1,78 @@
 @import url("variables.css");
 
+/* ---- ---- Default Spacers ---- ---- */
+
+
 /* ---- ---- Default Button ---- ---- */
 
-.defaultButton {
-  background-color: var(--color2);
+.defaultButtonContainer {
+  transition-duration: 100ms;
   width: calc(var(--sideBarWidth) - 2 * var(--subSectionPadding));
   height: var(--itemHeight);
   border-radius: var(--standardRadius);
   margin-left: var(--subSectionPadding);
-  margin-right: var(--subSectionPadding);
   margin-bottom: var(--subSectionPadding);
+  float: left;
+  padding: calc(var(--subSectionPadding) * 0.5);
+  overflow: hidden;
+  background: var(--noAffordanceBackground);
+  box-shadow: var(--noAffordanceShadow);
+}
+
+.defaultButton {
+  transition-duration: 100ms;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color1);
+  border-radius: calc(var(--standardRadius) * 0.75);
+  background: var(--physicalAffordanceBackground);
+  box-shadow: var(--physicalAffordanceShadow);
+  color: var(--color2);
+  font-size: var(--standardFontSize);
+}
+
+.defaultButtonContainer:hover {
+  transition-duration: 100ms;
+  padding: 0;
+  background: rgb(100, 100, 100);
+  box-shadow: var(--noAddordanceShadow_hover);
+}
+
+.defaultButtonContainer:hover .defaultButton {
+  transition-duration: 100ms;
+  background: var(--physicalAffordanceBackground_hover);
+  box-shadow: var(--physicalAffordanceShadow_hover);
+  border-radius: var(--standardRadius);
+  font-size: calc(var(--standardFontSize) + 1px);
 }
 
 /* ---- ---- Goal Bar ---- ---- */
 
-.goalBarBackground, .goalBarContainer, .goalDivider, .subGoalContainer {
+.goalBarContainer, .goalDivider, .subGoalContainer {
   height: calc((var(--topBarHeight) - 3 * var(--subSectionPadding)) * 0.5);
 }
 
-.goalBarBackground, .goalBarContainer {
+.goalBarContainer {
   /* Origonal styling => w-full bg-gray-200 rounded-lg h-6 relative */
   width: 100%;
-  background: rgb(173, 173, 173);
+  background: rgb(211, 211, 211);
   border-radius: var(--standardRadius);
   position: relative;
 }
 
+.goalBarContainer {
+  padding: 3px;
+  background: var(--noAffordanceBackground);
+  box-shadow: var(--noAffordanceShadow);
+}
+
 .goalBar {
   /* Origonal styling => bg-gradient-to-r from-blue-400 bg-primary h-full rounded-lg */
-  background: linear-gradient(90deg, rgb(8, 58, 112), rgb(56, 127, 203));
   height: 100%;
   border-radius: var(--standardRadius);
+  border-top: 2px;
+  background: var(--visualAffordanceBackground);
+  box-shadow: var(--visualAffordanceShadow);
 }
 
 .goalDivider {
@@ -47,4 +89,14 @@
   display: flex;
   justify-content: space-between;
   top: calc((var(--topBarHeight) - var(--subSectionPadding)) * 0.5);
+}
+
+/* Origonal styling => {`absolute left-1/2 transform -translate-x-1/2 text-xs 
+    ${Number(balance) >= Number(subgoal) ? "text-green-700 border-green-500" : "text-gray-300 border-gray-300"} 
+    border rounded px-1`} */
+
+.subGoal, .subGoalCompleted {
+  text-align: center;
+  width: 0;
+  position: relative;
 }

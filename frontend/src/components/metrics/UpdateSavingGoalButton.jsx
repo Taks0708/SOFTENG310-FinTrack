@@ -3,9 +3,14 @@ import axios from "axios";
 import SetGoal from "./SetGoal";
 import TransactionContext from "../../context/TransactionContext";
 import { refreshDisplayGoal } from "../../utility/CurrencyUtil";
+import getAxiosInstance from "../../utility/AxiosUtil";
+import DefaultButton from "../default/DefaultButton";
 
-export default function UpdateSavingGoal() {
-  const { currency, goal, setGoal } = useContext(TransactionContext);
+export default function UpdateSavingGoalButton() {
+  const { currency, setGoal } = useContext(TransactionContext);
+  const [newGoal, setNewGoal] = useState(0);
+  const [showSetGoal, setShowSetGoal] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   // Updates the user's savings goal via the Set New Goal button
   const updateGoal = () => {
@@ -18,11 +23,7 @@ export default function UpdateSavingGoal() {
     }
 
     //saves newGoal to the DB
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: "http://localhost:4000",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const axiosInstance = getAxiosInstance();
 
     axiosInstance
       .patch("/user/goal", {
@@ -36,4 +37,25 @@ export default function UpdateSavingGoal() {
         console.log(error);
       });
   };
+
+  return (
+    <div>
+      <DefaultButton
+        className="bg-primary hover:bg-primary-dark text-white text-button font-bold py-2 px-7 rounded-full"
+        onClick={() => {
+          setShowSetGoal(true);
+        }}
+      >
+        Update Savings Goal
+      </DefaultButton>
+      {showSetGoal && (
+        <SetGoal
+          newGoal={newGoal}
+          setNewGoal={setNewGoal}
+          updateGoal={updateGoal}
+          closeModal={() => setShowSetGoal(false)}
+        />
+      )}
+    </div>
+  );
 }

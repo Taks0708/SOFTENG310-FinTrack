@@ -2,6 +2,7 @@ import { useContext, useState, useRef } from "react";
 import TransactionContext from "../../context/TransactionContext";
 import axios from "axios";
 import '../../assets/css/default.css';
+import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function DeleteTransactionButton() {
 
@@ -48,12 +49,8 @@ export default function DeleteTransactionButton() {
     }
   };
   return (
-    <button
-      class="defaultButton"
-      onClick={handleDeleteSelected}
-      disabled={disableClick}
-    >
+    <DefaultButton onClick={handleDeleteSelected} disabled={disableClick}>
       Delete Transaction
-    </button>
+    </DefaultButton>
   );
 }

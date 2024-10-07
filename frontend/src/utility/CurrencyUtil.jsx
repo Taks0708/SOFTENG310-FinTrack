@@ -1,4 +1,4 @@
-import axios from "axios";
+import getAxiosInstance from "./AxiosUtil";
 
 const token = localStorage.getItem("token");
 
@@ -57,12 +57,5 @@ async function refreshProperty(pathName, propertyName) {
     .then((response) => {
       resolve(response.data.result[propertyName])
     });
-  });
-}
-
-function getAxiosInstance() {
-  return axios.create({
-    baseURL: "http://localhost:4000",
-    headers: { Authorization: `Bearer ${token}` }
   });
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../assets/css/default.css'
+import '../assets/css/variables.css'
 
 function GoalBar({ progress, balance, goal, subgoals }) {
   const hasReachedGoal = Number(balance) >= Number(goal);
@@ -34,7 +35,7 @@ function GoalBar({ progress, balance, goal, subgoals }) {
           <div key={index} className="text-center w-0 relative">
             <span
               className={`absolute left-1/2 transform -translate-x-1/2 text-xs 
-                ${Number(balance) >= Number(subgoal) ? "text-green-700 border-green-500" : "text-red-500 border-red-500"} 
+                ${Number(balance) >= Number(subgoal) ? "text-green-700 border-green-500" : "text-gray-300 border-gray-300"} 
                 border rounded px-1`}
             >
               ${subgoal}

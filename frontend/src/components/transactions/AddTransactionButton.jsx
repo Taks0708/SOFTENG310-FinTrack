@@ -3,6 +3,7 @@ import axios from "axios";
 import TransactionForm from "./TransactionForm";
 import TransactionContext from "../../context/TransactionContext";
 import '../../assets/css/default.css';
+import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function AddTransactionButton() {
   const [showForm, setShowForm] = useState(false);
@@ -54,10 +55,8 @@ export default function AddTransactionButton() {
   };
 
   return (
-    <>
-      <button onClick={() => setShowForm(true)} class="defaultButton">
-        Add Transaction
-      </button>
+    <> 
+      <DefaultButton onClick={() => setShowForm(true)}>Add Transaction</DefaultButton>
       {showForm && (
         <div className="absolute">
           <TransactionForm
