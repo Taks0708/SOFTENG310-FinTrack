@@ -45,4 +45,7 @@ router.get('/page/:pageNumber', isAuthenticated, transactionController.transacti
  */
 router.get('/', isAuthenticated, transactionController.allTransactions);
 
+
+router.get('/metrics', isAuthenticated, transactionController.getMetrics);
+
 module.exports = router;
