@@ -40,44 +40,10 @@ export default function Dashboard() {
         <AddTransactionButton />
         <DeleteTransactionButton />
         <UpdateSavingGoalButton />
-        <div style={{height: '40px', width: '100%', float: 'left'}}/>
+        <div style={{height: '40px', width: '100%', float: 'left'}}/> {/* Space between groups of buttons */}
         <FinancialMetrics />
         <CurrencyDropdown />
       </div>
-      
-
-      {/* <div classNameName='flex items-center'>
-        <Banner />
-      </div>
-
-      <div classNameName=' flex flex-col px-[8%]'>
-        <div classNameName='flex flex-row pt-[2%]'>
-
-          <div classNameName=' flex flex-col w-[80%]'>
-
-            <BalanceGraph />
-
-            <div classNameName=' flex flex-col items-start mb-[2%]'>
-              <CurrentBalance />
-            </div>
-
-            <TransactionLog />
-          </div>
-
-          <div classNameName="flex flex-col w-[20%] items-center gap-[3%] mt-[121px] pl-12">
-            <AddTransactionButton />
-            <DeleteTransactionButton />
-            <FinancialMetrics />
-            <CurrencyDropdown />
-          </div>
-        </div>
-
-        <div classNameName="flex flex-row justify-center mt-[4%] mb-[2%]">
-          <SavingsTracker />
-        </div>
-
-        
-      </div> */}
     </>
   );
 }

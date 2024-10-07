@@ -1,28 +1,29 @@
 @import url("variables.css");
 
-/* ---- ---- Default Spacers ---- ---- */
+/* ---- ---- Default Container ---- ---- */
 
-
-/* ---- ---- Default Button ---- ---- */
-
-.defaultButtonContainer {
-  transition-duration: 100ms;
+.defaultContainer, .defaultButtonContainer, .defaultDropdownContainer {
   width: calc(var(--sideBarWidth) - 2 * var(--subSectionPadding));
-  height: var(--itemHeight);
+  padding: calc(var(--subSectionPadding) * 0.5);
   border-radius: var(--standardRadius);
+  background: var(--noAffordanceBackground);
+}
+
+/* ---- ---- Default Button and Default Dropdown ---- ---- */
+
+.defaultButtonContainer, .defaultDropdownContainer {
+  transition-duration: 100ms;
   margin-left: var(--subSectionPadding);
   margin-bottom: var(--subSectionPadding);
-  float: left;
-  padding: calc(var(--subSectionPadding) * 0.5);
   overflow: hidden;
-  background: var(--noAffordanceBackground);
   box-shadow: var(--noAffordanceShadow);
+  float: left;
 }
 
 .defaultButton {
   transition-duration: 100ms;
   width: 100%;
-  height: 100%;
+  height: calc(var(--itemHeight) - var(--subSectionPadding));
   background-color: var(--color1);
   border-radius: calc(var(--standardRadius) * 0.75);
   background: var(--physicalAffordanceBackground);
@@ -31,19 +32,23 @@
   font-size: var(--standardFontSize);
 }
 
-.defaultButtonContainer:hover {
+.defaultButtonContainer:hover, .defaultDropdownContainer:hover {
   transition-duration: 100ms;
   padding: 0;
-  background: rgb(100, 100, 100);
-  box-shadow: var(--noAddordanceShadow_hover);
 }
 
-.defaultButtonContainer:hover .defaultButton {
+.defaultButtonContainer:hover {
+  box-shadow: var(--noAddordanceShadow_hover);
+  background: rgb(100, 100, 100);
+}
+
+.defaultButtonContainer:hover .defaultButton, .defaultDropdownContainer:hover .defaultButton {
   transition-duration: 100ms;
   background: var(--physicalAffordanceBackground_hover);
   box-shadow: var(--physicalAffordanceShadow_hover);
   border-radius: var(--standardRadius);
   font-size: calc(var(--standardFontSize) + 1px);
+  height: var(--itemHeight);
 }
 
 /* ---- ---- Goal Bar ---- ---- */

@@ -9,7 +9,6 @@ const Transaction = ({ transaction }) => {
 
     const handleCheckboxChange = (e) => {
         handleSelect(transaction.id, e.target.checked);
-        console.log("clicked: ", transaction.id);
       };
       return (
         <div className="flex flex-row justify-start text-body pl-[8x]">

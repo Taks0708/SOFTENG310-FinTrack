@@ -1,12 +1,14 @@
-import React from 'react';
+import {React, useContext} from 'react';
 import PropTypes from 'prop-types';
 import '../assets/css/default.css'
 import '../assets/css/variables.css'
+import TransactionContext from "../context/TransactionContext";
 
 function GoalBar({ progress, balance, goal, subgoals }) {
   const hasReachedGoal = Number(balance) >= Number(goal);
   const filteredSubgoals = subgoals.slice(1, -1);
   const subgoalPositions = filteredSubgoals.map(subgoal => (Number(subgoal) / Number(goal)) * 100);
+  const { currencySymbol } = useContext(TransactionContext);
 
   return (
     <div className="goalBarBackground">
@@ -23,14 +25,14 @@ function GoalBar({ progress, balance, goal, subgoals }) {
         {subgoalPositions.map((position, index) => (
           <div
             key={index}
-            class="goalDivider"
+            className="goalDivider"
             style={{left: `${position}%`}}
           ></div>
         ))}
       </div>
 
       {/* Labels for Subgoals */}
-      <div class="subGoalContainer">
+      <div className="subGoalContainer">
         {subgoals.map((subgoal, index) => (
           <div key={index} className="text-center w-0 relative">
             <span
@@ -38,7 +40,7 @@ function GoalBar({ progress, balance, goal, subgoals }) {
                 ${Number(balance) >= Number(subgoal) ? "text-green-700 border-green-500" : "text-gray-300 border-gray-300"} 
                 border rounded px-1`}
             >
-              ${subgoal}
+              {currencySymbol}{Number.parseFloat(subgoal).toFixed(2)}
             </span>
           </div>
         ))}
