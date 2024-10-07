@@ -9,7 +9,6 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
   const [title, setTitle] = useState(transaction.title);
   const [amount, setAmount] = useState(transaction.amount);
   const [description, setDescription] = useState(transaction.description);
-  const { requestUiUpdate } = useContext(TransactionContext);
   
   //handles garbage removal from the amount input
   const handleAmountInput = (e) => {
@@ -90,7 +89,6 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
       console.error("Error occurred:", error);
     } finally {
       //updates the UI then exits the details popup
-      requestUiUpdate();
       setShowDetails(false);
     }
   }

@@ -18,7 +18,6 @@ export function TransactionContextProvider({ children }) {
   const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
   const [goal, setGoal] = useState(0);
-  const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
 
   // fetch the balance from the server
   useEffect(() => {
@@ -26,7 +25,6 @@ export function TransactionContextProvider({ children }) {
       .get("http://localhost:4000/user/balance")
       .then((response) => {
         setBalance(response.data.result.balance);
-        setUiUpdateRequest(false);
       })
       .catch((error) => {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
@@ -58,7 +56,6 @@ export function TransactionContextProvider({ children }) {
           currTransactions = filterPastWeekTransactions(currTransactions);
         }
         setTransactions(returnTransactionsPerPage(currTransactions, currentPage, 10));
-        setUiUpdateRequest(false);
       })
       .catch((error) => {
         window.location.href = "/login";
@@ -81,11 +78,6 @@ export function TransactionContextProvider({ children }) {
     }
 
     return transactionsPerPage[currentPage - 1];
-  };
-
-  // function to request a UI update (refetch of transactions and balance)
-  const requestUiUpdate = () => {
-    setUiUpdateRequest(true);
   };
 
   //functions to filter transactions
@@ -142,8 +134,7 @@ export function TransactionContextProvider({ children }) {
     setCurrentPage,
     setCurrency,
     handleSelect, // function to handle the selection of transactions
-    requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
-  };
+    };
 
   return (
     <TransactionContext.Provider value={contextValue}>

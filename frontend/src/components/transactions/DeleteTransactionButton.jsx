@@ -5,7 +5,7 @@ import '../../assets/css/defaultButton.css';
 
 export default function DeleteTransactionButton() {
 
-  const { selectedTransactions, setSelectedTransactions, requestUiUpdate } =
+  const { selectedTransactions, setSelectedTransactions} =
     useContext(TransactionContext);
 
   const [disableClick, setDisableClick] = useState(false);
@@ -35,7 +35,6 @@ export default function DeleteTransactionButton() {
       await Promise.all(
         selectedTransactions.map((transactionId) =>
           axiosInstance.delete(`/transaction/${transactionId}`)
-            .then(requestUiUpdate())
         )
       );
       console.log("Transactions deleted successfully.");
