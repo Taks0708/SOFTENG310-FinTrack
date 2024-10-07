@@ -12,8 +12,14 @@ function GoalBar({ progress, balance, goal, subgoals }) {
       <div className="bg-gray-200 rounded-lg h-6 relative">
         <div
           className="bg-gradient-to-r from-blue-400 bg-primary h-full rounded-lg"
-          style={{ width: `${progress}%` }}
-        ></div>
+          style={{ width: `${progress}%` }}>        
+          <div className="absolute inset-0 flex items-center justify-center text-black">
+            {/* need to update the dollar sign with currency change */}
+            {/* need to updaate balance with currency change */}
+            ${balance}/${goal} 
+          </div>
+        </div>
+
       </div>
 
       {/* Grey Lines for Subgoals */}
@@ -47,14 +53,6 @@ function GoalBar({ progress, balance, goal, subgoals }) {
         ))}
       </div>
 
-      {/* Completion Message */}
-      {hasReachedGoal && (
-        <div className="mt-2 w-full bg-green-100 border border-green-300 rounded-lg p-2">
-          <p className="text-green-700 font-semibold">🎉 Congratulations! 🎉</p>
-          <p>You have reached your goal of ${goal}.</p>
-        </div>
-      )}
-      
     </div>
   );
 }

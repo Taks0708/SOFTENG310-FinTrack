@@ -1,12 +1,12 @@
 import { FaSortDown } from "react-icons/fa";
 import { useState, useContext } from "react";
 import TransactionContext from "../../context/TransactionContext";
+import '../../assets/css/defaultButton.css';
 
 /*
  * When adding new currencies to the dropdown:
  * Remember to edit the border radius of the last item in the dropdown to match
  * Do this by adding "hover:rounded-bl-3xl hover:rounded-br-3xl" in the label class
- *
 */
 
 const CurrencyDropdown = () => {
@@ -28,8 +28,8 @@ const CurrencyDropdown = () => {
     };
 
     return (
-        <div className="mt-10 text-white">
-            <button className={`bg-primary px-3 py-3 min-w-[280px] text-button-small hover:bg-primary-dark active:bg-primary-darker ${!isOpen ? 'rounded-3xl' : 'rounded-tl-3xl rounded-tr-3xl'}`} onClick={handleOpen}>
+        <div className="mt-10 text-black">
+            <button class="defaultButton" onClick={handleOpen}>
                 <div className="flex flex-row gap-2 justify-center">
                     {selectedCurrency}
                     {isOpen ? <FaSortDown /> : <FaSortDown className='origin-[90%][50%] -rotate-90 translate-y-[2px] -translate-x-[2px]' />}
@@ -57,9 +57,15 @@ const CurrencyDropdown = () => {
                             </label>
                         </div>
                         <div>
-                            <input type="radio" id="EUR" className='peer hidden' onClick={handleSelect} />
-                            <label htmlFor="EUR" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
-                                EUR
+                            <input type="radio" id="GBP" className='peer hidden' onClick={handleSelect} />
+                            <label htmlFor="GBP" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
+                                GBP
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="HKD" className='peer hidden' onClick={handleSelect} />
+                            <label htmlFor="HKD" className='w-[100%] select-none cursor-pointer text-center inline-block text-primary py-2 bg-transparent hover:bg-slate-200 hover:rounded-bl-3xl hover:rounded-br-3xl'>
+                                HKD
                             </label>
                         </div>
                     </form>

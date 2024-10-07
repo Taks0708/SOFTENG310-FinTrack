@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import "../../App.css";
+import '../../assets/css/defaultButton.css'
 
 export default function SetGoal({
   newGoal,
@@ -37,7 +38,6 @@ export default function SetGoal({
   }, [newGoal]);
 
   return (
-    <>
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-2xl w-96 relative">
           <button
@@ -81,6 +81,5 @@ export default function SetGoal({
           </div>
         </div>
       </div>
-    </>
   );
 }

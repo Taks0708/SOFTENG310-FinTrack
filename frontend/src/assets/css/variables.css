@@ -1,0 +1,11 @@
+:root {
+  --color1: black;
+  --color2: white;
+  --topBarHeight: 64px;
+  --topBarBtnHeight: 32px;
+  --topBarBtnWidth: 64px;
+  --sideBarWidth: calc(16vw);
+  --subSectionPadding: 8px;
+  --itemHeight: 10vh;
+  --standardRadius: 10px
+}

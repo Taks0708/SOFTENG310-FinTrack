@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react';
 import TransactionContext from '../../context/TransactionContext';
+import '../../assets/css/defaultButton.css';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
-  const { balance, currency, convertCurrency, allTransactions} = useContext(TransactionContext);
+  const { balance, currency, allTransactions} = useContext(TransactionContext);
   const [convertedBalance, setConvertedBalance] = useState(0);
   const [monthlyMetrics, setMonthlyMetrics] = useState({});
 
@@ -47,20 +48,9 @@ export default function FinancialMetrics() {
     calculateMetrics(allTransactions);
   };
 
-  // Calculate and set the converted balance when currency or balance changes
-  React.useEffect(() => {
-    const updateConvertedBalance = async () => {
-      const converted = await convertCurrency(currency, 'NZD', balance); // Convert balance to current currency
-      setConvertedBalance(converted);
-    };
-    updateConvertedBalance();
-  }, [currency, balance, convertCurrency]);
-
   return (
-    <div className="text-center">
-      <button 
-        onClick={handleClick} 
-        className="bg-green-500 text-white text-button px-3 py-3 min-w-[280px] rounded-full hover:bg-green-600 active:bg-green-700">
+    <div>
+      <button onClick={handleClick} class="defaultButton">
         Financial Metrics
       </button>
 

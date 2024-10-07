@@ -5,6 +5,7 @@ import {
   filterPastYearTransactions,
 } from "../utility/transactionFilters.js";
 import { useEffect, useState } from "react";
+import { refreshDisplayGoal } from "../utility/CurrencyUtil";
 import axios from "axios";
 
 // Context provider for transactions. Allows for the sharing of transaction data between components
@@ -16,6 +17,7 @@ export function TransactionContextProvider({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
+  const [goal, setGoal] = useState(0);
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
 
   // fetch the balance from the server
@@ -32,6 +34,9 @@ export function TransactionContextProvider({ children }) {
         console.error("Not logged in ", error);
       });
   }, [currency, balance, transactions, uiUpdateRequest]);
+
+  // Fetch the user's current savings goal and convert to specified currency when the component mounts
+  useEffect(() => { refreshDisplayGoal(setGoal, currency); }, [goal, currency]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
@@ -107,33 +112,7 @@ export function TransactionContextProvider({ children }) {
       setFilter("week");
     }
   };
-
-  /**
-   * converts the currency of each transaction using the Frankfurter API
-   * the conversion rates refresh at ~2am NZST every business day
-   *
-   * @param to // the currency to convert to
-   * @param from // the currency to convert from (default value for this application is NZD)
-   * @param amount // the amount of the transaction
-   * @returns the converted amount in the desired currency at 3 decimal point
-   */
-  const convertCurrency = async (to, from, amount) => {
-    if (!(to === from)) {
-      try {
-        const response = await fetch(
-          `https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`
-        );
-        const data = await response.json();
-        return parseFloat(data.rates[to]).toFixed(3);
-      } catch (error) {
-        console.error("Error calculating conversion", error);
-      }
-    } else {
-      return amount;
-    }
-  };
-
-
+  
   //function for handling the selection of transactions for deletion
   const handleSelect = (transactionId, isSelected) => {
     setSelectedTransactions((prev) =>
@@ -152,7 +131,9 @@ export function TransactionContextProvider({ children }) {
     filter, // the filter type to apply to the transactions i.e year, month, week
     currentPage,
     balance, // the balance of the user
+    goal,
     setBalance,
+    setGoal,
     setSelectedTransactions,
     setFilter,
     filterYear, // filters the transactions, access the transactions with the transactions variable
@@ -160,7 +141,6 @@ export function TransactionContextProvider({ children }) {
     filterWeek, // filters the transactions, access the transactions with the transactions variable
     setCurrentPage,
     setCurrency,
-    convertCurrency, // returns a promise that resolves to the converted amount
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
   };
