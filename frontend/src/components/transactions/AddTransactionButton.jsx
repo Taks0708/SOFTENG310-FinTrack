@@ -16,11 +16,10 @@ export default function AddTransactionButton() {
     description,
     transactionType,
   }) => {
-    const amountInNzd = await convertCurrency(currency, "NZD", amount);
-    console.log(amount, " is ", amountInNzd, " in NZD!");
+    amount = await convertCurrency("NZD", currency, amount);
+    console.log("That is ", amount, " in NZD!");
 
     try {
-      console.log("Trying to send request of ", amount);
       // Post request to create the transaction
       const response = await getAxiosInstance().post("/transaction", {
         title,
