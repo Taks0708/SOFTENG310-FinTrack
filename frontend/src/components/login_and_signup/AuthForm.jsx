@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 // This component is a reusable form that can be used for both the login and signup pages. This was done to reduce code duplication.
-export default function AuthForm({endpoint, title, buttonText, redirectTitleText, redirectLink, redirectText}) {
+export default function AuthForm({endpoint, title, buttonText, redirectTitleText, redirectLink, redirectText,verifyDetails}) {
     const labelStyle = "text-2xl";
     const inputStyle = "border-2 w-64 h-8 p-2 rounded-lg mb-4 mt-2 border-primary focus:border-primary-highlight focus:outline-none";
 
@@ -39,14 +39,15 @@ export default function AuthForm({endpoint, title, buttonText, redirectTitleText
                 <label className={labelStyle} htmlFor="password">Password</label>
                 <input className={inputStyle} required type="password" onChange={(e) => {setPassword(e.target.value)}} value={password} />
             </div>
-            <button className="w-60 bg-primary text-white text-button p-2 rounded-lg mt-4" onClick={(e) => handleSubmit(e)}>{buttonText}</button>
+            <button className="w-60 bg-primary text-white text-button p-2 rounded-lg mt-4 hover:bg-primary-dark" onClick={(e) => handleSubmit(e)}>{buttonText}</button>
             <p className="text-xl mt-4">{redirectTitleText}</p>
-            <Link to={redirectLink} className="text-primary-highlight text-xl">{redirectText}</Link>
+            <Link to={redirectLink} className="text-primary-highlight text-xl hover:text-primary ">{redirectText}</Link>
         </form>
     );
 }
 
 AuthForm.propTypes = {
+    verifyDetails: Boolean,
     endpoint: String,
     title: String,
     buttonText: String,
