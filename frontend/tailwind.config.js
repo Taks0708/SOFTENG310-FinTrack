@@ -49,6 +49,13 @@ module.exports = {
             fontWeight: '500',
           },
         ],
+        'body-tiny':[
+          '12px',
+          {
+            fontWeight: '500',
+          },
+        ]
+        ,
         'button': [
           '24px',
           {
