@@ -1,14 +1,11 @@
-
-import { useContext } from "react";
-import Banner from "../components/Banner";
 import BalanceGraph from "../components/metrics/BalanceGraph"
-import CurrentBalance from "../components/metrics/CurrentBalance";
 import CurrencyDropdown from "../components/metrics/CurrencyDropdown";
 import SavingsTracker from "../components/metrics/SavingsTracker";
 import TransactionLog from "../components/transactions/TransactionLog";
 import AddTransactionButton from "../components/transactions/AddTransactionButton";
 import DeleteTransactionButton from "../components/transactions/DeleteTransactionButton";
 import UpdateSavingGoalButton from "../components/metrics/UpdateSavingGoalButton";
+import LogOutButton from "../components/login_and_signup/LogOutButton";
 
 import FintrackLogo from "../assets/images/FintrackLogo.png";
 import FinancialMetrics from "../components/metrics/FinancialMetrics";
@@ -32,6 +29,7 @@ export default function Dashboard() {
           <img src={FintrackLogo} alt="logo"></img>
         </div>
         <SavingsTracker />
+        <LogOutButton />
       </div>
       <div className="scrollableContent">
         <BalanceGraph />

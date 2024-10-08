@@ -57,7 +57,7 @@ export default function FinancialMetrics() {
 
       {/* Conditionally render the modal */}
       {showMetrics && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded-lg shadow-lg w-[90%] max-w-lg">
             <h2 className="text-xl font-semibold mb-4">Financial Metrics</h2>
             <p><strong>Current Balance:</strong> {convertedBalance} {currency}</p>

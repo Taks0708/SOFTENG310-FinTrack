@@ -110,7 +110,7 @@ export default function TransactionDetailPopup({ transaction, setShowDetails }) 
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
         <div className="bg-white p-3 rounded-2xl w-96 relative flex flex-col">
 
           <h2 className="text-sub-heading font-bold mx-auto pb-3">Transaction Details</h2>
