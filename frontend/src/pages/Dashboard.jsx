@@ -8,11 +8,13 @@ import SavingsTracker from "../components/metrics/SavingsTracker";
 import TransactionLog from "../components/transactions/TransactionLog";
 import AddTransactionButton from "../components/transactions/AddTransactionButton";
 import DeleteTransactionButton from "../components/transactions/DeleteTransactionButton";
+import UpdateSavingGoalButton from "../components/metrics/UpdateSavingGoalButton";
 
 import FintrackLogo from "../assets/images/FintrackLogo.png";
 import FinancialMetrics from "../components/metrics/FinancialMetrics";
 
 import '../assets/css/dashboard.css';
+import LuckyAdviser from "../components/gemini/LuckyAdviser";
 
 /*
  * When adding your new component:
@@ -25,56 +27,25 @@ import '../assets/css/dashboard.css';
 export default function Dashboard() {
   return (
     <>
-      <div class="topBar">
-        <div class="logoContainer">
+      <div className="topBar">
+        <div className="logoContainer">
           <img src={FintrackLogo} alt="logo"></img>
         </div>
         <SavingsTracker />
       </div>
-      <div class="scrollableContent">
+      <div className="scrollableContent">
         <BalanceGraph />
         <TransactionLog />
+        <LuckyAdviser/> 
       </div>
-      <div class="sideBar">
+      <div className="sideBar">
         <AddTransactionButton />
         <DeleteTransactionButton />
+        <UpdateSavingGoalButton />
+        <div style={{height: '40px', width: '100%', float: 'left'}}/> {/* Space between groups of buttons */}
         <FinancialMetrics />
         <CurrencyDropdown />
       </div>
-      
-
-      {/* <div className='flex items-center'>
-        <Banner />
-      </div>
-
-      <div className=' flex flex-col px-[8%]'>
-        <div className='flex flex-row pt-[2%]'>
-
-          <div className=' flex flex-col w-[80%]'>
-
-            <BalanceGraph />
-
-            <div className=' flex flex-col items-start mb-[2%]'>
-              <CurrentBalance />
-            </div>
-
-            <TransactionLog />
-          </div>
-
-          <div className="flex flex-col w-[20%] items-center gap-[3%] mt-[121px] pl-12">
-            <AddTransactionButton />
-            <DeleteTransactionButton />
-            <FinancialMetrics />
-            <CurrencyDropdown />
-          </div>
-        </div>
-
-        <div className="flex flex-row justify-center mt-[4%] mb-[2%]">
-          <SavingsTracker />
-        </div>
-
-        
-      </div> */}
     </>
   );
 }

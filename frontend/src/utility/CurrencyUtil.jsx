@@ -1,6 +1,19 @@
-import axios from "axios";
+import getAxiosInstance from "./AxiosUtil";
 
-const token = localStorage.getItem("token");
+let rates = null;
+
+export async function refreshRates() {
+  console.log("No currency exchange rates chached locally, loading exchange rates from API...");
+
+  const host = 'api.frankfurter.app';
+  
+  return new Promise((resolve) => {
+    fetch(`https://${host}/latest?`)
+    .then(resp => resp.json())
+    .then(data => {
+      resolve(rates = data.rates);});
+  })
+}
 
 export function refreshDisplayBalance(setter, currency) {
   refreshDisplayProperty("/user/balance", "balance", currency).then(setter);
@@ -30,22 +43,15 @@ async function refreshDisplayProperty(pathName, propertyName, currency) {
  * @returns the converted amount in the desired currency at 3 decimal point
  */
 export async function convertCurrency(to, from, amount) {
-  const host = 'api.frankfurter.app';
+  if (rates == null) {
+    await refreshRates();
+  }
 
   return new Promise((resolve) => {
     if (to === from) {
-
       resolve(amount);
-
     } else {
-      fetch(`https://${host}/latest?
-      amount=${amount}&
-      from=${from}&
-      to=${to}`)
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data.rates);
-        resolve((amount * (data.rates[to] / data.rates[from])).toFixed(2));});
+      resolve((amount * (rates[to] / rates[from])).toFixed(2));
     }
   });
 }
@@ -57,12 +63,5 @@ async function refreshProperty(pathName, propertyName) {
     .then((response) => {
       resolve(response.data.result[propertyName])
     });
-  });
-}
-
-function getAxiosInstance() {
-  return axios.create({
-    baseURL: "http://localhost:4000",
-    headers: { Authorization: `Bearer ${token}` }
   });
 }

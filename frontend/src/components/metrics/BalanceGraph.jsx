@@ -24,11 +24,9 @@ export default function BalanceGraph() {
     const parseDate = (dateString) => {
         // Parse the date string
         const date = new Date(dateString);
-        console.log(date)
         
         // Create a new date object for the start of the year
         const startOfYear = new Date(date.getFullYear(), 0, 0);
-        console.log(startOfYear)
         
         // Calculate the difference in milliseconds
         const diff = date - startOfYear;
@@ -36,15 +34,11 @@ export default function BalanceGraph() {
         // Convert milliseconds to days and return the day of the year
         const oneDay = 1000 * 60 * 60 * 24;
         const parseDate = Math.floor(diff / oneDay);
-        console.log(parseDate)
         
         return parseDate;
     }
 
     useEffect(() => {
-
-        console.log(balance)
-        console.log(transactions)
 
         let pastBalance = balance
         const newBalanceData = transactions.reduce((acc, transaction) => {
@@ -67,9 +61,6 @@ export default function BalanceGraph() {
         newBalanceData.push({x: 0, y: pastBalance})
 
         setBalanceData(newBalanceData)
-
-        console.log(newBalanceData)
-
     }, [balance, transactions])
 
     return (
