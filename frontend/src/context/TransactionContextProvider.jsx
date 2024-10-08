@@ -20,12 +20,26 @@ export function TransactionContextProvider({ children }) {
   const [goal, setGoal] = useState(0);
   const [currencySymbol, setCurrencySymbol] = useState("$");
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch the user's current savings goal and convert to specified currency
-  useEffect(() => { 
-    refreshDisplayGoal(setGoal, currency); 
-    refreshDisplayBalance(setBalance, currency); 
-  }, [currency, uiUpdateRequest]);
+  // fetch the balance from the server
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/user/balance")
+      .then((response) => {
+        setBalance(response.data.result.balance);
+        setUiUpdateRequest(false);
+        setLoading(false);
+      })
+      .catch((error) => {
+        // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
+        window.location.href = "/login";
+        console.error("Not logged in ", error);
+      });
+  }, [currency, balance, transactions, uiUpdateRequest]);
+
+  // Fetch the user's current savings goal and convert to specified currency when the component mounts
+  useEffect(() => { refreshDisplayGoal(setGoal, currency); }, [goal, currency]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
@@ -145,6 +159,8 @@ export function TransactionContextProvider({ children }) {
     setCurrency,
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
+    loading,
+    setLoading,
   };
 
   return (
