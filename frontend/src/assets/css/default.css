@@ -1,5 +1,28 @@
 @import url("variables.css");
 
+/* ---- ---- Default H1 and H2 ---- ---- */
+
+.genericH1, .genericH2 {
+  color: var(--color1)
+}
+
+.genericH1 {
+  font-size: var(--headerFontSize);
+  text-align: center;
+  width: 100%;
+  float: left;
+  margin-top: var(--sectionPadding);
+}
+
+.genericH2 {
+  font-size: var(--standaloneFontSize);
+  text-align: justify;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  float: left;
+}
+
 /* ---- ---- Default Container ---- ---- */
 
 .defaultContainer, .defaultButtonContainer, .defaultDropdownContainer {
@@ -38,7 +61,6 @@
 
 .defaultButtonContainer:hover {
   box-shadow: var(--noAddordanceShadow_hover);
-  background: rgb(100, 100, 100);
 }
 
 .defaultButtonContainer:hover .defaultButton, .defaultDropdownContainer:hover .defaultButton {
@@ -103,4 +125,17 @@
   text-align: center;
   width: 0;
   position: relative;
+}
+
+/* ---- ---- Scrollable Content Section Spacer ---- ----*/
+
+.defaultHeader {
+  background-color: var(--color3);
+  border-radius: var(--standardRadius);
+  box-shadow: var(--noAddordanceShadow_hover);
+  font-size: var(--headerFontSize);
+  margin-top: var(--sectionPadding);
+  margin-bottom: var(--sectionPadding);
+  color: var(--color2);
+  text-align: center;
 }

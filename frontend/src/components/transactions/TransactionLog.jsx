@@ -4,12 +4,11 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import TransactionContext from "../../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
 
-import '../../assets/css/transactions.css'
-
 import { LoadingSpinner } from "../LoadingSpinner";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import '../../assets/css/transactions.css'
 
 export default function TransactionList() {
   const {
@@ -44,65 +43,68 @@ export default function TransactionList() {
 
 
   return (
-    <div className="flex flex-col items-center">
-      <div className=" w-[100%]">
-        <div className="flex flex-row gap-4 items-center text-body ">
-          <h1>From: </h1>
-          <DatePicker selected={fromDate} endDate={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(date, toDate)} />
-          <h1>To: </h1>
-          <DatePicker startDate={fromDate} selected={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(fromDate, date)} />
-        </div>
-        <div className="transactionLog">
-          <div className="w-[90%] mt-[30px]">
-            {loading ? (
-              <LoadingSpinner />
-            ) : transactions.length == 0 ? (
-              <p>No transactions found.</p>
-            ) : transactions.length > 0 ? (
-              <ul>
-                {transactions.map((transaction) => (
-                  <Transaction
-                    key={transaction.id}
-                    transaction={transaction}
-                    className=""
-                  />
-                ))}
-              </ul>
-            ) : (
-              <LoadingSpinner />
-            )}
-          </div>
-
-          <div className="flex flex-row min-w-[105px] justify-between">
-            <button
-              className={currentPage === 1
-                  ? "text-gray-400"
-                  : "text-black hover:text-primary active:text-primary-dark"
-              }
-              onClick={() => {setCurrentPage(currentPage - 1)
-                setLoading(true);
-              }}
-              disabled={currentPage === 1}
-
-            >
-              {( <IoIosArrowBack size={35} /> // Normal content when not loading
+    <div className="transactionLogContainer">
+      <div className="dateOptions">
+        <p className="datePickerLabel">From: </p>
+        <DatePicker className="datePicker" selected={fromDate} endDate={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(date, toDate)} />
+        <div style={{height: "100%", width: "40px"}}/>
+        <p className="datePickerLabel">To: </p>
+        <DatePicker className="datePicker" startDate={fromDate} selected={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(fromDate, date)} />
+      </div>
+      <div className="flex flex-col items-center">
+        <div className=" w-[100%]">
+          <div className="transactionLog">
+            <div className="w-[90%] mt-[30px]">
+              {loading ? (
+                <LoadingSpinner />
+              ) : transactions.length == 0 ? (
+                <p style={{fontSize: "var(--standaloneFontSize)"}}>No transactions found.</p>
+              ) : transactions.length > 0 ? (
+                <ul>
+                  {transactions.map((transaction) => (
+                    <Transaction
+                      key={transaction.id}
+                      transaction={transaction}
+                      className=""
+                    />
+                  ))}
+                </ul>
+              ) : (
+                <LoadingSpinner />
               )}
-            </button>
-            <h2 className="text-sub-heading">{currentPage}</h2>
-            <h3 className="text-sub-heading">&#47;{maxPage}</h3>
-            <button
-              className={currentPage === maxPage
-                  ? "text-gray-400"
-                  : "text-black hover:text-primary active:text-primary-dark"
-              }
-              onClick={() => {setCurrentPage(currentPage + 1)
-                setLoading(true);
-              }}
-              disabled={currentPage === maxPage}
-            >
-              {( <IoIosArrowForward size={35} /> // Normal content when not loading
-              )}
-            </button>
+            </div>
+
+            <div className="pageSelect">
+              <button
+                className={currentPage === 1
+                    ? "text-gray-400"
+                    : "text-black hover:text-primary active:text-primary-dark"
+                }
+                onClick={() => {setCurrentPage(currentPage - 1)
+                  setLoading(true);
+                }}
+                disabled={currentPage === 1}
+
+              >
+                {( <IoIosArrowBack size={35} /> // Normal content when not loading
+                )}
+              </button>
+              <h2 className="text-sub-heading" style={{fontSize: "var(--headerFontSize)"}}>{currentPage}</h2>
+              <h3 className="text-sub-heading" style={{fontSize: "var(--headerFontSize)"}}>&#47;{maxPage}</h3>
+              <button
+                className={currentPage === maxPage
+                    ? "text-gray-400"
+                    : "text-black hover:text-primary active:text-primary-dark"
+                }
+                onClick={() => {setCurrentPage(currentPage + 1)
+                  setLoading(true);
+                }}
+                disabled={currentPage === maxPage}
+              >
+                {( <IoIosArrowForward size={35} /> // Normal content when not loading
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

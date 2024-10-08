@@ -72,14 +72,14 @@ function LuckyAdviser() {
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Ask Me Something You Want"
-            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-violet-600"
+            placeholder="Ask for financial advice or education..."
+            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-primary-green"
           />
         </div>
         <div className="col-auto">
           <button 
           onClick={getResponseForGivenPrompt} 
-          className="bg-white text-violet-800 rounded-md px-4 py-2 border border-violet-800 hover:bg-gray-200 transition">
+          className="bg-white text-primary-green rounded-md px-4 py-2 border border-primary-green hover:bg-gray-200 transition">
             Send</button>
         </div>
         <LuckyButton onGetAdvice={handleLuckyAdvice} />
@@ -107,7 +107,7 @@ function LuckyAdviser() {
             ))}
             <button
               onClick={handleCloseResponses}
-              className="self-end bg-white text-violet-800 rounded-md px-4 py-2 border border-violet-800 hover:bg-gray-200 transition"
+              className="self-end bg-white text-primary-green rounded-md px-4 py-2 border border-primary-green hover:bg-gray-200 transition"
             >
               Close
             </button>

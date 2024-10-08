@@ -40,10 +40,12 @@ export function TransactionContextProvider({ children }) {
         window.location.href = "/login";
         console.error("Not logged in ", error);
       });
-  }, [currency, balance, transactions, uiUpdateRequest]);
+  }, [transactions, uiUpdateRequest]);
 
-  // Fetch the user's current savings goal and convert to specified currency when the component mounts
-  useEffect(() => { refreshDisplayGoal(setGoal, currency); }, [goal, currency]);
+  useEffect(() => { 
+    refreshDisplayGoal(setGoal, currency); 
+    refreshDisplayBalance(setBalance, currency); 
+  }, [currency]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
@@ -66,7 +68,7 @@ export function TransactionContextProvider({ children }) {
         window.location.href = "/login";
         console.error("Not logged in ", error);
       });
-  }, [currentPage, fromDate, toDate, balance, uiUpdateRequest]);
+  }, [currentPage, fromDate, toDate, uiUpdateRequest]);
 
   // function to return the transactions for a given page. Return empty array if a page has no transactions
   const returnTransactionsPerPage = (transactions, currentPage, pageSize) => {

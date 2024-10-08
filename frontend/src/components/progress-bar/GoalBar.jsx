@@ -1,14 +1,20 @@
-import {React, useContext} from 'react';
+import {React, useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import '../../assets/css/default.css'
 import '../../assets/css/variables.css'
 import TransactionContext from "../../context/TransactionContext";
+import '../../assets/css/variables.css';
 
 function GoalBar({ progress, balance, goal, subgoals }) {
-  const hasReachedGoal = Number(balance) >= Number(goal);
+  const reachedGoal = Number(balance) >= Number(goal);
   const filteredSubgoals = subgoals.slice(1, -1);
   const subgoalPositions = filteredSubgoals.map(subgoal => (Number(subgoal) / Number(goal)) * 100);
   const { currencySymbol } = useContext(TransactionContext);
+  const [modalClosed, setModalClosed] = useState(false)
+
+  if (!reachedGoal && modalClosed) {
+    setModalClosed(false);
+  }
 
   return (
     <div className="goalBarBackground">
@@ -47,8 +53,9 @@ function GoalBar({ progress, balance, goal, subgoals }) {
       </div>
 
       {/* Completion Message */}
-      {hasReachedGoal && (
-        <div className="mt-2 w-full bg-green-100 border border-green-300 rounded-lg p-2">
+      {(reachedGoal && !modalClosed) && (
+        <div className="w-full bg-green-100 border border-green-300 rounded-lg p-2 z-100" style={{position: 'absolute', top: 'var(--topBarHeight)'}}>
+          <button onClick={() => {setModalClosed(true)}} class="text-2xl absolute top-0 right-2 text-gray-500 hover:text-primary">×</button>
           <p className="text-green-700 font-semibold">🎉 Congratulations! 🎉</p>
           <p>You have reached your goal of ${goal}.</p>
         </div>

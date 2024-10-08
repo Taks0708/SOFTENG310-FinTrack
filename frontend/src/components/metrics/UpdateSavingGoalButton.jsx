@@ -8,7 +8,7 @@ import DefaultButton from "../default/DefaultButton";
 
 export default function UpdateSavingGoalButton() {
   const { currency, setGoal } = useContext(TransactionContext);
-  const [newGoal, setNewGoal] = useState(0);
+  const [newGoal, setNewGoal] = useState('');
   const [showSetGoal, setShowSetGoal] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -38,6 +38,12 @@ export default function UpdateSavingGoalButton() {
       });
   };
 
+  useEffect(() => {
+    if (showSetGoal) {
+      setNewGoal(''); // Reset the new goal when the modal is opened
+    }
+  }, [showSetGoal]);
+
   return (
     <div>
       <DefaultButton
@@ -49,12 +55,17 @@ export default function UpdateSavingGoalButton() {
         Update Savings Goal
       </DefaultButton>
       {showSetGoal && (
-        <SetGoal
-          newGoal={newGoal}
-          setNewGoal={setNewGoal}
-          updateGoal={updateGoal}
-          closeModal={() => setShowSetGoal(false)}
-        />
+     
+  
+          <SetGoal
+            newGoal={newGoal}
+            setNewGoal={setNewGoal}
+            updateGoal={updateGoal}
+            closeModal={() => setShowSetGoal(false)}
+          />
+  
+        //resets newGoal to null
+
       )}
     </div>
   );

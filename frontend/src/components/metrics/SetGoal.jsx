@@ -10,11 +10,6 @@ export default function SetGoal({
   closeModal,
 }) {
 
-
-  const handleSliderChange = (e) => {
-    setNewGoal(e.target.value);
-  };
-
   const handleInputChange = (e) => {
     //removes and save all non number chars in newGoal
     let value = e.target.value.replace(/[^0-9.]/g, "");
@@ -31,14 +26,8 @@ export default function SetGoal({
     setNewGoal(value);
   };
 
-  useEffect(() => {
-    if(newGoal < 0){
-      setNewGoal(0)
-    }
-  }, [newGoal]);
-
   return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-2xl w-96 relative">
           <button
             className="text-2xl absolute top-0 right-2 text-gray-500 hover:text-primary"
@@ -49,19 +38,15 @@ export default function SetGoal({
           <h2 className="text-2xl font-bold mb-4 text-center">
             Set New Savings Goal
           </h2>
-          <input
-            type="range"
-            min="0"
-            max="1000000"
-            value={newGoal}
-            onChange={handleSliderChange}
-            className="w-full"
-          ></input>
+          <h2 className="text-body-small text-left">
+            Goal
+          </h2>
           <input
             type="text"
             value={newGoal}
+            placeholder="100000"
             onInput={handleInputChange}
-            className="mt-2 border p-2 text-center w-full"
+            className="mt-2 border p-2 text-center w-full text-black "
           ></input>
           <div className="flex justify-center mt-4 gap-4">
             <button

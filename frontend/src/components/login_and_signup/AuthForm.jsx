@@ -128,17 +128,17 @@ export default function AuthForm({endpoint, title, buttonText, redirectTitleText
 
 
     return (
-        <form className="flex flex-col border-2 items-center border-primary-dark w-80 p-4 rounded-xl bg-blue-100">
+        <form className="flex flex-col border-2 items-center w-80 p-4 rounded-xl" style={{backgroundColor: "var(--color2)"}}>
             <h2 className="text-4xl font-bold text-center mb-4">{title}</h2>
             <div className="flex flex-col">
                 <label className={labelStyle} htmlFor="email">Email</label>
                 {verifyDetails? (emailError ?  <h2 className = {`text-body-tiny text-primary-red pl-1`}>Email invalid</h2>:null): null}
-                <input className={inputStyle} required type="email" onChange={(e) => {setEmail(e.target.value)}} value={email} />
+                <input style={{backgroundColor: "var(--color2)", boxShadow: "var(--noAffordanceShadow)"}} className={inputStyle} required type="email" onChange={(e) => {setEmail(e.target.value)}} value={email} />
             </div>
             <div className="flex flex-col">
                 <label className={labelStyle} htmlFor="password">Password</label>
                 {verifyDetails? <h2 className = {`text-body-tiny ${passwordError ?  "text-primary-red":"text-slate-400"} pl-1`}>Must contain atleast 5 characters  </h2>: null}
-                <input className={inputStyle} required type="password" onChange={(e) => {setPassword(e.target.value)}} value={password} />
+                <input style={{backgroundColor: "var(--color2)", boxShadow: "var(--noAffordanceShadow)"}} className={inputStyle} required type="password" onChange={(e) => {setPassword(e.target.value)}} value={password} />
             </div>
             <button className="w-60 bg-primary text-white text-button p-2 rounded-lg mt-4 hover:bg-primary-dark" onClick={(e) => handleSubmit(e)}>{buttonText}</button>
             <p className="text-xl mt-4">{redirectTitleText}</p>

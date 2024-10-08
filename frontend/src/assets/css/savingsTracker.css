@@ -21,11 +21,12 @@
 }
 
 .balanceCounter {
+  color: var(--color2);
   padding-left: var(--subSectionPadding);
   padding-right: var(--subSectionPadding);
   width: fit-content;
+  background-color: rgba(0, 0, 0, 0.5);
   height: calc(100% - var);
-  background-color: rgba(255, 255, 255, 0.5);
   text-align: center;
   font-size: 0.75rem;
 }

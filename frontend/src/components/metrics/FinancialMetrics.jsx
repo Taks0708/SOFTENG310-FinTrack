@@ -48,9 +48,9 @@ export default function FinancialMetrics() {
     const convertedMonthlyIncome = await convertCurrency(currency, "NZD", monthlyMetrics.monthlyIncome);
     const convertedTotalSpending = await convertCurrency(currency, "NZD", lifetimeMetrics.totalSpending);
     const convertedTotalIncome = await convertCurrency(currency, "NZD", lifetimeMetrics.totalIncome);
-    const convertedBal = await convertCurrency(currency, "NZD", balance);
 
-    const convertedPercentOfGoal = Math.round(convertedBal/goal * 100 * 100)/100 
+
+    const convertedPercentOfGoal = Math.round(balance/goal * 100 * 100)/100 
 
     setConvertedMonthlyMetrics({
         monthlySpending: convertedMonthlySpending,
