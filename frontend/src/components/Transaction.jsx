@@ -12,7 +12,7 @@ const Transaction = ({ transaction }) => {
       };
       return (
         <div className="flex flex-row justify-start text-body pl-[8x]">
-          <input type="checkbox" onChange={handleCheckboxChange} />
+          <input type="checkbox" onChange={handleCheckboxChange} style={{backgroundColor: "green"}}/>
           <div
             className={` w-full flex flex-row justify-between text-body pl-[8px] ${
               isAmountNegative ? "text-red-500" : "text-green-500"

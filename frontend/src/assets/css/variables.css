@@ -8,12 +8,15 @@
   --itemHeight: 10vh;
   --standardRadius: 10px;
   --standardFontSize: 16px;
+  --standaloneFontSize: 20px;
+  --headerFontSize: 32px;
+  --sectionPadding: 50px;
 
   --color1_gradientInner: rgb(40, 39, 40);
   --color1_hover: rgb(54, 52, 54);
   --color1_gradientInner_hover: rgb(44, 43, 44);
 
-  --noAffordanceBackground: var(--color2);
+  --noAffordanceBackground: var(--physicalAffordanceBackground);
   --noAffordanceShadow: inset 0px 2px 3px 0px rgba(0,0,0,0.5);
   --noAddordanceShadow_hover: 0px 4px 4px 0px rgba(0,0,0,0.25);
 

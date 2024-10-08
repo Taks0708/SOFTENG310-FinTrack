@@ -14,16 +14,16 @@ export default function CurrencyDropdown(props) {
 
   function currencyOption (currencyId) {
     return (
-      <button onClick={() => {selectOption(currencyId)}} className="currencyOption">
+      <button onClick={() => {selectOption(currencyId)}} className={(currencyId == selectedCurrency) ? "currencyOptionSelected" : "currencyOption"}>
         {currencyId}
       </button>
     );
   }
 
   function selectOption(currencyId) {
+    setIsOpen(false);
     setCurrency(currencyId);
     setSelectedCurrency(currencyId);
-    setIsOpen(false);
   }
 
   return (
@@ -31,20 +31,17 @@ export default function CurrencyDropdown(props) {
       <div className="defaultDropdownContainer">
         <button className="defaultButton" onClick={handleOpen}>
           <div>
-            {selectedCurrency}
-            {isOpen ? <FaSortDown /> : <FaSortDown className='origin-[90%][50%] -rotate-90 translate-y-[2px] -translate-x-[2px]' />}
+            <p>{selectedCurrency}  {isOpen ? "▾" : "▸"}</p>
           </div>
         </button>
       </div>
-      <div className="defaultContainer">
-        <div className={isOpen ? "currencyOptionList_open" : "currencyOptionList_closed"}>
+      <div className={isOpen ? "currencyOptionList_open" : "currencyOptionList_closed"}>
           {currencyOption("NZD")}
           {currencyOption("AUD")}
           {currencyOption("USD")}
           {currencyOption("GBP")}
           {currencyOption("HKD")}
         </div>
-      </div>
     </>
   );
 }

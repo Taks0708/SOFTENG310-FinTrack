@@ -46,3 +46,17 @@ body {
   gap: calc( 4 * var(--subSectionPadding));
   overflow: scroll;
 }
+
+.logOutButton {
+  height: var(--topBarHeight);
+  width: var(--sideBarWidth);
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: var(--standardFontSize);
+  color: var(--color2);
+}
+
+.logOutButton:hover {
+  font-weight: bold;
+}

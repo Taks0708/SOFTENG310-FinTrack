@@ -1,41 +1,54 @@
 @import url("variables.css");
 
 .currencyOptionList_open, .currencyOptionList_closed {
-  width: 100%
-}
-
-.currencyOptionList_open {
-  transition-duration: 50ms;
-  height: calc(100vh - 5 * var(--itemHeight) - 3.5 * var(--subSectionPadding) - var(--topBarHeight) - 40px);
-  padding-top: calc(var(--subSectionPadding) * 2);
-}
-
-.currencyOptionList_closed {
-  transition-duration: 50ms;
-  height: 0;
-  padding-top: 0;
+  z-index: 1;
+  float: left;
+  margin-top: calc(var(--subSectionPadding) * -1 - var(--itemHeight));
+  margin-left: var(--subSectionPadding);
+  padding-top: var(--itemHeight);
+  width: calc(var(--sideBarWidth) - 2 * var(--subSectionPadding));
+  border-radius: var(--standardRadius);
+  background: var(--noAffordanceBackground);
+  box-shadow: var(--noAffordanceShadow);
+  max-height: calc(100vh - 4 * var(--itemHeight) - 5 * var(--subSectionPadding) - var(--topBarHeight) - 40px);
   overflow: hidden;
 }
 
+.currencyOptionList_open {
+  height: 224px;
+  transition-duration: 300ms;
+}
+
+.currencyOptionList_closed {
+  height: var(--itemHeight);
+  transition-duration: 300ms;
+}
+
 .currencyOption {
+  color: var(--color2);
+  font-size: var(--standardFontSize);
   width: 100%;
+  padding-top: calc(var(--subSectionPadding) * 0.5);
+  padding-bottom: calc(var(--subSectionPadding) * 0.5);
 }
 
 .defaultButton {
   position: relative;
   z-index: 2;
+  justify-content: center;
+  align-items: center;   
 }
 
-.defaultContainer {
-  position: relative;
-  z-index: 1;
-  float: left;
-  margin-left: var(--subSectionPadding);
-  margin-top: calc(var(--subSectionPadding) * -1 - var(--standardRadius) * 2);
-  min-height: calc(var(--standardRadius) * 2);
+.defaultButtonContainer {
+  z-index: 2;
 }
 
-.currencyOption {
+.currencyOption, .currencyOptionSelected {
   width: 100%;
   float: left;
+}
+
+.currencyOptionSelected, .currencyOption:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: rgb(25, 23, 25)
 }
