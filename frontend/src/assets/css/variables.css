@@ -1,6 +1,7 @@
 :root {
   --color1: rgb(50, 48, 50);
   --color2: rgb(222, 218, 225);
+  --color3: rgb(9, 158, 106);
   --topBarHeight: 64px;
   --sideBarWidth: calc(16vw);
   --subSectionPadding: 8px;

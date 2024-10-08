@@ -4,7 +4,7 @@ import GoalBar from '../GoalBar';
 import '../../assets/css/savingsTracker.css'
 
 export default function SavingsTracker() {
-  const { balance, goal} = useContext(TransactionContext);
+  const { balance, goal, currencySymbol } = useContext(TransactionContext);
   const [progress, setProgress] = useState(0);
 
   /* Dynamic progress bar whenver the balance or goal changes */
@@ -32,11 +32,11 @@ export default function SavingsTracker() {
         balance={balance} 
         goal={goal}
         subgoals={[0, 0.25*goal, 0.5*goal ,0.75*goal, goal]}/>
-
-      {progress >= 0 && (
-        <div className={balance>=goal ? "mt-20" : "mt-4"}>
+      <div className="balanceCounterContainer">
+        <p className="balanceCounter">
+          {Number.parseFloat(balance).toFixed(2)} / {Number.parseFloat(goal).toFixed(2)} ({currencySymbol})
+        </p>
       </div>
-      )}
     </div>
   );
 }

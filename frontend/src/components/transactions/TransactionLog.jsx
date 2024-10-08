@@ -4,6 +4,8 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import TransactionContext from "../../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
 
+import '../../assets/css/transactions.css'
+
 import { LoadingSpinner } from "../LoadingSpinner";
 
 export default function TransactionList() {
@@ -105,7 +107,7 @@ export default function TransactionList() {
             Last year
           </button>
         </div>
-        <div className=" flex justify-between flex-col items-center min-h-[450px] outline outline-4 outline-primary rounded-3xl mt-4 pb-3">
+        <div className="transactionLog">
           <div className="w-[90%] mt-[30px]">
             {loading ? (
               <LoadingSpinner /> // Show spinner while loading

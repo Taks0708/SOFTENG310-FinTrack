@@ -25,7 +25,7 @@ export function TransactionContextProvider({ children }) {
   useEffect(() => { 
     refreshDisplayGoal(setGoal, currency); 
     refreshDisplayBalance(setBalance, currency); 
-  }, [currency]);
+  }, [currency, uiUpdateRequest]);
 
   // fetch transactions from the server and filter them
   useEffect(() => {
