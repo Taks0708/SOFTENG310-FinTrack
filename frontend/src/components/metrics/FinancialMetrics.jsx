@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import TransactionContext from '../../context/TransactionContext';
-import '../../assets/css/defaultButton.css';
+import '../../assets/css/default.css';
+import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
@@ -50,9 +51,9 @@ export default function FinancialMetrics() {
 
   return (
     <div>
-      <button onClick={handleClick} class="defaultButton">
+      <DefaultButton onClick={handleClick}>
         Financial Metrics
-      </button>
+      </DefaultButton>
 
       {/* Conditionally render the modal */}
       {showMetrics && (

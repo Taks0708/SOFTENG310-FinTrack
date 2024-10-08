@@ -4,6 +4,8 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import TransactionContext from "../../context/TransactionContext";
 import { useContext, useState, useEffect } from "react";
 
+import '../../assets/css/transactions.css'
+
 import { LoadingSpinner } from "../LoadingSpinner";
 
 export default function TransactionList() {
@@ -16,11 +18,14 @@ export default function TransactionList() {
     filterYear,
     filterMonth,
     filterWeek,
+    balance,
+    loading,
+    setLoading,
   } = useContext(TransactionContext);
   const [maxPage, setMaxPage] = useState(100);
   const [isPageJustLoaded, setIsPageJustLoaded] = useState(true);
   const [isFiltering, setIsFiltering] = useState(false);
-  const [loading, setLoading] = useState(false);
+ 
 
 
 
@@ -48,16 +53,7 @@ export default function TransactionList() {
     }
   }, [filter]);
 
-  useEffect(() => {
-    const fetchTransactions = () => {
-      if (loading){
-        setLoading(false);
-      }
-  
-    };
 
-    fetchTransactions();
-  }, [transactions]);
 
 
   return (
@@ -105,11 +101,13 @@ export default function TransactionList() {
             Last year
           </button>
         </div>
-        <div className=" flex justify-between flex-col items-center min-h-[450px] outline outline-4 outline-primary rounded-3xl mt-4 pb-3">
+        <div className="transactionLog">
           <div className="w-[90%] mt-[30px]">
             {loading ? (
-              <LoadingSpinner /> // Show spinner while loading
-            ) : transactions.length !== 0 ? (
+              <LoadingSpinner />
+            ) : transactions.length == 0 ? (
+              <p>No transactions found.</p>
+            ) : transactions.length > 0 ? (
               <ul>
                 {transactions.map((transaction) => (
                   <Transaction

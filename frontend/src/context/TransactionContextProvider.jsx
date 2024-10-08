@@ -5,7 +5,7 @@ import {
   filterPastYearTransactions,
 } from "../utility/transactionFilters.js";
 import { useEffect, useState } from "react";
-import { refreshDisplayGoal } from "../utility/CurrencyUtil";
+import { refreshDisplayGoal, refreshDisplayBalance } from "../utility/CurrencyUtil";
 import axios from "axios";
 
 // Context provider for transactions. Allows for the sharing of transaction data between components
@@ -18,7 +18,9 @@ export function TransactionContextProvider({ children }) {
   const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
   const [goal, setGoal] = useState(0);
+  const [currencySymbol, setCurrencySymbol] = useState("$");
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // fetch the balance from the server
   useEffect(() => {
@@ -27,6 +29,7 @@ export function TransactionContextProvider({ children }) {
       .then((response) => {
         setBalance(response.data.result.balance);
         setUiUpdateRequest(false);
+        setLoading(false);
       })
       .catch((error) => {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
@@ -88,6 +91,18 @@ export function TransactionContextProvider({ children }) {
     setUiUpdateRequest(true);
   };
 
+  useEffect(() => {
+    const currencySymbols = {
+      "NZD": "NZ$",
+      "AUD": "AU$",
+      "USD": "US$",
+      "GBP": "£",
+      "HKD": "HK$"
+    }
+
+    setCurrencySymbol(currencySymbols[currency]);
+  }, currency)
+
   //functions to filter transactions
   const filterYear = () => {
     if (filter === "year") {
@@ -125,6 +140,7 @@ export function TransactionContextProvider({ children }) {
   // all values and functions that can be accessed when consuming this context provider
   const contextValue = {
     currency, // the currency to convert to i.e NZD, USD, EUR
+    currencySymbol,
     transactions, // the transactions to display (after filtering)
     allTransactions, // all transactions of the user
     selectedTransactions, // the transactions selected by the user for deletion
@@ -143,6 +159,8 @@ export function TransactionContextProvider({ children }) {
     setCurrency,
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
+    loading,
+    setLoading,
   };
 
   return (

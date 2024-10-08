@@ -1,11 +1,13 @@
 import { useContext, useState, useRef } from "react";
+import getAxiosInstance from "../../utility/AxiosUtil.jsx";
 import TransactionContext from "../../context/TransactionContext";
-import axios from "axios";
-import '../../assets/css/defaultButton.css';
+import '../../assets/css/default.css';
+import DefaultButton from '../default/DefaultButton.jsx';
+import { refreshDisplayBalance } from "../../utility/CurrencyUtil.jsx";
 
 export default function DeleteTransactionButton() {
 
-  const { selectedTransactions, setSelectedTransactions, requestUiUpdate } =
+  const { selectedTransactions, setSelectedTransactions, requestUiUpdate, setBalance, currency } =
     useContext(TransactionContext);
 
   const [disableClick, setDisableClick] = useState(false);
@@ -16,8 +18,6 @@ export default function DeleteTransactionButton() {
     disableClickSync.current = true;
     setDisableClick(true);
 
-    console.log("Transactions to delete:", selectedTransactions);
-
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -25,10 +25,7 @@ export default function DeleteTransactionButton() {
       return;
     }
 
-    const axiosInstance = axios.create({
-      baseURL: "http://localhost:4000",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const axiosInstance = getAxiosInstance();
 
     try {
       // Assuming you have an API function to delete a transaction by ID
@@ -38,8 +35,8 @@ export default function DeleteTransactionButton() {
             .then(requestUiUpdate())
         )
       );
-      console.log("Transactions deleted successfully.");
       setSelectedTransactions([]); // Clear the selected transactions
+      refreshDisplayBalance(setBalance, currency);
     } catch (error) {
       console.error("Failed to delete transactions", error);
     } finally {
@@ -48,12 +45,8 @@ export default function DeleteTransactionButton() {
     }
   };
   return (
-    <button
-      class="defaultButton"
-      onClick={handleDeleteSelected}
-      disabled={disableClick}
-    >
+    <DefaultButton onClick={handleDeleteSelected} disabled={disableClick}>
       Delete Transaction
-    </button>
+    </DefaultButton>
   );
 }

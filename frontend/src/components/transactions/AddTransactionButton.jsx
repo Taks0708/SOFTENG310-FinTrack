@@ -1,12 +1,14 @@
 import { useState, useContext } from "react";
-import axios from "axios";
+import getAxiosInstance from "../../utility/AxiosUtil.jsx";
+import { refreshDisplayBalance, convertCurrency } from "../../utility/CurrencyUtil.jsx";
 import TransactionForm from "./TransactionForm";
 import TransactionContext from "../../context/TransactionContext";
-import '../../assets/css/defaultButton.css';
+import '../../assets/css/default.css';
+import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function AddTransactionButton() {
   const [showForm, setShowForm] = useState(false);
-  const { balance, setBalance } = useContext(TransactionContext);
+  const { balance, setBalance, currency } = useContext(TransactionContext);
 
   const handleFormSubmit = async ({
     title,
@@ -14,50 +16,31 @@ export default function AddTransactionButton() {
     description,
     transactionType,
   }) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("User is not authenticated.");
-      return;
-    }
-
-    const axiosInstance = axios.create({
-      baseURL: "http://localhost:4000",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    console.log("amount: ", amount);
+    amount = await convertCurrency("NZD", currency, amount);
+    console.log("That is ", amount, " in NZD!");
 
     try {
       // Post request to create the transaction
-      const response = await axiosInstance.post("/transaction", {
+      const response = await getAxiosInstance().post("/transaction", {
         title,
         amount,
         description,
       });
 
-      console.log("Transaction created successfully.", response.data);
-
-      // Update the balance after the transaction is created
-
       // PATCH request to update the balance
       const updateBalance = Number(balance) + Number(amount); // use Number() for strings
-      await axiosInstance.patch("/user/balance", { balance: updateBalance });
-      console.log("Balance updated successfully.");
-      setBalance(balance + amount); // Update the balance state in the context
+      await getAxiosInstance().patch("/user/balance", { balance: updateBalance });
+      refreshDisplayBalance(setBalance, currency); // Update the balance state in the context
     } catch (error) {
       console.error("Error occurred:", error);
     } finally {
-      console.log("Im at finally");
       setShowForm(false);
     }
   };
 
   return (
-    <>
-      <button onClick={() => setShowForm(true)} class="defaultButton">
-        Add Transaction
-      </button>
+    <> 
+      <DefaultButton onClick={() => setShowForm(true)}>Add Transaction</DefaultButton>
       {showForm && (
         <div className="absolute">
           <TransactionForm

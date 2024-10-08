@@ -1,11 +1,27 @@
 :root {
-  --color1: black;
-  --color2: white;
+  --color1: rgb(50, 48, 50);
+  --color2: rgb(222, 218, 225);
+  --color3: rgb(9, 158, 106);
   --topBarHeight: 64px;
-  --topBarBtnHeight: 32px;
-  --topBarBtnWidth: 64px;
   --sideBarWidth: calc(16vw);
   --subSectionPadding: 8px;
   --itemHeight: 10vh;
-  --standardRadius: 10px
+  --standardRadius: 10px;
+  --standardFontSize: 16px;
+
+  --color1_gradientInner: rgb(40, 39, 40);
+  --color1_hover: rgb(54, 52, 54);
+  --color1_gradientInner_hover: rgb(44, 43, 44);
+
+  --noAffordanceBackground: var(--color2);
+  --noAffordanceShadow: inset 0px 2px 3px 0px rgba(0,0,0,0.5);
+  --noAddordanceShadow_hover: 0px 4px 4px 0px rgba(0,0,0,0.25);
+
+  --visualAffordanceBackground: linear-gradient(90deg, rgb(5, 87, 68), rgb(43, 177, 99));
+  --visualAffordanceShadow: inset -3px 3px 4px 2px rgba(200, 255, 184, 0.4);
+
+  --physicalAffordanceBackground: linear-gradient(var(--color1), var(--color1_gradientInner));
+  --physicalAffordanceShadow: inset 0px 1px 4px 1px rgba(153, 148, 155, 0.3);
+  --physicalAffordanceBackground_hover: linear-gradient(var(--color1_hover), var(--color1_gradientInner_hover));
+  --physicalAffordanceShadow_hover: inset 0px 1.5px 5px 1px rgba(153, 148, 155, 0.2);
 }

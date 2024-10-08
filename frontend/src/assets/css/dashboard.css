@@ -1,9 +1,11 @@
 @import url("variables.css");
 
 body {
-  background: linear-gradient(90deg, rgba(42,4,126,1) 0%, rgba(77,4,126,1) 100%);
+  /* background: linear-gradient(90deg, rgba(42,4,126,1) 0%, rgba(77,4,126,1) 100%); */
+  background: var(--color1);
   overflow: hidden;
   font-family: "Roboto Mono", monospace;
+  font-size: var(--standardFontSize);
 }
 
 .topBar {
@@ -26,19 +28,21 @@ body {
 }
 
 .sideBar {
-  background: linear-gradient(180deg, rgba(42,4,126,1) 0%, rgba(77,4,126,1) 100%);
   width: var(--sideBarWidth);
   height: calc(100vh - var(--topBarHeight));
   float: right;
 }
 
 .scrollableContent {
+  display: flex;
+  flex-direction: column;
   background-color: var(--color2);
   box-shadow: inset 0px 10px 20px 0px rgba(0,0,0,0.5);
   border-radius: var(--standardRadius);
   width: calc(100vw - var(--sideBarWidth));
   height: calc(100vh - var(--topBarHeight));
   float: left;
-  padding: calc( 2 * var(--subSectionPadding));
+  padding: calc( 4 * var(--subSectionPadding));
+  gap: calc( 4 * var(--subSectionPadding));
   overflow: scroll;
 }
