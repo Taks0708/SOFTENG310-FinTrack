@@ -1,8 +1,8 @@
 import {React, useContext} from 'react';
 import PropTypes from 'prop-types';
-import '../assets/css/default.css'
-import '../assets/css/variables.css'
-import TransactionContext from "../context/TransactionContext";
+import '../../assets/css/default.css'
+import '../../assets/css/variables.css'
+import TransactionContext from "../../context/TransactionContext";
 
 function GoalBar({ progress, balance, goal, subgoals }) {
   const hasReachedGoal = Number(balance) >= Number(goal);

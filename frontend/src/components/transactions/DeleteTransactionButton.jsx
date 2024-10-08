@@ -1,7 +1,6 @@
 import { useContext, useState, useRef } from "react";
 import getAxiosInstance from "../../utility/AxiosUtil.jsx";
 import TransactionContext from "../../context/TransactionContext";
-import axios from "axios";
 import '../../assets/css/default.css';
 import DefaultButton from '../default/DefaultButton.jsx';
 import { refreshDisplayBalance } from "../../utility/CurrencyUtil.jsx";

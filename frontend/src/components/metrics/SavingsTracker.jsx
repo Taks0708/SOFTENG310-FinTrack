@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import TransactionContext from "../../context/TransactionContext";
-import GoalBar from '../GoalBar';
+import GoalBar from '../progress-bar/GoalBar';
 import '../../assets/css/savingsTracker.css'
 
 export default function SavingsTracker() {
