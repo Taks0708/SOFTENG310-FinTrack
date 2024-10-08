@@ -57,4 +57,14 @@ router.get('/page/:pageNumber', isAuthenticated, transactionController.transacti
  */
 router.get('/', isAuthenticated, transactionController.allTransactions);
 
+/**
+ * Route that gets the financial metrics of a user.
+ * It returns the monthly spending, monthly income, percentage spent and percentage saved.
+ * Expects:
+ * - Auth token in headers.
+ * Returns:
+ * - The financial metrics of the user in JSON form.
+ */
+router.get('/metrics', isAuthenticated, transactionController.getMetrics);
+
 module.exports = router;

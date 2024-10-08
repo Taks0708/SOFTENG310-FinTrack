@@ -5,7 +5,7 @@ import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function FinancialMetrics() {
   const [showMetrics, setShowMetrics] = useState(false);
-  const { balance, currency, allTransactions} = useContext(TransactionContext);
+  const { balance, currency, allTransactions } = useContext(TransactionContext);
   const [convertedBalance, setConvertedBalance] = useState(0);
   const [monthlyMetrics, setMonthlyMetrics] = useState({});
 
@@ -15,10 +15,10 @@ export default function FinancialMetrics() {
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
-  
+
     let monthlySpending = 0;
     let monthlyIncome = 0;
-  
+
     transactions.forEach(transaction => {
       const transactionDate = new Date(transaction.created_at);
       const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
@@ -31,10 +31,10 @@ export default function FinancialMetrics() {
         }
       }
     });
-  
+
     const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
     const percentageSaved = 100 - percentageSpent;
-  
+
     setMonthlyMetrics({
       monthlySpending,
       monthlyIncome,
@@ -65,7 +65,7 @@ export default function FinancialMetrics() {
             <p><strong>Income this Month:</strong> {monthlyMetrics.monthlyIncome} {currency}</p>
             <p><strong>% Income Spent:</strong> {monthlyMetrics.percentageSpent.toFixed(2)}%</p>
             <p><strong>% Income Saved:</strong> {monthlyMetrics.percentageSaved.toFixed(2)}%</p>
-            <button 
+            <button
               onClick={handleClick}
               className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
               Close
