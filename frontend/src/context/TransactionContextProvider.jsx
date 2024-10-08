@@ -19,6 +19,7 @@ export function TransactionContextProvider({ children }) {
   const [balance, setBalance] = useState(0);
   const [goal, setGoal] = useState(0);
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // fetch the balance from the server
   useEffect(() => {
@@ -27,6 +28,7 @@ export function TransactionContextProvider({ children }) {
       .then((response) => {
         setBalance(response.data.result.balance);
         setUiUpdateRequest(false);
+        setLoading(false);
       })
       .catch((error) => {
         // If the user is not logged in (due to directly accessing dashboard path or token expiring), redirect to the login page
@@ -143,6 +145,8 @@ export function TransactionContextProvider({ children }) {
     setCurrency,
     handleSelect, // function to handle the selection of transactions
     requestUiUpdate, // call this function to request a UI update of the transactions if it is not done automatically
+    loading,
+    setLoading,
   };
 
   return (
