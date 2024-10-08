@@ -7,7 +7,7 @@ function LuckyAdviser() {
     const [inputValue, setInputValue] = useState('');
     const [promptResponses, setPromptResponses] = useState([]);
     const [loading, setLoading] = useState(false);
-  const [showResponses, setShowResponses] = useState(true); // State to manage response box visibility
+    const [showResponses, setShowResponses] = useState(true); // State to manage response box visibility
 
     // Create axios instance with base URL and authorization token
     const axiosInstance = axios.create({
