@@ -12,8 +12,6 @@ export function LoadingSpinner() {
             border-l-transparent
             rounded-full
             animate-spin
-            justify-center
-            items-center
           "
         ></div>
       </div>
