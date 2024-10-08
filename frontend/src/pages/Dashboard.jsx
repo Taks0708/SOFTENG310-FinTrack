@@ -35,6 +35,7 @@ export default function Dashboard() {
       </div>
       <div className="scrollableContent">
         <BalanceGraph />
+        <FinancialMetrics />
         <TransactionLog />
         <LuckyAdviser/> 
       </div>
@@ -43,7 +44,7 @@ export default function Dashboard() {
         <DeleteTransactionButton />
         <UpdateSavingGoalButton />
         <div style={{height: '40px', width: '100%', float: 'left'}}/> {/* Space between groups of buttons */}
-        <FinancialMetrics />
+        
         <CurrencyDropdown />
       </div>
     </>
