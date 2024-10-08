@@ -1,6 +1,6 @@
 export function LoadingSpinner() {
     return (
-      <div className="flex justify-center items-center mt-[150px]">
+      <div className="flex justify-center">
         <div
           className="
             w-16
@@ -12,6 +12,8 @@ export function LoadingSpinner() {
             border-l-transparent
             rounded-full
             animate-spin
+            justify-center
+            items-center
           "
         ></div>
       </div>
