@@ -14,6 +14,7 @@ import TransactionContext from "../../context/TransactionContext";
 export default function BalanceGraph() {
 
     const {
+        goal,
         balance,
         transactions,
         fromDate,
@@ -21,7 +22,8 @@ export default function BalanceGraph() {
       } = useContext(TransactionContext);
 
     const [balanceData, setBalanceData] = useState([]);
-    const [domain, setDomain] = useState([]);
+    const [domainX, setDomainX] = useState([]);
+    const [domainY, setDomainY] = useState([]);
     const [ticks, setTicks] = useState([]);
 
     const dateFormatter = (date) => {
@@ -33,11 +35,15 @@ export default function BalanceGraph() {
         console.log(balance)
         console.log(transactions)
 
-        setDomain([fromDate.getTime(), toDate.getTime()])
+        console.log("Goal = " + goal)
+
+        setDomainX([fromDate.getTime(), toDate.getTime()])
+        setDomainY([0, goal])
         setTicks(getEvenSpacedPoints(fromDate, toDate, 5))
 
         let lastTime = toDate
         let lastBalance = balance
+
         const verticalSegments = []
         const flatSegments = transactions.reduce((acc, transaction) => {
 
@@ -76,7 +82,7 @@ export default function BalanceGraph() {
 
         setBalanceData(flatSegments.concat(verticalSegments))
 
-    }, [balance, transactions, fromDate, toDate])
+    }, [balance, transactions, fromDate, toDate, goal])
 
     const getEvenSpacedPoints = (startDate, endDate, num) => {
         const diffDays = differenceInCalendarDays(endDate, startDate);
@@ -112,11 +118,10 @@ export default function BalanceGraph() {
                 scale="time"
                 tickFormatter={dateFormatter}
                 type="number"
-                domain={domain}
+                domain={domainX}
                 ticks={ticks}
             />
-            {/* <XAxis type="number" scale="time" dataKey="x" name="date" domain={[fromDate.getDate(), toDate.getDate()]} tickFormatter={dateFormatter}/> */}
-            <YAxis type="number" dataKey="y" name="balance" unit="$" />
+            <YAxis type="number" dataKey="y" name="balance" unit="$" domain={domainY} />
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
 
             {balanceData.map((segment, i) => <Scatter data={segment.points} fill={segment.colour} line key={i} />)}
