@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import "../../App.css";
-import '../../assets/css/defaultButton.css'
+import '../../assets/css/default.css'
 
 export default function SetGoal({
   newGoal,

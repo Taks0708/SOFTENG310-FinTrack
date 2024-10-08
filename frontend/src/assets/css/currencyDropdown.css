@@ -1,0 +1,41 @@
+@import url("variables.css");
+
+.currencyOptionList_open, .currencyOptionList_closed {
+  width: 100%
+}
+
+.currencyOptionList_open {
+  transition-duration: 50ms;
+  height: calc(100vh - 5 * var(--itemHeight) - 3.5 * var(--subSectionPadding) - var(--topBarHeight) - 40px);
+  padding-top: calc(var(--subSectionPadding) * 2);
+}
+
+.currencyOptionList_closed {
+  transition-duration: 50ms;
+  height: 0;
+  padding-top: 0;
+  overflow: hidden;
+}
+
+.currencyOption {
+  width: 100%;
+}
+
+.defaultButton {
+  position: relative;
+  z-index: 2;
+}
+
+.defaultContainer {
+  position: relative;
+  z-index: 1;
+  float: left;
+  margin-left: var(--subSectionPadding);
+  margin-top: calc(var(--subSectionPadding) * -1 - var(--standardRadius) * 2);
+  min-height: calc(var(--standardRadius) * 2);
+}
+
+.currencyOption {
+  width: 100%;
+  float: left;
+}

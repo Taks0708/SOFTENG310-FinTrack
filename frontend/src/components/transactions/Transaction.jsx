@@ -8,7 +8,7 @@ const Transaction = ({ transaction }) => {
   const [isAmountNegative, setIsAmountNegative] = useState(false);
   const [convertedAmount, setConvertedAmount] = useState(transaction.amount);
   const [showDetails, setShowDetails] = useState(false);
-  const { currency, handleSelect } =
+  const { currency, handleSelect, currencySymbol } =
   useContext(TransactionContext);
 
   // useEffect to check if each transaction is negative and then convert the currency
@@ -27,7 +27,6 @@ const Transaction = ({ transaction }) => {
 
   const handleCheckboxChange = (e) => {
     handleSelect(transaction.id, e.target.checked);
-    console.log("clicked: ", transaction.id);
   };
 
   return (
@@ -41,7 +40,7 @@ const Transaction = ({ transaction }) => {
             onClick={() => setShowDetails(true)}>
             
             <p>
-              {isAmountNegative ? convertedAmount : `+${convertedAmount}`}:{" "}
+              {isAmountNegative ? `-${currencySymbol}${convertedAmount.slice(1)}` : `+${currencySymbol}${convertedAmount}`}:{" "}
               {transaction.title}
             </p>
             
