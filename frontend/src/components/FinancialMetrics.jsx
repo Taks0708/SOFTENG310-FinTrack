@@ -12,7 +12,7 @@ export default function FinancialMetrics() {
   // the full list of transactions, not just the ones currently displayed.
   const calculateMetrics = async () => {
     try {
-      const response = await axios.get('/transactions/metrics');
+      const response = await axios.get('http://localhost:4000/transaction/metrics');
       if (response.data.success) {
         setMonthlyMetrics(response.data.metrics);
       } else {
@@ -26,7 +26,7 @@ export default function FinancialMetrics() {
   // Function to toggle the visibility of the modal
   const handleClick = () => {
     setShowMetrics(!showMetrics);
-    calculateMetrics(allTransactions);
+    calculateMetrics();
   };
 
   // Calculate and set the converted balance when currency or balance changes
@@ -54,8 +54,8 @@ export default function FinancialMetrics() {
             <p><strong>Current Balance:</strong> {convertedBalance} {currency}</p>
             <p><strong>Spending this Month:</strong> {monthlyMetrics.monthlySpending} {currency}</p>
             <p><strong>Income this Month:</strong> {monthlyMetrics.monthlyIncome} {currency}</p>
-            <p><strong>% Income Spent:</strong> {monthlyMetrics.percentageSpent.toFixed(2)}%</p>
-            <p><strong>% Income Saved:</strong> {monthlyMetrics.percentageSaved.toFixed(2)}%</p>
+            <p><strong>% Income Spent:</strong> {Number.parseFloat(monthlyMetrics.percentageSpent).toFixed(2)}%</p>
+            <p><strong>% Income Saved:</strong> {Number.parseFloat(monthlyMetrics.percentageSaved).toFixed(2)}%</p>
             <button
               onClick={handleClick}
               className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
