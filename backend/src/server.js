@@ -32,6 +32,7 @@ const isAuthenticated = require("./middleware/authMiddleware.js");
 //routes 
 const userRoutes = require("./routes/users.js");
 const transactionRoutes = require("./routes/transactions")
+const luckyAdviserRoutes = require('./routes/luckyAdviser'); // Adjust the path if necessary
 
 
 const app = express();
@@ -57,6 +58,7 @@ pool.connect((err) => {
 
 app.use('/user',  userRoutes);
 app.use('/transaction' , transactionRoutes);
+app.use('/api', luckyAdviserRoutes); 
 
 const port = 4000
 
