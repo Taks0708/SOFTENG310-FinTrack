@@ -26,12 +26,6 @@ export default function SetGoal({
     setNewGoal(value);
   };
 
-  useEffect(() => {
-    if(newGoal < 0){
-      setNewGoal(0)
-    }
-  }, [newGoal]);
-
   return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-2xl w-96 relative">

@@ -38,11 +38,11 @@ export default function UpdateSavingGoalButton() {
       });
   };
 
-  // useEffect(() => {
-  //   if (showSetGoal) {
-  //     setNewGoal(''); // Reset the new goal when the modal is opened
-  //   }
-  // }, [showSetGoal]);
+  useEffect(() => {
+    if (showSetGoal) {
+      setNewGoal(''); // Reset the new goal when the modal is opened
+    }
+  }, [showSetGoal]);
 
   return (
     <div>
