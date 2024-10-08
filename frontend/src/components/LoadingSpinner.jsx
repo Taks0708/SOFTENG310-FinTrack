@@ -1,6 +1,6 @@
 export function LoadingSpinner() {
     return (
-      <div className="flex justify-center items-center mt-[150px]">
+      <div className="flex justify-center">
         <div
           className="
             w-16
