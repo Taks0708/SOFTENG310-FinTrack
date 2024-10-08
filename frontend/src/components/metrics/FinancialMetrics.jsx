@@ -6,6 +6,8 @@ import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function FinancialMetrics() {
   const { balance, currency, allTransactions,goal} = useContext(TransactionContext);
+  
+  //used to save the metrics in NZD
   const [monthlyMetrics, setMonthlyMetrics] = useState({ monthlySpending: 0,
     monthlyIncome: 0,
     percentageSpent: 0,
@@ -17,6 +19,7 @@ export default function FinancialMetrics() {
       percentOfGoal:0
   });
 
+  //used to save the metrics in the current currency
   const [convertedMonthlyMetrics, setConvertedMonthlyMetrics] = useState({ monthlySpending: 0,
       monthlyIncome: 0,
       percentageSpent: 0,
