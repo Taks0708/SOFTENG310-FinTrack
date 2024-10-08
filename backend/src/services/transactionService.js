@@ -36,6 +36,29 @@ const getUserTransactionsByPage = async(userID , pageNumber) => {
         throw error;
     }
 }
+/**
+ * returns a single transaction based on transaction id and userID
+ * this is done so that you can easily get a single transaction.
+ * @param {int} userID 
+ * @param {int} transactionID 
+ * @returns query result table
+ */
+const getTransaction = async(id , userID) =>{
+    try{
+        const query = {
+            text: 'SELECT * FROM transactions WHERE id = $1 AND user_id = $2',
+            values: [id,userID]
+        };
+
+        const result = await pool.query(query);
+        return result.rows;
+        
+    }catch (error){
+        console.error("error when getting a transaction" , error);
+        throw error;
+    }
+}
+
 
 /**
  * creates a transaction , we add it to the database , the reason that we update the balance is because transactions should
@@ -71,6 +94,64 @@ const makeTransaction = async ( userID , amount , title , description) => {
         throw error;
     }
 }
+
+
+/**
+ * editted a transaction , the reason that we update the balance is because transactions should
+ * directly corrolate with the users balance so we update that as needed based on the amount. We add the amount given so that 
+ * if the value is a negative we will subtract by adding
+ * @param {int} userID 
+ * @param {int} transactionID 
+ * @param {DoubleRange} amount 
+ * @param {String} title 
+ * @param {String} description 
+ * 
+ */
+const editTransaction = async (transactionID,userID,title,amount,description) =>{
+    try {
+        let oldAmount = null;
+        //gets the origional values of the transaction
+        try{
+            const oldVals =  await getTransaction(transactionID,userID);
+  
+            //checks we are not returning null.
+            if(oldVals.length == 0){
+                return { success: false, message: 'Transaction not found or does not belong to user' };
+            }
+            oldAmount = oldVals[0].amount
+            
+            if(oldAmount == null){
+                return { success: false, message: 'Transaction not found or does not belong to user' };
+            }
+        }catch(error){
+            console.error('Error getting the transaction to be editted', error);
+            throw error;
+        } 
+     
+        const changeBalanceQuery = {
+            text :  'UPDATE users SET balance = balance - $1 + $2 WHERE id = $3',
+            values: [oldAmount, amount , userID]
+        }
+        
+        const editTransactionQuery = {
+            text: 'UPDATE transactions SET amount = $3, title = $4, description = $5 WHERE id = $1 AND user_id = $2 ',
+            values : [transactionID, userID, amount , title , description ]
+        }
+
+        await pool.query(editTransactionQuery);
+        await pool.query(changeBalanceQuery);
+
+        console.log(`Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}, oldAmount: ${oldAmount}`)
+        
+        return({success: true, message: `Succesfuly editted transaction id: ${transactionID} , user_id : ${userID} , amount : ${amount} , title : ${title} , description : ${description}`});
+
+    } catch(error){
+        console.error('Error editting the transaction', error);
+        throw error;
+    }
+}
+
+
 
 /**
  * Deletes a transaction from the users transactions , when doing this we firstly get the transaction amount so that we can also 
@@ -147,7 +228,9 @@ const getAllTransactions = async(userID) => {
 }
 module.exports  = {
     getAllTransactions,
+    getTransaction,
     makeTransaction,
     getUserTransactionsByPage,
-    deleteTransaction
+    deleteTransaction,
+    editTransaction
 }

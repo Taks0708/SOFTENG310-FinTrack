@@ -1,0 +1,32 @@
+@import url("variables.css");
+
+.trackerContainer {
+  position: absolute;
+  width: calc(100vw - 2 * var(--sideBarWidth) - 2 * var(--subSectionPadding) - 10vw);
+  right: calc(var(--sideBarWidth) + 5vw);
+  height: calc(var(--topBarHeight) - 2 * var(--subSectionPadding));
+  margin-top: var(--subSectionPadding);
+  margin-left: var(--subSectionPadding);
+  float: left;
+}
+
+.balanceCounterContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  height: calc((var(--topBarHeight) - 3 * var(--subSectionPadding)) * 0.5);
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.balanceCounter {
+  color: var(--color2);
+  padding-left: var(--subSectionPadding);
+  padding-right: var(--subSectionPadding);
+  width: fit-content;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: calc(100% - var);
+  text-align: center;
+  font-size: 0.75rem;
+}

@@ -69,7 +69,7 @@ describe('transactionsController', () => {
         });
         
         // Test the transactions function
-        describe('transactions', () => {
+        describe('get transactions by page', () => {
             // Test the transactions function when the transactions are successful
             it('should return success on successful get transactions', async () => {
             
@@ -141,6 +141,65 @@ describe('transactionsController', () => {
                 expect(res.status.calledWith(500)).to.be.true;
             });
         });
+
+
+        // Test the editTransaction function
+        describe('editTransaction', () => {
+            // Test the editTransaction function when the transaction is successful
+
+            it('should return success on successful edit transaction', async () => {
+                // Set up the req object
+                req.params = { transactionID: 1 };
+                req.user.id = 1;
+                req.body = {title: "test", amount: "amount", description: "description"}
+
+                // Stub the editTransaction function to resolve
+                sinon.stub(transactionService, 'editTransaction').resolves({success: true, message: `Succesfuly editted transaction id`});
+                
+                // Call the editTransaction function
+                await transactionController.editTransaction(req, res);
+                
+                // Check if the status function was called with 200 in the response (success)
+                expect(res.status.calledWith(200)).to.be.true;
+    
+            });
+            
+            // Test the editTransaction function when an error occurs
+            it('should return error if an error occurs during edit transaction', async () => {
+                // Set up the req object
+                req.params = { transactionID: 1 };
+                req.user.id = 1;
+                req.body = {title: "test", amount: "amount", description: "description"}
+
+                // Stub the editTransaction function to throw an error
+                sinon.stub(transactionService, 'editTransaction').rejects(new Error('An error occurred'));
+                
+                // Call the editTransaction function
+                await transactionController.editTransaction(req, res);
+                
+                // Check if the status function was called with 500 in the response (error)
+                expect(res.status.calledWith(500)).to.be.true;
+            });
+
+            it('should return 401 if transaction does not exsist', async () => {
+                req.params = { transactionID: 1 };
+                req.user.id = 1;
+                req.body = {title: "test", amount: "amount", description: "description"}
+
+                // Stub the editTransaction function to return false
+                sinon.stub(transactionService, 'editTransaction').resolves({success: false, message: 'Transaction not found or does not belong to user'});
+                                
+                // Call the editTransaction function
+                await transactionController.editTransaction(req, res);
+                
+                // Check if the status function was called with 401 in the response (error)
+                expect(res.status.calledWith(401)).to.be.true;
+
+            });
+
+        });
+
+
 
         // Test the allTransactions function
         describe ('allTransactions', () => {    
