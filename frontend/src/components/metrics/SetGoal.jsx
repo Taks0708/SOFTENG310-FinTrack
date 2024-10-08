@@ -10,11 +10,6 @@ export default function SetGoal({
   closeModal,
 }) {
 
-
-  const handleSliderChange = (e) => {
-    setNewGoal(e.target.value);
-  };
-
   const handleInputChange = (e) => {
     //removes and save all non number chars in newGoal
     let value = e.target.value.replace(/[^0-9.]/g, "");
@@ -49,19 +44,15 @@ export default function SetGoal({
           <h2 className="text-2xl font-bold mb-4 text-center">
             Set New Savings Goal
           </h2>
-          <input
-            type="range"
-            min="0"
-            max="1000000"
-            value={newGoal}
-            onChange={handleSliderChange}
-            className="w-full"
-          ></input>
+          <h2 className="text-body-small text-left">
+            Goal
+          </h2>
           <input
             type="text"
             value={newGoal}
+            placeholder="100000"
             onInput={handleInputChange}
-            className="mt-2 border p-2 text-center w-full"
+            className="mt-2 border p-2 text-center w-full text-black "
           ></input>
           <div className="flex justify-center mt-4 gap-4">
             <button
