@@ -47,7 +47,7 @@ export default function FinancialMetrics() {
     const convertedTotalSpending = await convertCurrency(currency, "NZD", lifetimeMetrics.totalSpending);
     const convertedTotalIncome = await convertCurrency(currency, "NZD", lifetimeMetrics.totalIncome);
     const convertedBal = await convertCurrency(currency, "NZD", balance);
-    
+
     const convertedPercentOfGoal = Math.round(convertedBal/goal * 100 * 100)/100 
 
     setConvertedMonthlyMetrics({
@@ -122,13 +122,13 @@ export default function FinancialMetrics() {
 
 
   return (
-    <>         
-      <div className="bg-white p-5 rounded-lg shadow-lg ">
-        <h2 className="text-xl font-semibold mb-4">Financial Metrics</h2>
+    <div className="flex justify-center">   
+      <div className="inline-block border-4 border-main-green rounded-lg shadow-lg ">
+        <h2 className="bg-main-green text-body text-white font-semibold p-2">Financial Metrics</h2>
         
-        <div className='flex justify-center'>
+        <div className='flex justify-center p-5'>
           
-          <div className='mr-4'>
+          <div className='mr-4 bg-slate-300 p-5 rounded-lg shadow-lg'>
             <h2 className="text-body-small font-semibold mb-4">Monthly</h2>
             <p><strong>Spending This Month:</strong> {convertedMonthlyMetrics.monthlySpending} {currency}</p>
             <p><strong>Income This Month:</strong> {convertedMonthlyMetrics.monthlyIncome} {currency}</p>
@@ -137,15 +137,16 @@ export default function FinancialMetrics() {
           </div>
 
 
-          <div className='ml-4'>
+          <div className='ml-4 bg-slate-300 p-5 rounded-lg shadow-lg'>
             <h2 className="text-body-small font-semibold mb-4">Lifetime</h2>
-            <p><strong>Balance</strong> {balance} {currency}</p>
+            <p><strong>Balance</strong> {Math.round(balance*100)/100} {currency}</p>
             <p><strong>Percent Of Goal</strong> {convertedLifetimeMetrics.percentOfGoal}%</p>
             <p><strong>Total Income:</strong> {convertedLifetimeMetrics.totalIncome} {currency}</p>
             <p><strong>Total Spending:</strong> {convertedLifetimeMetrics.totalSpending} {currency}</p>
           </div>
         </div>
       </div>
-    </>
+    </div>     
+    
   );
 }
