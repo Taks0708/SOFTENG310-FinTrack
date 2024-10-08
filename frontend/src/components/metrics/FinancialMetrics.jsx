@@ -2,10 +2,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import TransactionContext from '../../context/TransactionContext';
 import '../../assets/css/default.css';
 import {convertCurrency} from '../../utility/CurrencyUtil';
+import axios from 'axios';
 import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function FinancialMetrics() {
-  const { balance, currency, allTransactions,goal} = useContext(TransactionContext);
+  const { balance, currency, transactions,goal} = useContext(TransactionContext);
   
   //used to save the metrics in NZD
   const [monthlyMetrics, setMonthlyMetrics] = useState({ monthlySpending: 0,
@@ -33,14 +34,14 @@ export default function FinancialMetrics() {
         
   //when any of the parameters that effect transaction are modified then recalculate the metrics and convert to the correct currency
   useEffect(() => {
-    const fetchData = async () => {
-      await calculateMetrics(allTransactions); 
-      await calculateCurrency();
+    const fetchData =  () => {
+      calculateMetrics(); 
+      calculateCurrency();
     };
 
     fetchData();
 
-  },[allTransactions,currency,goal,balance])
+  },[transactions,currency,goal,balance])
 
   //converst the lifetime and montly metrics into the correct currency. then appends to ConvertedLifetimeMetrics and ConvertedMonthlyMetrics
   async function calculateCurrency(){
@@ -68,58 +69,18 @@ export default function FinancialMetrics() {
 
   // Takes in a list of transactions and calculates the monthly and lifetime metrics. This should always be
   // the full list of transactions, not just the ones currently displayed.
-  function calculateMetrics (transactions) {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-  
-    let monthlySpending = 0;
-    let monthlyIncome = 0;
-    let totalSpending = 0;
-    let totalIncome = 0;
-
-  
-    transactions.forEach(transaction => {
-      const transactionDate = new Date(transaction.created_at);
-      const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
-
-      //adding to monthly metrics
-      if (isCurrentMonth) {
-        if (transaction.amount < 0) {
-          monthlySpending += Math.abs(transaction.amount); // Spending is negative
-        } else {
-          monthlyIncome += parseFloat(transaction.amount); // Income is positive
-        }
-      }
-
-      //adding to lifetime metrics
-      if (transaction.amount < 0) {
-        totalSpending += Math.abs(transaction.amount); // Spending is negative
+  async function calculateMetrics () {
+    try {
+      const response = await axios.get('http://localhost:4000/transaction/metrics');
+      if (response.data.success) {
+        setMonthlyMetrics(response.data.monthlyMetrics);
+        setLifetimeMetrics(response.data.lifetimeMetrics,{percentOfGoal: Math.round(balance/goal * 100 * 100)/100});
       } else {
-        totalIncome += parseFloat(transaction.amount); // Income is positive
+        console.error('Failed to fetch metrics');
       }
-
-
-
-    });
-    
-    //calculating lifetime metrics
-    const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
-    const percentageSaved = 100 - percentageSpent;
-    const percentOfGoal = Math.round(balance/goal * 100 * 100)/100
-  
-    setMonthlyMetrics({
-      monthlySpending,
-      monthlyIncome,
-      percentageSpent,
-      percentageSaved
-    });
-
-    setLifetimeMetrics({
-      totalSpending,
-      totalIncome,
-      percentOfGoal
-    })
+    } catch (error) {
+      console.error('Error fetching metrics:', error);
+    }
   };
 
   return (
