@@ -24,7 +24,6 @@
   transition-duration: 100ms;
   width: 100%;
   height: calc(var(--itemHeight) - var(--subSectionPadding));
-  background-color: var(--color1);
   border-radius: calc(var(--standardRadius) * 0.75);
   background: var(--physicalAffordanceBackground);
   box-shadow: var(--physicalAffordanceShadow);
