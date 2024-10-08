@@ -8,7 +8,7 @@ import DefaultButton from '../default/DefaultButton.jsx';
 
 export default function AddTransactionButton() {
   const [showForm, setShowForm] = useState(false);
-  const { balance, setBalance, currency } = useContext(TransactionContext);
+  const { balance, setBalance, currency,requestUiUpdate } = useContext(TransactionContext);
 
   const handleFormSubmit = async ({
     title,
@@ -25,11 +25,13 @@ export default function AddTransactionButton() {
         title,
         amount,
         description,
-      });
+      }).then(requestUiUpdate());
 
       // PATCH request to update the balance
       const updateBalance = Number(balance) + Number(amount); // use Number() for strings
       await getAxiosInstance().patch("/user/balance", { balance: updateBalance });
+
+
       refreshDisplayBalance(setBalance, currency); // Update the balance state in the context
     } catch (error) {
       console.error("Error occurred:", error);
