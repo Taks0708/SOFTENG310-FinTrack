@@ -8,8 +8,7 @@ export default function FinancialMetrics() {
   const [convertedBalance, setConvertedBalance] = useState(0);
   const [monthlyMetrics, setMonthlyMetrics] = useState({});
 
-  // Takes in a list of transactions and calculates the monthly spending, income, and percentages. This should always be
-  // the full list of transactions, not just the ones currently displayed.
+  // Connect to the backend to fetch the financial metrics
   const calculateMetrics = async () => {
     try {
       const response = await axios.get('http://localhost:4000/transaction/metrics');

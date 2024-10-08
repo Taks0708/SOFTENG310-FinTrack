@@ -84,12 +84,14 @@ exports.getMetrics = async (req, res) => {
         let monthlySpending = 0;
         let monthlyIncome = 0;
 
+        // Calculate the total spending and income for the current month
         transactions.forEach(transaction => {
             const transactionDate = new Date(transaction.created_at);
             const isCurrentMonth =
                 transactionDate.getMonth() === currentMonth &&
                 transactionDate.getFullYear() === currentYear;
 
+            // If the transaction is in the current month, add it to the spending or income
             if (isCurrentMonth) {
                 if (transaction.amount < 0) {
                     monthlySpending += Math.abs(transaction.amount);
@@ -102,6 +104,7 @@ exports.getMetrics = async (req, res) => {
         const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
         const percentageSaved = 100 - percentageSpent;
 
+        // Return the calculated metrics with a success status
         res.json({
             success: true,
             metrics: {
@@ -111,6 +114,8 @@ exports.getMetrics = async (req, res) => {
                 percentageSaved
             }
         });
+
+        // Catch any errors and return an error status
     } catch (error) {
         console.error('Error calculating metrics', error);
         res.status(500).json({ success: false, error: error.message });
