@@ -28,12 +28,10 @@ export default function FinancialMetrics() {
       percentOfGoal:0
     });
         
-  
-
-
+  //when any of the parameters that effect transaction are modified then recalculate the metrics and convert to the correct currency
   useEffect(() => {
     const fetchData = async () => {
-      await calculateMetrics(allTransactions); //transactions change
+      await calculateMetrics(allTransactions); 
       await calculateCurrency();
     };
 
@@ -41,6 +39,7 @@ export default function FinancialMetrics() {
 
   },[allTransactions,currency,goal,balance])
 
+  //converst the lifetime and montly metrics into the correct currency. then appends to ConvertedLifetimeMetrics and ConvertedMonthlyMetrics
   async function calculateCurrency(){
     const convertedMonthlySpending = await convertCurrency(currency, "NZD", monthlyMetrics.monthlySpending);
     const convertedMonthlyIncome = await convertCurrency(currency, "NZD", monthlyMetrics.monthlyIncome);
@@ -63,7 +62,8 @@ export default function FinancialMetrics() {
         percentOfGoal:convertedPercentOfGoal 
     });
   }
-  // Takes in a list of transactions and calculates the monthly spending, income, and percentages. This should always be
+
+  // Takes in a list of transactions and calculates the monthly and lifetime metrics. This should always be
   // the full list of transactions, not just the ones currently displayed.
   function calculateMetrics (transactions) {
     const now = new Date();
@@ -80,6 +80,7 @@ export default function FinancialMetrics() {
       const transactionDate = new Date(transaction.created_at);
       const isCurrentMonth = transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
 
+      //adding to monthly metrics
       if (isCurrentMonth) {
         if (transaction.amount < 0) {
           monthlySpending += Math.abs(transaction.amount); // Spending is negative
@@ -87,6 +88,8 @@ export default function FinancialMetrics() {
           monthlyIncome += parseFloat(transaction.amount); // Income is positive
         }
       }
+
+      //adding to lifetime metrics
       if (transaction.amount < 0) {
         totalSpending += Math.abs(transaction.amount); // Spending is negative
       } else {
@@ -96,10 +99,10 @@ export default function FinancialMetrics() {
 
 
     });
-  
+    
+    //calculating lifetime metrics
     const percentageSpent = monthlyIncome > 0 ? (monthlySpending / monthlyIncome) * 100 : 0;
     const percentageSaved = 100 - percentageSpent;
-
     const percentOfGoal = Math.round(balance/goal * 100 * 100)/100
   
     setMonthlyMetrics({
@@ -116,18 +119,13 @@ export default function FinancialMetrics() {
     })
   };
 
-  // Function to toggle the visibility of the modal
- 
-   
-
-
   return (
     <div className="flex justify-center">   
       <div className="inline-block border-4 border-main-green rounded-lg shadow-lg ">
         <h2 className="bg-main-green text-body text-white font-semibold p-2">Financial Metrics</h2>
         
         <div className='flex justify-center p-5'>
-          
+          {/*Monthly metrics*/}
           <div className='mr-4 bg-slate-300 p-5 rounded-lg shadow-lg'>
             <h2 className="text-body-small font-semibold mb-4">Monthly</h2>
             <p><strong>Spending This Month:</strong> {convertedMonthlyMetrics.monthlySpending} {currency}</p>
@@ -136,7 +134,7 @@ export default function FinancialMetrics() {
             <p><strong>% Income Saved:</strong> {convertedMonthlyMetrics.percentageSaved.toFixed(2)}%</p>
           </div>
 
-
+          {/*Lifetime metrics*/}
           <div className='ml-4 bg-slate-300 p-5 rounded-lg shadow-lg'>
             <h2 className="text-body-small font-semibold mb-4">Lifetime</h2>
             <p><strong>Balance</strong> {Math.round(balance*100)/100} {currency}</p>
