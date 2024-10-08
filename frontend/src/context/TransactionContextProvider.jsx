@@ -1,9 +1,4 @@
 import TransactionContext from "./TransactionContext.jsx";
-import {
-  filterPastWeekTransactions,
-  filterPastMonthTransactions,
-  filterPastYearTransactions,
-} from "../utility/transactionFilters.js";
 import { useEffect, useState } from "react";
 import { refreshDisplayGoal, refreshDisplayBalance } from "../utility/CurrencyUtil";
 import axios from "axios";
@@ -15,12 +10,21 @@ export function TransactionContextProvider({ children }) {
   const [allTransactions, setAllTransactions] = useState([]);
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("");
   const [balance, setBalance] = useState(0);
   const [goal, setGoal] = useState(0);
   const [currencySymbol, setCurrencySymbol] = useState("$");
   const [uiUpdateRequest, setUiUpdateRequest] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const [fromDate, setFromDate] = useState(() => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);             // Default start date is one month before today
+    if (date.getDate() !== new Date().getDate()) {  // Check that we don't have an invalid day, e.g. February 31st
+      date.setDate(0);                              // If we do, just set it to the last day of the previous month
+    }
+    return date;
+  });
+  const [toDate, setToDate] = useState(new Date());
 
   // fetch the balance from the server
   useEffect(() => {
@@ -49,17 +53,12 @@ export function TransactionContextProvider({ children }) {
         // Store all transactions in a state variable before any filtering is done. This can be accessed by other components if needed
         setAllTransactions(response.data.result);
 
-        // These are the transactions that will be displayed on the page. They are filtered based on the filter state variable
-        let currTransactions = response.data.result;
+        // These are the transactions that will be displayed on the page. They are filtered based on the start and end dates.
+        const currTransactions = response.data.result.filter(transaction => {
+            const transactionDate = new Date(transaction.created_at);
+            return transactionDate >= fromDate && transactionDate <= toDate;
+        });
 
-
-        if (filter === "year") {
-          currTransactions = filterPastYearTransactions(currTransactions);
-        } else if (filter === "month") {
-          currTransactions = filterPastMonthTransactions(currTransactions);
-        } else if (filter === "week") {
-          currTransactions = filterPastWeekTransactions(currTransactions);
-        }
         setTransactions(returnTransactionsPerPage(currTransactions, currentPage, 10));
         setUiUpdateRequest(false);
       })
@@ -67,7 +66,7 @@ export function TransactionContextProvider({ children }) {
         window.location.href = "/login";
         console.error("Not logged in ", error);
       });
-  }, [currentPage, filter, balance, uiUpdateRequest]);
+  }, [currentPage, fromDate, toDate, balance, uiUpdateRequest]);
 
   // function to return the transactions for a given page. Return empty array if a page has no transactions
   const returnTransactionsPerPage = (transactions, currentPage, pageSize) => {
@@ -104,28 +103,9 @@ export function TransactionContextProvider({ children }) {
   }, currency)
 
   //functions to filter transactions
-  const filterYear = () => {
-    if (filter === "year") {
-      setFilter("");
-    } else {
-      setFilter("year");
-    }
-  };
-
-  const filterMonth = () => {
-    if (filter === "month") {
-      setFilter("");
-    } else {
-      setFilter("month");
-    }
-  };
-
-  const filterWeek = () => {
-    if (filter === "week") {
-      setFilter("");
-    } else {
-      setFilter("week");
-    }
+  const setDateRange = (from, to) => {
+    setFromDate(from);
+    setToDate(to);
   };
   
   //function for handling the selection of transactions for deletion
@@ -144,17 +124,15 @@ export function TransactionContextProvider({ children }) {
     transactions, // the transactions to display (after filtering)
     allTransactions, // all transactions of the user
     selectedTransactions, // the transactions selected by the user for deletion
-    filter, // the filter type to apply to the transactions i.e year, month, week
     currentPage,
     balance, // the balance of the user
     goal,
+    fromDate,
+    toDate,
     setBalance,
     setGoal,
     setSelectedTransactions,
-    setFilter,
-    filterYear, // filters the transactions, access the transactions with the transactions variable
-    filterMonth, // filters the transactions, access the transactions with the transactions variable
-    filterWeek, // filters the transactions, access the transactions with the transactions variable
+    setDateRange,
     setCurrentPage,
     setCurrency,
     handleSelect, // function to handle the selection of transactions

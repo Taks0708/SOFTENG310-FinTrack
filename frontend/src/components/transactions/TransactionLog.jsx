@@ -8,98 +8,49 @@ import '../../assets/css/transactions.css'
 
 import { LoadingSpinner } from "../LoadingSpinner";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 export default function TransactionList() {
   const {
     transactions,
     allTransactions,
-    filter,
     currentPage,
     setCurrentPage,
-    filterYear,
-    filterMonth,
-    filterWeek,
-    balance,
+    fromDate,
+    toDate,
+    setDateRange,
     loading,
-    setLoading,
+    setLoading
   } = useContext(TransactionContext);
   const [maxPage, setMaxPage] = useState(100);
   const [isPageJustLoaded, setIsPageJustLoaded] = useState(true);
-  const [isFiltering, setIsFiltering] = useState(false);
- 
-
 
 
   // at page load, transactions is empty, so set maxPage to currentPage (1). So using isPageJustLoaded to avoid this behavior at page load
   // only set the max page after the transactions have been loaded
   useEffect(() => {
     setMaxPage(Math.ceil(allTransactions.length / 10));
-    if (!isPageJustLoaded && !isFiltering) {
+    if (!isPageJustLoaded) {
       if (transactions.length < 10) {
         setMaxPage(currentPage);
         
       }
     } else {
       setIsPageJustLoaded(false);
-      setIsFiltering(false);
     }
 
-  }, [transactions, allTransactions, currentPage, isPageJustLoaded, isFiltering]);
-
-  useEffect(() => {
-    if (filter.length > 0) {
-      setIsFiltering(true);
-    } else {
-      setIsFiltering(false);
-    }
-  }, [filter]);
-
-
+  }, [transactions, allTransactions, currentPage, isPageJustLoaded]);
 
 
   return (
     <div className="flex flex-col items-center">
       <div className=" w-[100%]">
-        <div className="flex flex-row gap-4 items-center">
-          <h1 className="text-body ">Filter by: </h1>
-          <button
-            className={
-              filter === "week"
-                ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
-                : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
-            }
-            onClick={() => {
-              setCurrentPage(1)
-              filterWeek();
-            }}
-          >
-            Last week
-          </button>
-          <button
-            className={
-              filter === "month"
-                ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
-                : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
-            }
-            onClick={() => {
-              setCurrentPage(1);
-              filterMonth();
-            }}
-          >
-            Last month
-          </button>
-          <button
-            className={
-              filter === "year"
-                ? "bg-primary-dark text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] active:bg-primary-darker"
-                : "bg-primary text-white text-xl font-bold rounded-full py-1 px-3 w-[150px] hover:bg-primary-dark active:bg-primary-darker"
-            }
-            onClick={() => {
-              setCurrentPage(1);
-              filterYear();
-            }}
-          >
-            Last year
-          </button>
+        <div className="flex flex-row gap-4 items-center text-body ">
+          <h1>From: </h1>
+          <DatePicker selected={fromDate} endDate={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(date, toDate)} />
+          <h1>To: </h1>
+          <DatePicker startDate={fromDate} selected={toDate} dateFormat={"dd-MM-yyyy"} onChange={(date) => setDateRange(fromDate, date)} />
         </div>
         <div className="transactionLog">
           <div className="w-[90%] mt-[30px]">

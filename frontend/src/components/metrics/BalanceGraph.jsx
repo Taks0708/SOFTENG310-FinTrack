@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { add, format, differenceInCalendarDays } from "date-fns";
 import {
   ScatterChart,
   Scatter,
@@ -14,54 +15,84 @@ export default function BalanceGraph() {
 
     const {
         balance,
-        transactions
+        transactions,
+        fromDate,
+        toDate
       } = useContext(TransactionContext);
 
-      
-
     const [balanceData, setBalanceData] = useState([]);
+    const [domain, setDomain] = useState([]);
+    const [ticks, setTicks] = useState([]);
 
-    const parseDate = (dateString) => {
-        // Parse the date string
-        const date = new Date(dateString);
-        
-        // Create a new date object for the start of the year
-        const startOfYear = new Date(date.getFullYear(), 0, 0);
-        
-        // Calculate the difference in milliseconds
-        const diff = date - startOfYear;
-        
-        // Convert milliseconds to days and return the day of the year
-        const oneDay = 1000 * 60 * 60 * 24;
-        const parseDate = Math.floor(diff / oneDay);
-        
-        return parseDate;
-    }
+    const dateFormatter = (date) => {
+        return format(new Date(date), "dd-MM-yyyy");
+    };
 
     useEffect(() => {
 
-        let pastBalance = balance
-        const newBalanceData = transactions.reduce((acc, transaction) => {
+        console.log(balance)
+        console.log(transactions)
+
+        setDomain([fromDate.getTime(), toDate.getTime()])
+        setTicks(getEvenSpacedPoints(fromDate, toDate, 5))
+
+        let lastTime = toDate
+        let lastBalance = balance
+        const verticalSegments = []
+        const flatSegments = transactions.reduce((acc, transaction) => {
 
             // Parse the transaction amount to a number
             const amount = parseFloat(transaction.amount);
-            const date = parseDate(transaction.created_at.substring(0, 10))
 
-            acc.push({ x: date, y: pastBalance });
+            // Parse the date string
+            const date = new Date(transaction.created_at);
+            console.log(date)
+
+            const flatSegment = [];
+            flatSegment.push({x: lastTime.getTime(), y: lastBalance})
+            flatSegment.push({x: date.getTime(), y: lastBalance})
+            acc.push({points: flatSegment, colour: "#000000"})
+
+            // Update the balance
+            const newBalance = lastBalance - amount;
+
+            const verticalSegment = [];
+            const verticalSegmentColour = (lastBalance > newBalance) ? "#22c55e" : "#ef4444";
+            verticalSegment.push({x: date.getTime(), y: lastBalance})
+            verticalSegment.push({x: date.getTime(), y: newBalance})
+            verticalSegments.push({points: verticalSegment, colour: verticalSegmentColour})
             
             // Update the balance
-            pastBalance -= amount;
-            
-            // Push the new object with the creation date and updated balance
-            acc.push({ x: date, y: pastBalance });
+            lastBalance -= amount;
+            lastTime = date;
             
             return acc;
         }, []);
 
-        newBalanceData.push({x: 0, y: pastBalance})
+        const lastSegment = [];
+        lastSegment.push({x: lastTime.getTime(), y: lastBalance})
+        lastSegment.push({x: fromDate.getTime(), y: lastBalance})
+        flatSegments.push({points: lastSegment, colour: "#000000"})
 
-        setBalanceData(newBalanceData)
-    }, [balance, transactions])
+        setBalanceData(flatSegments.concat(verticalSegments))
+
+    }, [balance, transactions, fromDate, toDate])
+
+    const getEvenSpacedPoints = (startDate, endDate, num) => {
+        const diffDays = differenceInCalendarDays(endDate, startDate);
+      
+        let current = startDate,
+          step = Math.round(diffDays / (num - 1));
+      
+        const ticks = [startDate.getTime()];
+      
+        for (let i = 1; i < num - 1; i++) {
+          ticks.push(add(current, { days: i * step }).getTime());
+        }
+      
+        ticks.push(endDate.getTime());
+        return ticks;
+      };
 
     return (
         <ResponsiveContainer width="100%" height={400}>
@@ -74,10 +105,23 @@ export default function BalanceGraph() {
             }}
             >
             <CartesianGrid />
-            <XAxis type="number" dataKey="x" name="date"/>
+            <XAxis
+                name="date"
+                dataKey="x"
+                hasTick
+                scale="time"
+                tickFormatter={dateFormatter}
+                type="number"
+                domain={domain}
+                ticks={ticks}
+            />
+            {/* <XAxis type="number" scale="time" dataKey="x" name="date" domain={[fromDate.getDate(), toDate.getDate()]} tickFormatter={dateFormatter}/> */}
             <YAxis type="number" dataKey="y" name="balance" unit="$" />
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Scatter data={balanceData} fill="#ff0000" line />
+
+            {balanceData.map((segment, i) => <Scatter data={segment.points} fill={segment.colour} line key={i} />)}
+            {/* <Scatter data={balanceData} fill="#ff0000" line /> */}
+
             </ScatterChart>
         </ResponsiveContainer>
     );

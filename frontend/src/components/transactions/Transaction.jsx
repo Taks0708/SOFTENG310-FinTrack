@@ -8,8 +8,12 @@ const Transaction = ({ transaction }) => {
   const [isAmountNegative, setIsAmountNegative] = useState(false);
   const [convertedAmount, setConvertedAmount] = useState(transaction.amount);
   const [showDetails, setShowDetails] = useState(false);
-  const { currency, handleSelect, currencySymbol } =
-  useContext(TransactionContext);
+  const { currency, handleSelect, currencySymbol } = useContext(TransactionContext);
+
+  const transactionDate = new Date(transaction.created_at.substring(0, 10));
+  const dateString = ((transactionDate.getDate() < 10) ? "0" : "") + transactionDate.getDate() + "-" + 
+                     ((transactionDate.getMonth() + 1 < 10) ? "0" : "") + (transactionDate.getMonth() + 1) + "-" + 
+                     transactionDate.getFullYear()
 
   // useEffect to check if each transaction is negative and then convert the currency
   useEffect(() => {
@@ -23,7 +27,7 @@ const Transaction = ({ transaction }) => {
       setIsAmountNegative(converted < 0);
     };
     convert();
-  }, [currency, transaction.amount, convertCurrency]);
+  }, [currency, transaction.amount]);
 
   const handleCheckboxChange = (e) => {
     handleSelect(transaction.id, e.target.checked);
@@ -44,7 +48,7 @@ const Transaction = ({ transaction }) => {
               {transaction.title}
             </p>
             
-            <p className="self-end">{transaction.created_at.substring(0, 10)}</p>
+            <p className="self-end">{dateString}</p>
 
           </button>
       </div>

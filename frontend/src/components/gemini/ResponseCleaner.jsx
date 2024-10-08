@@ -1,5 +1,3 @@
-// ResponseCleaner.js
-
 export function cleanResponse(response) {
     // Split the response into sections based on double asterisks
     const sections = response.split(/\*\*(.*?)\*\*/g).filter(Boolean);

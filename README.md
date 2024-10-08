@@ -141,10 +141,13 @@ We are using a free PostgreSQL database hosted by Aiven to store user and transa
 - PG_PORT
 - CA_CERT_PATH:../certs/ca.crt
 - CIPHER
+- REACT_APP_GEMINI_API_KEY
 
 Please contact us in order to get this .env file, as it isn't pushed to GitHub. You may need to create your own PostgreSQL database on Aiven for personal security reasons though. 
 
 Just follow the instructions on [this page](https://aiven.io/mysql) to do so. Once you have the database created, just fill in the .env file fields shown above with your database's info. The CIPHER field can be any string you want as it is used to encrypt tokens.
+
+For the REACT_APP_GEMINI_API_KEY, this can be created on [this page](https://aistudio.google.com/app/apikey). 
 
 Once you have the .env file, simply place it in the **backend** folder. The database should automatically start working once this is done (regardless of whose database you're using)
 
@@ -163,3 +166,12 @@ The coverage of these tests can be seen by entering the following when in the ba
 Do note that this will generate some folders in the backend directory. These folders have already been added to the .gitignore, and shouldn't be pushed to the main repository.
 
 If the tests fail, make sure that all backend dependencies have been installed. If, for some reason, they aren't being installed by an `npm install`, enter `npm install --save-dev mocha chai sinon nyc` .
+
+# Libraries/APIs
+This section introduces different libraries/APIs used for the app and why they are used. This also includes links to more detailed documentation for each libraries/APIs.
+## Recharts
+Recharts is used for graphical representation of transaction history.
+Documentation and different API that can be used from Recharts can be found on [Recharts documentation](https://recharts.org/en-US/).
+## Gemini API
+Gemini is used for getting financial advice for our users. 
+Documentation can be found on [Gemini API documentation](https://ai.google.dev/api?lang=node).
