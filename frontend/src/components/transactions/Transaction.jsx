@@ -3,6 +3,7 @@ import TransactionContext from "../../context/TransactionContext";
 import TransactionDetailsPopup from "./TransactionDetailPopup";
 import PropTypes from "prop-types";
 import { convertCurrency  } from "../../utility/CurrencyUtil";
+import '../../assets/css/variables.css';
 
 const Transaction = ({ transaction }) => {
   const [isAmountNegative, setIsAmountNegative] = useState(false);
@@ -40,15 +41,14 @@ const Transaction = ({ transaction }) => {
           
           <button
             className={` w-full flex flex-row justify-between text-body ml-[8px] pl-2 pr-2 rounded-2xl ${
-              isAmountNegative ? "text-red-500" : "text-green-500"} hover:bg-gray-300 cursor-pointer`}
+              isAmountNegative ? "text-primary-red" : "text-primary-green"} hover:bg-gray-300 cursor-pointer`}
             onClick={() => setShowDetails(true)}>
-            
-            <p>
+            <p style={{fontSize: "var(--standaloneFontSize)"}}>
               {isAmountNegative ? `-${currencySymbol}${convertedAmount.slice(1)}` : `+${currencySymbol}${convertedAmount}`}:{" "}
               {transaction.title}
             </p>
             
-            <p className="self-end">{dateString}</p>
+            <p style={{fontSize: "var(--standaloneFontSize)"}} className="self-end">{dateString}</p>
 
           </button>
       </div>

@@ -57,7 +57,7 @@ export default function BalanceGraph() {
             const newBalance = lastBalance - amount;
 
             const verticalSegment = [];
-            const verticalSegmentColour = (lastBalance > newBalance) ? "#22c55e" : "#ef4444";
+            const verticalSegmentColour = (lastBalance > newBalance) ? "#099e6a" : "#cc0a48";
             verticalSegment.push({x: date.getTime(), y: lastBalance})
             verticalSegment.push({x: date.getTime(), y: newBalance})
             verticalSegments.push({points: verticalSegment, colour: verticalSegmentColour})
