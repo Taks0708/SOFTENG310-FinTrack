@@ -31,7 +31,6 @@ export function TransactionContextProvider({ children }) {
     axios
       .get("http://localhost:4000/user/balance")
       .then((response) => {
-        setBalance(response.data.result.balance);
         setUiUpdateRequest(false);
         setLoading(false);
       })
