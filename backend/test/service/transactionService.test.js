@@ -50,6 +50,25 @@ describe('transactionService', () => {
             expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
         });
 
+        // Test if get user transaction by page calls the sql query
+        it('should return paginated transactions for a user', async () => {
+            const userID = 1;
+            const pageNumber = 2;
+            const mockTransactions = [
+                { id: 1, amount: 100, title: 'Transaction 1' },
+                { id: 2, amount: 200, title: 'Transaction 2' },
+            ];
+
+            poolQueryStub.resolves({ rows: mockTransactions });
+            
+            const result = await transactionService.getUserTransactionsByPage(userID, pageNumber);
+            
+            expect(poolQueryStub.calledOnce).to.be.true;
+            expect(result).to.deep.equal(mockTransactions);
+            expect(poolQueryStub.firstCall.args[0].text).to.include('SELECT * FROM transactions');
+            expect(poolQueryStub.firstCall.args[0].values).to.deep.equal([userID, 10, 10]); // Check OFFSET is correct
+        });
+
         // Test case for an error during the query
         it('should handle errors and throw the error', async () => {
             // Stub the pool query function to reject with an error
@@ -87,7 +106,9 @@ describe('transactionService', () => {
 
             expect(poolQueryStub.calledTwice).to.be.true; // Expect the pool query function to be called twice
             expect(poolQueryStub.firstCall.args[0].text).to.include('INSERT INTO transactions'); // Expect the first query to be an insert query
+            expect(poolQueryStub.firstCall.args[0].values).to.deep.equal([userID, amount, title, description]); 
             expect(poolQueryStub.secondCall.args[0].text).to.include('UPDATE users SET balance'); // Expect the second query to be an update query
+            expect(poolQueryStub.secondCall.args[0].values).to.deep.equal([amount, userID]); 
         });
         
         // Test case for an error during the transaction

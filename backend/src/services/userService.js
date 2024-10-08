@@ -35,8 +35,9 @@ const checkEmailExists = async (email) => {
         text: 'SELECT * FROM users WHERE email = $1',
         values: [email],
     };
+
     try { const result = await pool.query(query);
-    return result.rows.length > 0;
+        return result.rows.length > 0;
     } catch (error) {
         console.error('An error occurred while checking email:', error);
         return false;
@@ -48,13 +49,19 @@ const checkPasswordCorrect = async (email, password) => {
         text: 'SELECT password FROM users WHERE email = $1',
         values: [email],
     };
-    try {const result = await pool.query(query);
-            if (result.rows.length === 0) {
-                return false;
-            }
-            const hashedPassword = result.rows[0].password;
-            const passwordsMatch =  await securePassword.comparePasswords(password, hashedPassword);
+
+    try {
+        const result = await pool.query(query);
+
+        if (result.rows.length === 0) {
+            return false;
+        }
+
+        const hashedPassword = result.rows[0].password;
+        const passwordsMatch =  await securePassword.comparePasswords(password, hashedPassword);
+
         return passwordsMatch;
+
     } catch (error) {
 
         console.error('An error occurred while checking password:', error);

@@ -37,7 +37,7 @@ describe('userService', () => {
             poolQueryStub.resolves(mockResult);
             
             // Call the getUserID function with the stubbed pool query
-            const userId = await userService.getUserID('test');
+            const userId = await userService.getUserID('test@example.com');
 
             expect(userId).to.equal(1); // Expect the user ID to be 1
             expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
@@ -52,7 +52,7 @@ describe('userService', () => {
             poolQueryStub.resolves(mockResult);
             
             // Call the getUserID function with the stubbed pool query
-            const userId = await userService.getUserID('test');
+            const userId = await userService.getUserID('test@example.com');
 
             expect(userId).to.be.null; // Expect the user ID to be null
             expect(poolQueryStub.calledOnce).to.be.true; // Expect the pool query function to be called once
@@ -60,11 +60,14 @@ describe('userService', () => {
         
         // Test case for an error during the query
         it('should throw an error if the query fails', async () => {
-            // Stub the pool query function to reject with an error
-            poolQueryStub.rejects(new Error('Query failed'));
-            
-            // Call the getUserID function with a test email and expect an error to be thrown
-            expect(userService.getUserID('test')).to.throw;
+            const mockError = new Error('Query failed');
+            poolQueryStub.rejects(mockError);
+    
+            try {
+                await userService.getUserID('test@example.com');
+            } catch (error) {
+                expect(error).to.equal(mockError);
+            }
         });
     });
     
@@ -85,13 +88,13 @@ describe('userService', () => {
         // Test case for an existing email
         it('should return true if the email exists', async () => {
             // Mock the query result to return an array with an email
-            const mockResult = { rows: [{ email: 'test' }] };
+            const mockResult = { rows: [{ email: 'test@example.com' }] };
 
             // Stub the pool query function to resolve with the mock result
             poolQueryStub.resolves(mockResult);
             
             // Call the checkEmailExists function with the stubbed pool query
-            const exists = await userService.checkEmailExists('test');
+            const exists = await userService.checkEmailExists('test@example.com');
             
             // Expect the result to be true, indicating email exists
             expect(exists).to.be.true;
@@ -106,7 +109,7 @@ describe('userService', () => {
             poolQueryStub.resolves(mockResult);
             
             // Call the checkEmailExists function with the pool query stub
-            const exists = await userService.checkEmailExists('test');
+            const exists = await userService.checkEmailExists('test@example.com');
 
             // Expect the result to be false, indicating email does not exist
             expect(exists).to.be.false;
@@ -142,10 +145,11 @@ describe('userService', () => {
             comparePasswordsStub.resolves(true);
             
             // Call the checkPasswordCorrect function with stubbed methods
-            const isCorrect = await userService.checkPasswordCorrect('test', 'password');
+            const isCorrect = await userService.checkPasswordCorrect('test@example.com', 'password');
             
             // Expect the result to be true, indicating the password is correct
             expect(isCorrect).to.be.true;
+            expect(comparePasswordsStub.calledOnce).to.be.true;
         });
         
         // Test case for an incorrect password
@@ -160,10 +164,11 @@ describe('userService', () => {
             comparePasswordsStub.resolves(false);
             
             // Call the checkPasswordCorrect function with stubbed methods
-            const isCorrect = await userService.checkPasswordCorrect('test', 'wrongPassword');
+            const isCorrect = await userService.checkPasswordCorrect('test@example.com', 'wrongPassword');
 
             // Expect the result to be false, indicating the password is incorrect
             expect(isCorrect).to.be.false;
+            expect(comparePasswordsStub.calledOnce).to.be.true;
         });
         
         // Test case for a non-existent user
@@ -175,7 +180,7 @@ describe('userService', () => {
             poolQueryStub.resolves(mockResult);
             
             // Call the checkPasswordCorrect function with stubbed methods
-            const isCorrect = await userService.checkPasswordCorrect('test', 'password');
+            const isCorrect = await userService.checkPasswordCorrect('test@example.com', 'password');
             
             // Expect the result to be false, indicating the user does not exist
             expect(isCorrect).to.be.false;
@@ -187,7 +192,7 @@ describe('userService', () => {
             poolQueryStub.rejects(new Error('Query failed'));
             
             // Call the checkPasswordCorrect function with pool query error stub
-            const isCorrect = await userService.checkPasswordCorrect('test', 'password');
+            const isCorrect = await userService.checkPasswordCorrect('test@example.com', 'password');
             
             // Expect the result to be false, indicating an error occurred
             expect(isCorrect).to.be.false;
@@ -227,7 +232,7 @@ describe('userService', () => {
             poolQueryStub.resolves(mockResult);
             
             // Call the createUser function with stubbed methods
-            await userService.createUser('test', 'password');
+            await userService.createUser('test@example.com', 'password');
             
             expect(checkEmailExistsStub.notCalled).to.be.true; // Expect the checkEmailExists function to be called once
             expect(hashPasswordStub.calledOnce).to.be.true; // Expect the pool query function to be called once
@@ -236,7 +241,7 @@ describe('userService', () => {
         // Test case for an existing user
         it('should throw an error if the user already exists', async () => {
             // Mock the query result to return an array with an email
-            const mockResult = { rows: [{ email: 'test' }] };
+            const mockResult = { rows: [{ email: 'test@example.com' }] };
 
             // Stub the checkEmailExists function to resolve true, mocking email exists
             checkEmailExistsStub.resolves(true);
@@ -246,7 +251,7 @@ describe('userService', () => {
     
             try {
                 // Call the createUser function with stubbed methods
-                await userService.createUser('test', 'password');
+                await userService.createUser('test@example.com', 'password');
             } catch (error) {
                 // Expect an error to be thrown with the message 'User already exists'
                 expect(error.message).to.equal('User already exists');
@@ -266,7 +271,7 @@ describe('userService', () => {
     
             try {
                 // Call the createUser function with stubbed methods and expect an error to be thrown
-                await userService.createUser('test', 'password');
+                await userService.createUser('test@example.com', 'password');
             } catch (error) {
                 // Expect an error to be thrown with the message 'Query failed'
                 expect(error.message).to.equal('Query failed');
