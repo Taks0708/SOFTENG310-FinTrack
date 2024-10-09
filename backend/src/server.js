@@ -1,7 +1,7 @@
 /**
  * Assignment 1 Backend API
- * 
- * This API handles user management, transactions, and provides various 
+ *
+ * This API handles user management, transactions, and provides various
  * endpoints for interacting with the application.
  *
  * Dependencies:
@@ -14,7 +14,7 @@
  * - JSONWebToken: For token-based authentication
  * - Nodemon: Tool to automatically restart the server when code changes
  * - PG: Node.js client for PostgreSQL databases
- * 
+ *
  * Author: NEVE572
  * Date: 2024
  */
@@ -29,11 +29,10 @@ const createTables = require("./config/createTables.js");
 const corsConfig = require("./config/corsConfig");
 //middleware
 const isAuthenticated = require("./middleware/authMiddleware.js");
-//routes 
+//routes
 const userRoutes = require("./routes/users.js");
-const transactionRoutes = require("./routes/transactions")
-const luckyAdviserRoutes = require('./routes/luckyAdviser'); // Adjust the path if necessary
-
+const transactionRoutes = require("./routes/transactions");
+const luckyAdviserRoutes = require("./routes/luckyAdviser"); // Adjust the path if necessary
 
 const app = express();
 app.use(express.json());
@@ -42,28 +41,24 @@ app.use(corsConfig);
 
 pool.connect((err) => {
     if (err) {
-        console.error('Failed to connect to database:', err);
+        console.error("Failed to connect to database:", err);
     } else {
-        console.log('Connected to database');
+        console.log("Connected to database");
         try {
             createTables();
-            console.log("created tables succesfully")
+            console.log("created tables succesfully");
         } catch (error) {
-            console.log("error creating tables")
+            console.log("error creating tables");
         }
-        
-
     }
 });
 
-app.use('/user',  userRoutes);
-app.use('/transaction' , transactionRoutes);
-app.use('/api', luckyAdviserRoutes); 
+app.use("/user", userRoutes);
+app.use("/transaction", transactionRoutes);
+app.use("/api", luckyAdviserRoutes);
 
-const port = 4000
+const port = 4000;
 
 app.listen(port, () => {
-
-    console.log(`Server is running on port ${port}`)
-
-})
+    console.log(`Server is running on port ${port}`);
+});

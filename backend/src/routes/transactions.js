@@ -1,8 +1,8 @@
-const express = require('express');
-const { isAuthenticated } = require('../middleware/authMiddleware');
+const express = require("express");
+const { isAuthenticated } = require("../middleware/authMiddleware");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const transactionController = require('../controllers/transactionsController');
+const jwt = require("jsonwebtoken");
+const transactionController = require("../controllers/transactionsController");
 
 /**
  * Route that creates a new transaction in the database for the authenticated user.
@@ -12,7 +12,7 @@ const transactionController = require('../controllers/transactionsController');
  * Returns:
  *  - Returns success: boolean.
  */
-router.post('/', isAuthenticated, transactionController.transaction);
+router.post("/", isAuthenticated, transactionController.transaction);
 
 /**
  * Route that deletes a transaction from the database.
@@ -24,7 +24,11 @@ router.post('/', isAuthenticated, transactionController.transaction);
  *  - Returns success: boolean.
  */
 
-router.put('/:transactionID', isAuthenticated,transactionController.editTransaction)
+router.put(
+    "/:transactionID",
+    isAuthenticated,
+    transactionController.editTransaction
+);
 
 /**
  * Route that deletes a transaction from the database.
@@ -34,10 +38,14 @@ router.put('/:transactionID', isAuthenticated,transactionController.editTransact
  * Returns:
  *  - Returns success: boolean.
  */
-router.delete('/:transactionID', isAuthenticated, transactionController.deleteTransaction);
+router.delete(
+    "/:transactionID",
+    isAuthenticated,
+    transactionController.deleteTransaction
+);
 
 /**
- * Route that gets the transactions of a user ordered by the date they were created. 
+ * Route that gets the transactions of a user ordered by the date they were created.
  * It returns the transactions page by page depending on params.
  * Expects:
  *  - Auth token in headers.
@@ -45,17 +53,21 @@ router.delete('/:transactionID', isAuthenticated, transactionController.deleteTr
  * Returns:
  *  - The transactions of the user in JSON form stored in an array.
  */
-router.get('/page/:pageNumber', isAuthenticated, transactionController.transactions);
+router.get(
+    "/page/:pageNumber",
+    isAuthenticated,
+    transactionController.transactions
+);
 
 /**
- * Route that gets the transactions of a user ordered by the date they were created. 
+ * Route that gets the transactions of a user ordered by the date they were created.
  * It returns all the transactions.
  * Expects:
  *  - Auth token in headers.
  * Returns:
  *  - The transactions of the user in JSON form stored in an array.
  */
-router.get('/', isAuthenticated, transactionController.allTransactions);
+router.get("/", isAuthenticated, transactionController.allTransactions);
 
 /**
  * Route that gets the financial metrics of a user.
@@ -65,6 +77,6 @@ router.get('/', isAuthenticated, transactionController.allTransactions);
  * Returns:
  * - The financial metrics of the user in JSON form.
  */
-router.get('/metrics', isAuthenticated, transactionController.getMetrics);
+router.get("/metrics", isAuthenticated, transactionController.getMetrics);
 
 module.exports = router;

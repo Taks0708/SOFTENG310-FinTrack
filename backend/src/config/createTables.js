@@ -1,5 +1,4 @@
-const pool = require('./db');
-
+const pool = require("./db");
 
 const checkUsersTableQuery = `
   SELECT EXISTS (
@@ -15,7 +14,6 @@ const checkTransactionsTableQuery = `
     AND table_name = 'transactions'
   );
 `;
-
 
 const createUserTableQuery = `
   CREATE TABLE IF NOT EXISTS users (
@@ -41,32 +39,36 @@ const createTransactionTableQuery = `
   )
 
 
-`
+`;
 
 async function createTables() {
-  try {
-    // Check if users table exists
-    const { rows: usersTableExists } = await pool.query(checkUsersTableQuery);
-    if (!usersTableExists[0].exists) {
-      // Create users table
-      await pool.query(createUserTableQuery);
-      console.log('Users table created successfully');
-    } else {
-      console.log('Users table already exists');
-    }
+    try {
+        // Check if users table exists
+        const { rows: usersTableExists } = await pool.query(
+            checkUsersTableQuery
+        );
+        if (!usersTableExists[0].exists) {
+            // Create users table
+            await pool.query(createUserTableQuery);
+            console.log("Users table created successfully");
+        } else {
+            console.log("Users table already exists");
+        }
 
-    // Check if transactions table exists
-    const { rows: transactionsTableExists } = await pool.query(checkTransactionsTableQuery);
-    if (!transactionsTableExists[0].exists) {
-      // Create transactions table
-      await pool.query(createTransactionTableQuery);
-      console.log('Transactions table created successfully');
-    } else {
-      console.log('Transactions table already exists');
+        // Check if transactions table exists
+        const { rows: transactionsTableExists } = await pool.query(
+            checkTransactionsTableQuery
+        );
+        if (!transactionsTableExists[0].exists) {
+            // Create transactions table
+            await pool.query(createTransactionTableQuery);
+            console.log("Transactions table created successfully");
+        } else {
+            console.log("Transactions table already exists");
+        }
+    } catch (error) {
+        console.error("Error creating tables:", error);
     }
-  } catch (error) {
-    console.error('Error creating tables:', error);
-  } 
 }
 
 module.exports = createTables;

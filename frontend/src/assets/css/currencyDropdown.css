@@ -1,6 +1,7 @@
 @import url("variables.css");
 
-.currencyOptionList_open, .currencyOptionList_closed {
+.currencyOptionList_open,
+.currencyOptionList_closed {
   z-index: 1;
   float: left;
   margin-top: calc(var(--subSectionPadding) * -1 - var(--itemHeight));
@@ -36,19 +37,21 @@
   position: relative;
   z-index: 2;
   justify-content: center;
-  align-items: center;   
+  align-items: center;
 }
 
 .defaultButtonContainer {
   z-index: 2;
 }
 
-.currencyOption, .currencyOptionSelected {
+.currencyOption,
+.currencyOptionSelected {
   width: 100%;
   float: left;
 }
 
-.currencyOptionSelected, .currencyOption:hover {
+.currencyOptionSelected,
+.currencyOption:hover {
   background-color: rgba(255, 255, 255, 0.15);
   color: rgb(25, 23, 25)
 }

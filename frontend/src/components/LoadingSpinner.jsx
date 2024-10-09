@@ -1,8 +1,8 @@
 export function LoadingSpinner() {
     return (
-      <div className="flex justify-center">
-        <div
-          className="
+        <div className="flex justify-center">
+            <div
+                className="
             w-16
             h-16
             border-4
@@ -13,7 +13,7 @@ export function LoadingSpinner() {
             rounded-full
             animate-spin
           "
-        ></div>
-      </div>
+            ></div>
+        </div>
     );
 }

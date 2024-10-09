@@ -37,13 +37,13 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--color2);
-  box-shadow: inset 0px 10px 20px 0px rgba(0,0,0,0.5);
+  box-shadow: inset 0px 10px 20px 0px rgba(0, 0, 0, 0.5);
   border-radius: var(--standardRadius);
   width: calc(100vw - var(--sideBarWidth));
   height: calc(100vh - var(--topBarHeight));
   float: left;
-  padding: calc( 4 * var(--subSectionPadding));
-  gap: calc( 4 * var(--subSectionPadding));
+  padding: calc(4 * var(--subSectionPadding));
+  gap: calc(4 * var(--subSectionPadding));
   overflow: scroll;
 }
 
